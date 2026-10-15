@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dw1"
+version = "0.1.0"
+description = "DW-1: детекция AI-assisted фишинга и explainable spam-enrichment"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "scikit-learn>=1.3",
+    "scipy>=1.10",
+    "lxml>=4.9",
+    "beautifulsoup4>=4.12",
+    "datasketch>=1.6",
+    "hdbscan>=0.8.33",
+    "Pillow>=10.0",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn>=0.29", "pydantic>=2.5", "python-multipart>=0.0.9"]
+images = ["opencv-python-headless>=4.9", "pyzbar>=0.1.9"]
+embeddings = ["sentence-transformers>=2.5"]   # внешний контур, не на локальных машинах
+dev = ["pytest>=8", "ruff>=0.4", "mypy>=1.9"]
+
+[project.scripts]
+dw1 = "dw1.demo:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

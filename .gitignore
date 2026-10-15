@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+
+# Данные и артефакты (обновляются скриптами; в git только datasheet.csv и splits.yaml)
+data/raw/
+data/runs/
+data/processed/
+reports/
+*.parquet
+*.csv.bak
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# Node (UI появится в M7)
+node_modules/
+dist/

@@ -1,0 +1,23 @@
+From: "Ivan Petrov" <ivan.petrov@example.com>
+To: user@example.org
+Subject: Срочно: подтвердите доступ к корпоративной почте
+Date: Mon, 12 Oct 2026 14:00:00 +0300
+Message-ID: <sample-001@example.com>
+Authentication-Results: mx.example.org; spf=pass dkim=pass dmarc=pass
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="b1"
+
+--b1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Уважаемый коллега, ваш доступ истекает через 24 часа.
+Пожалуйста, подтвердите учётные данные по ссылке ниже.
+
+--b1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html><body><p>Ваш доступ истекает через 24 часа.</p>
+<a href="http://mail-confirm.example.net/verify">Подтвердить доступ</a></body></html>
+--b1--
