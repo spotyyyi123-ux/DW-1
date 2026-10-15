@@ -19,6 +19,7 @@ dependencies = [
     "hdbscan>=0.8.33",
     "Pillow>=10.0",
     "PyYAML>=6.0",
+    "pyarrow>=16.0",
 ]
 
 [project.optional-dependencies]
