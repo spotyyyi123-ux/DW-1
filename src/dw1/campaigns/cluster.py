@@ -143,7 +143,9 @@ def main(argv=None) -> int:
         print(f"  пример B: {c['examples'][1]}")
 
     if args.out:
-        Path(args.out).write_text(json.dumps(clusters, ensure_ascii=False, indent=2), encoding="utf-8")
+        out_path = Path(args.out)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(json.dumps(clusters, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"\nвсе кластеры сохранены в {args.out}")
     return 0
 
