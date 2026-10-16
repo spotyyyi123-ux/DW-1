@@ -1,0 +1,27 @@
+From: "CEO Ivan Petrov" <ceo@company-example.com>
+To: employee@example.org
+Reply-To: ceo.urgent@gmail.com
+Subject: СРОЧНО: оплатите счёт сегодня до 18:00
+Date: Tue, 13 Oct 2026 09:15:00 +0000
+Message-ID: <20261013091500.abcdef@company-example.com>
+Authentication-Results: mx.example.org; spf=fail smtp.mailfrom=company-example.com; dkim=none; dmarc=fail
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="b2"
+
+--b2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Коллега, срочно оплати счёт поставщику. Сумма 84 500 руб.
+Реквизиты и ссылка на оплату ниже. Это нужно сделать в течение 24 часов,
+иначе договор будет расторгнут.
+
+--b2
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html><body>
+<p>Коллега, срочно <b>оплати счёт</b> поставщику.</p>
+<a href="https://payment-secure-xn--b1aewe.net/invoice/8842">Перейти к оплате счёта</a>
+</body></html>
+--b2--
