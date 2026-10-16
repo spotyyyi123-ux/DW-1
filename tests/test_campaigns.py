@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-from dw1.campaigns.cluster import cluster_emails, normalize_text, shingles
+from dw1.campaigns.cluster import cluster, cluster_emails, normalize_text, shingles
+
+
+def test_cluster_contract_for_pipeline():
+    res = cluster({})
+    assert res["cluster_id"] is None
+    assert res["model_version"] == "minhash-lsh-0.1"
 
 
 def test_normalize_text_strips_punctuation_and_case():

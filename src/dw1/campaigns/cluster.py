@@ -47,6 +47,20 @@ def build_minhash(text: str, k: int = 5, num_perm: int = 128) -> MinHash:
     return mh
 
 
+def cluster(parts: dict) -> dict:
+    """Контракт пайплайна: атрибуция кампании для одного письма.
+
+    Пока заглушка; в Sprint 2 будет искать письмо в сохранённых кластерах
+    (data/runs) и отдавать cluster_id + скелет шаблона + размер кластера.
+    """
+    return {
+        "cluster_id": None,
+        "template_skeleton": None,
+        "member_count": 1,
+        "model_version": MODEL_VERSION,
+    }
+
+
 def cluster_emails(
     documents: Iterable[tuple[str, str]],
     threshold: float = 0.8,
