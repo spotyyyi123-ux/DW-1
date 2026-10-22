@@ -7,6 +7,8 @@
 [lit.md](docs/lit.md) (литература) · [datasets.md](docs/datasets.md) (данные).
 Для агентов: [AGENTS.md](AGENTS.md) — читается DSH-агентами автоматически.
 
+Результат задачи 1: [данные, первая модель и запуск](docs/w1-results.md).
+
 ## Быстрый старт
 
 ```powershell

@@ -1,9 +1,14 @@
-# Сплиты строятся ПО ШАБЛОНАМ/КАМПАНИЯМ, а не по строкам (SPEC §5, защита от утечки near-duplicates).
-# Формат v0 (черновик W1); харнесс читает этот файл из src/dw1/eval/.
-#
-# splits:
-#   - name: bench-v1
-#     seed: 42
-#     train: []
-#     test:  []
-#     valid: []
+splits:
+  - name: sprint1-v1
+    seed: 42
+    data: data/processed/w1_texts.parquet
+    split_column: split
+    train: train
+    valid: validation
+    test: test
+    grouping:
+      hc3: question_hash
+      coat: official_train_heldout_by_text_hash_then_official_validation_as_pilot_test
+      coat_official_test: excluded_hidden_labels_minus_one
+    leakage_audit: exact_normalized_hash_and_approximate_5_word_shingle_lsh
+    limitation: CoAT original source-variant groups unavailable; no campaign leakage guarantee
