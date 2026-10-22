@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Кампании (задача 4): группировка похожих писем в кампании через MinHash/LSH.
 
 Вход: набор писем (subject + body_text). Выход: кластеры near-дубликатов.
@@ -107,17 +106,17 @@ def cluster_emails(
 
 def _load_documents(path: str) -> list[tuple[str, str]]:
     """Читает письма из parquet/jsonl: ищет колонки body_text/subject или text/body."""
-    path = Path(path)
-    if path.suffix == ".parquet":
+    p = Path(path)
+    if p.suffix == ".parquet":
         import pandas as pd
 
-        df = pd.read_parquet(path)
-    elif path.suffix in (".jsonl", ".ndjson"):
+        df = pd.read_parquet(p)
+    elif p.suffix in (".jsonl", ".ndjson"):
         import pandas as pd
 
-        df = pd.read_json(path, lines=True)
+        df = pd.read_json(p, lines=True)
     else:
-        raise SystemExit(f"поддерживаются только .parquet/.jsonl, получено: {path.suffix}")
+        raise SystemExit(f"поддерживаются только .parquet/.jsonl, получено: {p.suffix}")
 
     def pick(row, *cols):
         for c in cols:
@@ -136,7 +135,10 @@ def _load_documents(path: str) -> list[tuple[str, str]]:
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="dw1.campaigns.cluster", description="Кластеризация писем в кампании")
+    ap = argparse.ArgumentParser(
+        prog="dw1.campaigns.cluster",
+        description="Кластеризация писем в кампании",
+    )
     ap.add_argument("--data", required=True, help="путь к parquet/jsonl с письмами")
     ap.add_argument("--limit", type=int, default=10, help="сколько топ-кластеров показать")
     ap.add_argument("--threshold", type=float, default=0.8, help="порог Jaccard для LSH")

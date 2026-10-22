@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Экстракторы сигналов. Единый интерфейс (SPEC §4.2):
 
     extract(parts) -> секция signals для своего элемента
@@ -16,10 +15,10 @@ log = logging.getLogger("dw1.extractors")
 
 STUB_VERSION = "stub-0.1"
 
-_REGISTRY: list[type["BaseExtractor"]] = []
+_REGISTRY: list[type[BaseExtractor]] = []
 
 
-def register(cls: type["BaseExtractor"]) -> type["BaseExtractor"]:
+def register(cls: type[BaseExtractor]) -> type[BaseExtractor]:
     """Регистрирует класс экстрактора (декоратор)."""
     _REGISTRY.append(cls)
     return cls

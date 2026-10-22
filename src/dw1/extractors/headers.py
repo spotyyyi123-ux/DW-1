@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Заголовки письма (SPEC §6 W3).
 
 Будет реализовано: SPF/DKIM/DMARC, выравнивание From/Return-Path/Reply-To,
