@@ -91,8 +91,9 @@ def parse_eml(path: str | Path) -> dict:
         "subject": {"text": msg.get("Subject", "")},
         "body_text": {"text": body_text},
         "body_html": {
+            "text": body_html,
             "raw_len": len(body_html),
-            "dom_fingerprint": "",  # M3
+            "dom_fingerprint": "",
             "links_count": len(links),
         },
         "cta": [],  # M2-M3
