@@ -53,7 +53,7 @@ python -m venv .venv
 
 **Нужно:** скачать датасеты и обучить простую модель «текст писал человек или ИИ».
 
-1. Скачай в `data\raw\` наборы из `docs/datasets.md` (раздел 4 + раздел 6 — датасеты от проверяющего):
+1. Скачай в `data\raw\` наборы из `docs/datasets.md` (там таблица с приоритетом):
    CoAT, HC3-EN, LLMGen-Phishing, Nazario (годы 2023–2025), seven-phishing, CIFAKE,
    **LLMTrace_classification** (RU+EN), **roft**, **SeqXGPT** (для разметки по предложениям),
    **Defactify_Image_Dataset** (изображения; лицензию уточнить до скачивания). Пример команды для HuggingFace:
