@@ -1,1 +1,2 @@
 dataset,source_url,license,sha256,downloaded_at,downloaded_by,notes
+seven-phishing-test,https://huggingface.co/datasets/puyang2025/seven-phishing-email-datasets,other (микс 7 корпусов — юр. проверка),23b8544a3ca164d09e2de949cf3c7cbf9890afa40d5d80bd0736a68190432717,2026-10-21,тимлид (DSH-агент),test split: 20304 письма; кластеризация: 427 кластеров
