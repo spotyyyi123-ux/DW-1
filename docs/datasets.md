@@ -1,93 +1,52 @@
-# Аудит датасетов для бенчмарка DW-1
+# Датасеты, которые мы используем
 
-Дата аудита: 2026-10-15. Метод: живые проверки источников (API HuggingFace/Kaggle, GitHub, Zenodo,
-страницы корпусов). Всё неподтверждённое честно помечено «не найдено».
-**Ограничения среды:** свободно 1.29 ГБ на диске, GPU нет → целевой бюджет загрузки ≤ ~950 МБ.
+Всё скачиваем в `D:\dw1\data\raw\<набор>\` и записываем строку в `data\datasheet.csv`
+(что, откуда, лицензия). В git данные не кладём.
 
-## 1. Сводная таблица
+## Тексты: человек vs ИИ
 
-| Название | Источник | Лицензия | Размер | Языки | Содержимое | Пригодность |
-|---|---|---|---|---|---|---|
-| SemEval-2024 Task 8 | Офиц. GitHub mbzuai-nlp/SemEval2024-task8 — HTTP 451; зеркало [d0rj/SemEval2024-task8](https://huggingface.co/datasets/d0rj/SemEval2024-task8) | зеркало: Apache-2.0 (оригинал не верифицирован) | ~665 МБ (subtask A_mono 239 МБ, A_multi 307 МБ, B 107 МБ, C 12 МБ) | EN, AR, RU, ZH, ID, UR, BG, DE | human vs AI (ChatGPT, GPT-4, davinci, cohere, bloomz, dolly…); B — атрибуция генератора; C — human-machine mixed | (а) ✅ ядро human-vs-AI EN+RU; частичная загрузка по parquet |
-| M4 / M4GT-Bench | [github.com/mbzuai-nlp/M4](https://github.com/mbzuai-nlp/M4), [M4GT-Bench](https://github.com/mbzuai-nlp/M4GT-Bench) | не указана | не найдено (Google Drive) | EN+multi | то же семейство, что SemEval-8 | дублирует SemEval-8 — не брать |
-| HC3 EN | [Hello-SimpleAI/HC3](https://huggingface.co/datasets/Hello-SimpleAI/HC3) | CC-BY-SA-4.0 | ~147 МБ (all 74 МБ, finance 10 МБ) | EN | ответы человека vs ChatGPT (QA, вкл. finance/medicine) | (а) ✅ EN human-vs-AI; частичная по доменам |
-| RAID | [liamdugan/raid](https://huggingface.co/datasets/liamdugan/raid) | MIT | 21.6 ГБ (test.csv 1.22 ГБ) | EN, CS, DE | 10M+ документов, 11 LLM, 12 атак | (а) ✅ эталон; test.csv 1.22 ГБ ≈ весь бюджет → вторым заходом/streaming |
-| RuATD 2022 | Kaggle (конкурс закрыт), [github.com/dialogue-evaluation/RuATD](https://github.com/dialogue-evaluation/RuATD) | не найдено | не подтверждён | RU | human vs AI (ruGPT3, OPUS-MT, парафразеры) | заменён на CoAT |
-| CoAT | [RussianNLP/coat](https://huggingface.co/datasets/RussianNLP/coat) | Apache-2.0 | ~150 МБ (download 75 МБ, 246k текстов) | RU | human + 13 генераторов, бинарная + атрибуция | (а) ✅ рекомендованная замена RuATD |
-| MULTITuDE | [Zenodo 10013755](https://zenodo.org/records/10013755) | CC BY 4.0, но файлы restricted | 45.2 ГБ | 11 языков (RU 11 578) | 74 081 новостных текстов, 8 LLM | ⚠️ research-only по запросу → для индустрии непригодно |
-| Enron | [cs.cmu.edu/~enron/](https://www.cs.cmu.edu/~enron/) | не указана (FERC, просьба уважать приватность) | 1.7 ГБ tar.gz | EN | реальная корпоративная почта (0.5M писем) | (в) ✅ эталон legit-почты; полный архив вне бюджета → замена SetFit/enron_spam 160 МБ или Enron-часть в агрегате |
-| SpamAssassin public corpus | [spamassassin.apache.org/old/publiccorpus/](https://spamassassin.apache.org/old/publiccorpus/) | не указана (копирайт отправителей; корпус для тестов) | ~13 МБ (9 tar.bz2), 6 047 писем | EN | реальные spam + easy/hard ham 2002–2005 с заголовками | (б) ✅ классический spam/ham |
-| CEAS 2008 | официальный сайт **мёртв (404)** | не найдено | ~39 154 письма (в агрегатах) | EN | spam + ham конкурса CEAS-2008 | (б) только через агрегаты |
-| TREC 2007 Spam | официальный сайт **мёртв (404)**; Kaggle-копия | «© Original Authors» (не свободная) | 338 МБ CSV, 75 419 писем | EN | spam/ham 2007 | (б) ⚠️ лицензия; или subset в puyang2025 |
-| Nazario phishing corpus | [monkey.org/~jose/phishing/](https://monkey.org/~jose/phishing/) (жив) | CC-BY-4.0 (README, коммерческое использование с атрибуцией) | ~150 МБ (отдельные mbox по годам, 3–31 МБ) | EN | реальные фишинговые письма 2005–2025, ручная классификация | (б) ✅✅ эталон человеческого фишинга; загрузка по годам |
-| PhishTank | [phishtank.org](https://phishtank.org) | n/a | — | — | только URL, не письма; открытого дампа нет | для email-задачи непригоден |
-| GenImage | [github](https://github.com/GenImage-Dataset/GenImage) | не указана; real = ImageNet (некоммерческая) | 100+ ГБ | изображения | real vs Midjourney/SD/ADM/GLIDE/Wukong/VQDM/BigGAN | ⚠️ лицензия и объём — вне бюджета |
-| CIFAKE | [Kaggle birdy654/cifake](https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images), HF yanbax | MIT | 106 МБ, 120k изображений 32×32 | изображения | 60k real (CIFAR-10) vs 60k SD 1.4 | ✅ идеален для старта real/AI |
-
-## 2. Датасеты именно фишинговых писем (включая LLM-генерированные)
-
-| Название | Источник | Лицензия | Размер | Содержимое |
+| Набор | Что даёт | Ссылка | Объём | Лицензия |
 |---|---|---|---|---|
-| Dizzzy0x00/LLMGen-Phishing-Email-Dataset | [HF](https://huggingface.co/datasets/Dizzzy0x00/LLMGen-Phishing-Email-Dataset) | Apache-2.0 | ~5 МБ CSV | **LLM-генерированные** phishing/legit: EN (GPT), ZH (DeepSeek) — прямое попадание в задачу |
-| zefang-liu/phishing-email-dataset | [HF](https://huggingface.co/datasets/zefang-liu/phishing-email-dataset) | LGPL-3.0 | 52 МБ, ~18 650 писем | человеческие phishing vs safe (PhishTank/Nazario + реальные) |
-| puyang2025/seven-phishing-email-datasets | [HF](https://huggingface.co/datasets/puyang2025/seven-phishing-email-datasets) | **other** (микс 7 корпусов) | 230 МБ parquet, 203 017 писем | TREC-05/06/07, CEAS-08, Enron, Ling-Spam, SpamAssassin; есть subject/sender/date |
-| it4lia/PhishingEmailCuratedDatasets_Cleaned | [HF](https://huggingface.co/datasets/it4lia/PhishingEmailCuratedDatasets_Cleaned) | CC-BY-4.0 | ~93 МБ | очищенная агрегация 11 корпусов 1995–2022 (исходник Zenodo, Champa et al. 2024) |
-| luongnv89/phishing-email | [HF](https://huggingface.co/datasets/luongnv89/phishing-email) | MIT | ~2 МБ | инструкционные диалоги по CEAS-08 (для finetune, не бенчмарк) |
-| darkknight25/phishing_benign_email_dataset | [HF](https://huggingface.co/datasets/darkknight25/phishing_benign_email_dataset) | MIT | <1K примеров | subject/body/intent/technique — мал |
-| ealvaradob/phishing-dataset | [HF](https://huggingface.co/datasets/ealvaradob/phishing-dataset) | Apache-2.0 | ~13.4 ГБ | phishing text/URL/HTML — вне бюджета |
+| **LLMTrace_classification** | human vs AI, **EN + RU**, свежий корпус 2025 | [HF](https://huggingface.co/datasets/iitolstykh/LLMTrace_classification) | ~3 ГБ | Apache-2.0 |
+| **CoAT** | human vs AI, RU, 13 генераторов | [HF](https://huggingface.co/datasets/RussianNLP/coat) | 75 МБ | Apache-2.0 |
+| **HC3 (EN)** | ChatGPT vs human, EN | [HF](https://huggingface.co/datasets/Hello-SimpleAI/HC3) | 74 МБ | CC-BY-SA-4.0 |
+| **SemEval-2024 Task 8** (зеркало d0rj) | human vs AI, EN+RU и др. языки, много генераторов | [HF](https://huggingface.co/datasets/d0rj/SemEval2024-task8) | ~300–400 МБ | Apache-2.0 (зеркало) |
+| **roft** (Real or Fake Text) | разметка, где текст переходит с человеческого на машинный — под класс «ИИ-причёсано» | [HF](https://huggingface.co/datasets/liamdugan/roft) | 62 МБ | MIT |
+| **SeqXGPT** | разметка по предложениям: какое предложение сгенерировано ИИ | [HF](https://huggingface.co/datasets/TheItCrOw/SeqXGPT) | 33 МБ | не указана — уточнить |
 
-## 3. Красные флаги (юридический чек-лист перед индустриальным использованием)
+## Реальные письма: фишинг, спам и легитимная почта
 
-1. **CEAS 2008** — официальный сайт мёртв (404); оригинал только через агрегаты.
-2. **TREC 2007** — официальный сайт мёртв (404); Kaggle-копия «© Original Authors» — не свободная.
-3. **SemEval-2024 Task 8** — официальный GitHub отдаёт HTTP 451; зеркало d0rj работает, но оригинальная лицензия не верифицирована.
-4. **MULTITuDE** — research-only, запрос с академической почты, запрет перепубликации → для индустрии непригодно.
-5. **PhishTank** — открытого дампа нет, хранит только URL, не письма.
-6. **GenImage** — лицензии нет, real-часть = ImageNet (некоммерческая), 100+ ГБ.
-7. **Enron / SpamAssassin / RuATD / M4GT / M4** — формальные лицензии не указаны → нужен юр. риск-анализ.
-8. **RAID** — MIT, но test.csv 1.22 ГБ ≈ весь бюджет.
-9. **puyang2025/seven** — license «other»: микс 7 корпусов без единой лицензии → юр. проверка; замена — it4lia (CC-BY-4.0).
-
-## 4. Рекомендация: стартовый набор (обновлено: диск D — 138.6 ГБ свободно, бюджет C: снят)
-
-| # | Датасет | Роль в бенчмарке | Объём |
-|---|---|---|---|
-| 1 | CoAT (RussianNLP/coat) | AI vs human **RU**, 13 генераторов | 75 МБ |
-| 2 | SemEval-2024 Task 8 (зеркало d0rj, subtaskA_multilingual train + test) | AI vs human **EN+RU**+6 языков, мультигенератор | ~400 МБ |
-| 3 | HC3 EN (all.jsonl) | ChatGPT vs human **EN** (QA, вкл. finance) | 74 МБ |
-| 4 | puyang2025/seven (или it4lia CC-BY-4.0) | **человеческие phishing/spam + ham** (TREC/CEAS/Enron/Ling/SpamAssassin) | 230 МБ (или 93 МБ) |
-| 5 | Nazario (свежие годы: 2023–2025) | **реальные фишинговые письма**, CC-BY-4.0 | ~30 МБ |
-| 6 | Dizzzy0x00/LLMGen-Phishing-Email-Dataset | **LLM-генерированный фишинг** EN/ZH | 5 МБ |
-| 7 | CIFAKE | изображения real/AI | 106 МБ |
-| 8 | (опц.) SetFit/enron_spam | **легитимная корпоративная почта** Enron spam/ham | 160 МБ |
-
-Покрытие ролей: AI-тексты RU+EN ✅ · человеческий фишинг ✅ · легит-корпоративная почта ✅
-(Enron внутри п.4 и/или п.8) · изображения real/AI ✅ · LLM-фишинг ✅.
-**Дополняется из нового бюджета (см. SPEC §5):** полный Enron (1.7 ГБ), RAID test.csv (1.22 ГБ)
-и Nazario целиком — берём сразу; GenImage одним генератором (опц., десятки ГБ).
-**Вне бюджета/доступа:** MULTITuDE (research-only), полный GenImage (100+ ГБ), TREC07-оригинал (мёртв).
-
-## 5. Принципы обращения (из плана проекта)
-
-- Внутренние образцы Doctor Web — только локальная обработка, не покидают контур; облачные API — только на публичных данных.
-- Перед каждым скачиванием — фиксировать источник, лицензию и хэш в `data/datasheet.csv`.
-- Сплиты строить по шаблонам/кампаниям, а не по строкам (защита от утечки через near-duplicates).
-- Итог: для каждого набора — явная пометка «публичный/внутренний», «лицензия проверена/на юр. проверке».
-
-## 6. Датасеты, рекомендованные проверяющим (проверено 2026-10-23)
-
-| Датасет | Что внутри | Размер / лицензия | Зачем нам | Вердикт |
+| Набор | Что даёт | Ссылка | Объём | Лицензия |
 |---|---|---|---|---|
-| iitolstykh/LLMTrace_classification | human vs AI, **EN+RU**, 100K–1M текстов, корпус 2025 года | ~3 ГБ / Apache-2.0 | Замена/дополнение CoAT: больше, свежее, чистая лицензия; закрывает нехватку RU-данных | ✅ **брать (приоритет 1)** |
-| liamdugan/roft (Real or Fake Text, AAAI'23) | 21k разметок «в какой точке текст переходит с человеческого на машинный» | 62 МБ / MIT | Класс `ai_polished` (гибрид) + проверка правильности подсветки спанов | ✅ брать (опция, для гибрида) |
-| TheItCrOw/SeqXGPT | sentence-level: какое предложение сгенерировано ИИ (38k примеров) | 33 МБ / лицензия на зеркале не указана → проверить оригинал | Подсветка спанов, faithfulness, метрика точности объяснений | ✅ после проверки лицензии |
-| deepfakesMSU/NTIRE-RobustAIGenDetection-train | Robust-детекция AI-изображений «в дикой природе» (CVPR'26 workshop) | 114 ГБ / лицензия не указана | Устойчивость image-ветки к сжатию/перезаписи; для нас — позже | ⏸ **отложить (Sprint 2+)**, при необходимости взять 1 шард (~19 ГБ) |
-| Rajarshi-Roy-research/Defactify_Image_Dataset | 96k реальных/AI изображений 256+, real-vs-AI + идентификация генератора | 7.5 ГБ / лицензия не указана → проверить | Основной image-бенчмарк (CIFAKE — игрушечный, 32×32) | ✅ **брать (приоритет 2** — когда дойдём до image-ветки) |
+| **seven-phishing** | человеческий фишинг/спам + легитимные письма (7 корпусов) | [HF](https://huggingface.co/datasets/puyang2025/seven-phishing-email-datasets) | 230 МБ | «other» (на проверке) |
+| **Nazario** | реальные фишинговые письма (годы 2023–2025) | [monkey.org](https://monkey.org/~jose/phishing/) | ~30 МБ | CC-BY-4.0 |
+| **Enron** | легитимная корпоративная почта — сложные false positives | [CMU](https://www.cs.cmu.edu/~enron/) (или [SetFit/enron_spam](https://huggingface.co/datasets/SetFit/enron_spam), 160 МБ) | 1.7 ГБ | без явной лицензии (на проверке) |
 
-Приоритеты для задачи 1: LLMTrace (RU+EN) → roft → SeqXGPT. Defactify — с началом image-ветки.
-NTIRE — только если понадобится эксперимент «устойчивость изображений к маскировке».
+## AI-фишинг
 
-**Что это меняет в планах:** задача 1 получает второй RU+EN корпус (LLMTrace) — бейзлайн
-станет честнее; roft/SeqXGPT закрывают пробел «позлементной разметки», без которой мы не
-сможем измерить качество подсветки (ключевая метрика объяснимости); Defactify заменяет CIFAKE
-как основной image-бенчмарк (лицензию уточнить до скачивания).
+| Набор | Что даёт | Ссылка | Объём | Лицензия |
+|---|---|---|---|---|
+| **LLMGen-Phishing** | письма, сгенерированные LLM (EN/ZH) — наш позитивный класс | [HF](https://huggingface.co/datasets/Dizzzy0x00/LLMGen-Phishing-Email-Dataset) | 5 МБ | Apache-2.0 |
+
+## Изображения: реальные vs ИИ
+
+| Набор | Что даёт | Ссылка | Объём | Лицензия |
+|---|---|---|---|---|
+| **CIFAKE** | быстрый старт: 32×32 real/AI | [Kaggle](https://www.kaggle.com/datasets/birdy654/cifake-real-and-ai-generated-synthetic-images) | 106 МБ | MIT |
+| **Defactify_Image** | 96k реальных/AI изображений 256+ — основной бенчмарк image-ветки | [HF](https://huggingface.co/datasets/Rajarshi-Roy-research/Defactify_Image_Dataset) | 7.5 ГБ | не указана — уточнить |
+
+## Состязательные (проверка устойчивости к маскировке)
+
+| Набор | Что даёт | Ссылка | Объём | Лицензия |
+|---|---|---|---|---|
+| **RAID** (test.csv) | human-vs-AI с атаками (перефраз и др.) — тест на устойчивость | [HF](https://huggingface.co/datasets/liamdugan/raid) | 1.2 ГБ | MIT |
+| **NTIRE-RobustAI** (1 шард) | устойчивость детектора изображений к сжатию/перезаписи — только в Sprint 2+ | [HF](https://huggingface.co/datasets/deepfakesMSU/NTIRE-RobustAIGenDetection-train) | ~19 ГБ (1 шард) | не указана |
+
+## Приоритет загрузки (задача 1)
+
+1. LLMTrace → seven-phishing → CoAT → HC3 → LLMGen → Nazario
+2. roft → SeqXGPT → SemEval-8 → CIFAKE
+3. Defactify → Enron/RAID (когда дойдём до image- и легит-веток)
+
+Правило: если лицензия «не указана» — сначала уточнить (у оригинального источника),
+потом качать; в datasheet писать реальную лицензию.
