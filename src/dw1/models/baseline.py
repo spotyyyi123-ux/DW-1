@@ -66,7 +66,7 @@ def main():
                 "ai_score_uncalibrated": score,
                 "label": "ai" if score >= 0.5 else "human",
                 "intent": "unknown",
-                "model_version": MODEL_VERSION,
+                "model_version": getattr(model, "dw1_model_version_", MODEL_VERSION),
             },
             indent=2,
         )

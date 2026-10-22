@@ -16,7 +16,10 @@ def main(argv=None):
         parser.error("--run must be a simple directory name")
     run = Path("data/runs") / args.run
     metrics = json.loads((run / "metrics.json").read_text(encoding="utf-8"))
-    audit = json.loads(Path("data/processed/preparation.json").read_text(encoding="utf-8"))
+    audit_path = run / "preparation.json"
+    if not audit_path.exists():
+        audit_path = Path("data/processed/preparation.json")
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
     lines = [
         "# Данные и первая модель",
         "",
@@ -50,6 +53,13 @@ def main(argv=None):
             f"| Отложенная: {source} | {row['n']} | {row['accuracy']:.1%} | "
             f"{row['f1']:.3f} | {row['roc_auc']:.3f} |"
         )
+    if "llmtrace" in metrics["test"]["by_source"]:
+        lines[
+            lines.index(
+                "Для обучения использованы CoAT (русские тексты) и HC3 (английские ответы)."
+            )
+        ] = "Для обучения использованы CoAT, HC3 и двуязычный LLMTrace."
+        lines += ["", "LLMTrace разделён по topic_id: варианты одной темы не пересекают части."]
     external = metrics.get("external_llmgen_en")
     if external:
         lines += [

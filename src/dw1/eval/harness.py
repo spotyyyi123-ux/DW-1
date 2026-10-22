@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import platform
+import shutil
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -67,6 +68,8 @@ def group_bootstrap(y, scores, groups, repeats=200):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", default="sprint1")
+    ap.add_argument("--model-version", default=MODEL_VERSION)
+    ap.add_argument("--preparation", default="data/processed/preparation.json")
     ap.add_argument("--data", default="data/processed/w1_texts.parquet")
     ap.add_argument("--emails", default="data/processed/w1_emails.parquet")
     args = ap.parse_args(argv)
@@ -87,6 +90,7 @@ def main(argv=None):
     print(f"Training on {len(train)} rows...", flush=True)
     with threadpool_limits(limits=2):
         model.fit(train.text, train.label)
+    model.dw1_model_version_ = args.model_version
     dummy = DummyClassifier(strategy="prior").fit(np.zeros((len(train), 1)), train.label)
     predictions = []
     summary = {}
@@ -103,7 +107,7 @@ def main(argv=None):
         part["y_provenance"] = part.ai_provenance
         part["y_intent"] = "unknown"
         part["campaign_id"] = None
-        part["model_version"] = MODEL_VERSION
+        part["model_version"] = args.model_version
         part["predicted_at"] = now
         summary[split] = binary_metrics(part.label, scores)
         summary[split]["ci95_group_bootstrap"] = group_bootstrap(part.label, scores, part.group_id)
@@ -137,8 +141,9 @@ def main(argv=None):
             limitation="AI-only set: no human false-positive rate, binary F1 or ROC-AUC.",
         )
     joblib.dump(model, out / "model.joblib")
+    shutil.copyfile(args.preparation, out / "preparation.json")
     summary.update(
-        model_version=MODEL_VERSION,
+        model_version=args.model_version,
         threshold=0.5,
         calibrated=False,
         seed=42,

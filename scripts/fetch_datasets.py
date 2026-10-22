@@ -12,6 +12,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 HF = "https://huggingface.co/datasets"
 SOURCES = {
+    "llmtrace": (
+        "iitolstykh/LLMTrace_classification",
+        "252e21e3dca713bc82bc3c1ef73bf533d7c9fc7e",
+        "Apache-2.0",
+        ["README.md", "train.jsonl", "valid.jsonl", "test.jsonl"],
+    ),
+    "roft": (
+        "liamdugan/roft",
+        "dece12533bd901bfded6bac917eeda48c4e12a89",
+        "MIT",
+        ["README.md", "roft.csv"],
+    ),
     "coat": (
         "RussianNLP/coat",
         "a2698e9e441144d39bedbc1d5812bb6351102d06",
