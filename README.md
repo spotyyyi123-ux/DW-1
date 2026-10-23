@@ -7,7 +7,7 @@
 [lit.md](docs/lit.md) (литература) · [datasets.md](docs/datasets.md) (данные).
 Для агентов: [AGENTS.md](AGENTS.md) — читается DSH-агентами автоматически.
 
-Результат задачи 1: [данные, первая модель и запуск](docs/w1-results.md).
+Результат задачи 1: [актуальная модель на 16 000 текстов и запуск](docs/w1-results.md).
 Обновление: [LLMTrace и RoFT, сравнение моделей](docs/w1-new-datasets.md).
 
 ## Быстрый старт

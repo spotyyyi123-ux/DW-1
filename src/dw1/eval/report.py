@@ -9,7 +9,7 @@ from pathlib import Path
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--run", default="sprint1-v1")
+    parser.add_argument("--run", default="sprint1-llmtrace-v2")
     parser.add_argument("--out", help="Куда сохранить отчёт")
     args = parser.parse_args(argv)
     if Path(args.run).name != args.run:
@@ -20,8 +20,11 @@ def main(argv=None):
     if not audit_path.exists():
         audit_path = Path("data/processed/preparation.json")
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    expanded = "llmtrace" in metrics["test"]["by_source"]
     lines = [
-        "# Данные и первая модель",
+        "# Данные и результаты модели",
+        "",
+        f"Запуск: `{args.run}`. Версия модели: `{metrics['model_version']}`.",
         "",
         "Цель — получить первую модель, различающую человеческие и ИИ-тексты,",
         "и проверить, подходит ли она для писем. Обучение и проверка выполнены локально.",
@@ -53,13 +56,18 @@ def main(argv=None):
             f"| Отложенная: {source} | {row['n']} | {row['accuracy']:.1%} | "
             f"{row['f1']:.3f} | {row['roc_auc']:.3f} |"
         )
-    if "llmtrace" in metrics["test"]["by_source"]:
+    if expanded:
         lines[
             lines.index(
                 "Для обучения использованы CoAT (русские тексты) и HC3 (английские ответы)."
             )
         ] = "Для обучения использованы CoAT, HC3 и двуязычный LLMTrace."
-        lines += ["", "LLMTrace разделён по topic_id: варианты одной темы не пересекают части."]
+        lines += [
+            "",
+            "LLMTrace разделён по topic_id: варианты одной темы не пересекают части.",
+            "Также подготовлен RoFT для проверки границ человеческого и машинного текста;",
+            "в обучение этой модели он не включён.",
+        ]
     external = metrics.get("external_llmgen_en")
     if external:
         lines += [
@@ -101,16 +109,33 @@ def main(argv=None):
         "python -m pytest",
         "python scripts/fetch_datasets.py all",
         "python scripts/prepare_w1.py",
-        "python -m dw1.eval.harness --run my-first-run",
-        "python -m dw1.eval.report --run my-first-run",
+        *(
+            [
+                "python scripts/prepare_new_datasets.py",
+                "python scripts/prepare_roft.py",
+                "python -m dw1.eval.harness --run my-run-v2 "
+                "--data data/processed/w1_expanded_texts.parquet "
+                "--preparation data/processed/expanded_preparation.json "
+                "--model-version tfidf-svd64-histgb-w1-v2",
+                "python -m dw1.eval.report --run my-run-v2",
+            ]
+            if expanded
+            else [
+                "python -m dw1.eval.harness --run my-first-run",
+                "python -m dw1.eval.report --run my-first-run",
+            ]
+        ),
         "```",
         "",
         "Имя запуска должно быть новым: существующие результаты не перезаписываются.",
         "Для проверки своего UTF-8 файла:",
         "",
         "```bash",
-        "python -m dw1.models.baseline --text-file example.txt",
+        f"python -m dw1.models.baseline --model {run}/model.joblib --text-file example.txt",
         "```",
+        "",
+        "Для сравнения с первой версией на 8000 текстов см. "
+        "[второй эксперимент](w1-new-datasets.md).",
         "",
         "Автотесты проверяют разбор писем, расчёт метрик и разделение данных.",
         "Проверки: `ruff check src tests`, `mypy src`, `pytest -q`.",
