@@ -1,9 +1,29 @@
-# Сплиты строятся ПО ШАБЛОНАМ/КАМПАНИЯМ, а не по строкам (SPEC §5, защита от утечки near-duplicates).
-# Формат v0 (черновик W1); харнесс читает этот файл из src/dw1/eval/.
-#
-# splits:
-#   - name: bench-v1
-#     seed: 42
-#     train: []
-#     test:  []
-#     valid: []
+splits:
+  - name: sprint1-v1
+    seed: 42
+    data: data/processed/w1_texts.parquet
+    split_column: split
+    train: train
+    valid: validation
+    test: test
+    grouping:
+      hc3: question_hash
+      coat: official_train_heldout_by_text_hash_then_official_validation_as_pilot_test
+      coat_official_test: excluded_hidden_labels_minus_one
+    leakage_audit: exact_normalized_hash_and_approximate_5_word_shingle_lsh
+    limitation: CoAT original source-variant groups unavailable; no campaign leakage guarantee
+
+  - name: sprint1-llmtrace-v2
+    seed: 42
+    data: data/processed/w1_expanded_texts.parquet
+    split_column: split
+    train: train
+    valid: validation
+    test: test
+    grouping:
+      llmtrace: topic_id_hash_80_10_10_across_all_original_files
+      hc3: question_hash
+      coat: unchanged_from_sprint1_v1
+      roft: first_human_segment_hash_evaluation_only
+    preparation: data/processed/expanded_preparation.json
+    limitation: RoFT is human continuation, not an ai_polished training label
