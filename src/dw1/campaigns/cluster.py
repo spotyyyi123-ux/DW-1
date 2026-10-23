@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from collections.abc import Iterable
 from pathlib import Path
@@ -19,8 +20,19 @@ from datasketch import MinHash, MinHashLSH
 
 MODEL_VERSION = "minhash-lsh-0.1"
 
+DEFAULT_INDEX = (
+    Path(__file__).resolve().parents[3]
+    / "data"
+    / "runs"
+    / "sprint1"
+    / "campaign_index.json"
+)
+
 _STOP_RE = re.compile(r"[^\w\s]+", re.UNICODE)
 _WS_RE = re.compile(r"\s+")
+
+_PREPARED: list[dict] | None = None
+_INDEX_MTIME: float = 0.0
 
 
 def normalize_text(text: str) -> str:
@@ -46,12 +58,73 @@ def build_minhash(text: str, k: int = 5, num_perm: int = 128) -> MinHash:
     return mh
 
 
+def _index_path() -> Path:
+    return Path(os.environ.get("DW1_CAMPAIGN_INDEX", str(DEFAULT_INDEX)))
+
+
+def _prepared_index() -> list[dict]:
+    """Индекс кампаний: cluster_id, размер, репрезентативный текст + шинглы."""
+    global _PREPARED, _INDEX_MTIME
+    path = _index_path()
+    if not path.exists():
+        return []
+    mtime = path.stat().st_mtime
+    if _PREPARED is None or mtime != _INDEX_MTIME:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        _PREPARED = [
+            {
+                **entry,
+                "shingles": shingles(normalize_text(entry.get("representative_text", ""))),
+            }
+            for entry in raw
+        ]
+        _INDEX_MTIME = mtime
+    return _PREPARED
+
+
+def match_campaign(text: str, threshold: float = 0.8) -> dict | None:
+    """Ищет письмо в сохранённых кампаниях по Jaccard с репрезентативным текстом."""
+    text = normalize_text(text)
+    if not text:
+        return None
+    probe = shingles(text)
+    if not probe:
+        return None
+    best: dict | None = None
+    for entry in _prepared_index():
+        rep = entry.get("shingles") or set()
+        if not rep:
+            continue
+        jaccard = len(probe & rep) / max(1, len(probe | rep))
+        if jaccard >= threshold and (best is None or jaccard > best["jaccard"]):
+            best = {
+                "cluster_id": entry.get("cluster_id"),
+                "member_count": int(entry.get("size", 1)),
+                "jaccard": round(jaccard, 3),
+            }
+    return best
+
+
 def cluster(parts: dict) -> dict:
     """Контракт пайплайна: атрибуция кампании для одного письма.
 
-    Пока заглушка; в Sprint 2 будет искать письмо в сохранённых кластерах
-    (data/runs) и отдавать cluster_id + скелет шаблона + размер кластера.
+    Если индекс кампаний (data/runs/sprint1/campaign_index.json) собран,
+    письмо сопоставляется с ближайшим кластером по Jaccard.
     """
+    subject = ""
+    body = ""
+    if isinstance(parts, dict):
+        subject = str((parts.get("subject") or {}).get("text", ""))
+        body = str((parts.get("body_text") or {}).get("text", ""))
+    match = match_campaign(f"{subject} {body}")
+    if match:
+        return {
+            "cluster_id": match["cluster_id"],
+            "template_skeleton": None,
+            "member_count": match["member_count"],
+            "jaccard": match["jaccard"],
+            "model_version": MODEL_VERSION,
+        }
     return {
         "cluster_id": None,
         "template_skeleton": None,
@@ -98,6 +171,7 @@ def cluster_emails(
                 "members": members,
                 "size": len(members),
                 "examples": [texts[members[0]["id"]][:160], texts[members[-1]["id"]][:160]],
+                "representative_text": texts[members[0]["id"]],
             }
         )
     clusters.sort(key=lambda c: -c["size"])
@@ -143,6 +217,11 @@ def main(argv=None) -> int:
     ap.add_argument("--limit", type=int, default=10, help="сколько топ-кластеров показать")
     ap.add_argument("--threshold", type=float, default=0.8, help="порог Jaccard для LSH")
     ap.add_argument("--out", default=None, help="сохранить все кластеры в JSON")
+    ap.add_argument(
+        "--index",
+        default=None,
+        help="куда сохранить индекс кампаний (по умолчанию рядом с --out)",
+    )
     args = ap.parse_args(argv)
 
     docs = _load_documents(args.data)
@@ -163,6 +242,22 @@ def main(argv=None) -> int:
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(json.dumps(clusters, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"\nвсе кластеры сохранены в {args.out}")
+
+        index_path = (
+            Path(args.index)
+            if args.index
+            else out_path.parent / "campaign_index.json"
+        )
+        index = [
+            {
+                "cluster_id": f"campaign-{i}",
+                "size": c["size"],
+                "representative_text": c["representative_text"],
+            }
+            for i, c in enumerate(clusters)
+        ]
+        index_path.write_text(json.dumps(index, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"индекс кампаний сохранён в {index_path}")
     return 0
 
 

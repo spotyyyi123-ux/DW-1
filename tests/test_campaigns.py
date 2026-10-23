@@ -1,3 +1,5 @@
+import json
+
 from dw1.campaigns.cluster import cluster, cluster_emails, normalize_text, shingles
 
 
@@ -5,6 +7,25 @@ def test_cluster_contract_for_pipeline():
     res = cluster({})
     assert res["cluster_id"] is None
     assert res["model_version"] == "minhash-lsh-0.1"
+
+
+def test_match_campaign_from_index(tmp_path, monkeypatch):
+    rep = (
+        "ваш доступ к корпоративной почте истекает через 24 часа пожалуйста "
+        "подтвердите учётные данные перейдите по ссылке"
+    )
+    index = [{"cluster_id": "campaign-0", "size": 42, "representative_text": rep}]
+    path = tmp_path / "campaign_index.json"
+    path.write_text(json.dumps(index), encoding="utf-8")
+    monkeypatch.setenv("DW1_CAMPAIGN_INDEX", str(path))
+
+    import dw1.campaigns.cluster as c
+
+    c._PREPARED = None
+    parts = {"subject": {"text": "Подтвердите доступ"}, "body_text": {"text": rep}}
+    res = c.cluster(parts)
+    assert res["cluster_id"] == "campaign-0"
+    assert res["member_count"] == 42
 
 
 def test_normalize_text_strips_punctuation_and_case():
