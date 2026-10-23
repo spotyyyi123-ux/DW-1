@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Рендер Evidence JSON в автономную HTML-карточку."""
 
 from __future__ import annotations
@@ -7,7 +6,6 @@ import argparse
 import html
 import json
 from pathlib import Path
-
 
 PROVENANCE_LABELS = {
     "human": "Человек",

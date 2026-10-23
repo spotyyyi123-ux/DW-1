@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Загрузка датасетов (W1). Полный аудит и красные флаги: docs/datasets.md.
 
 Протокол: каждый набор -> data/raw/<dataset>/ + строка в data/datasheet.csv
