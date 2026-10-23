@@ -19,6 +19,19 @@ def test_extracts_links_from_html():
     assert links[0]["domain"] == "mail-confirm.example.net"
 
 
+def test_extracts_anchor_text():
+    # anchor_text нужен для признака anchor↔href mismatch
+    links = parse_eml(FIXTURE)["parts"]["links"]
+    assert links[0]["anchor_text"] == "Подтвердить доступ"
+
+
+def test_extracts_plain_text_urls():
+    # URL из plain-text письма (без HTML) тоже попадают в links
+    fixture = Path(__file__).parent / "fixtures" / "llmgen_phishing.eml"
+    links = parse_eml(fixture)["parts"]["links"]
+    assert any("secure-bankofamerica-login.com" in link["domain"] for link in links)
+
+
 def test_subject_and_body():
     parts = parse_eml(FIXTURE)["parts"]
     assert "подтвердите" in parts["subject"]["text"].lower()

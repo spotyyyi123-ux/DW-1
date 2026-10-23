@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Smoke-проверка M0 (только stdlib): сквозной прогон пайплайна на фикстуре."""
 from __future__ import annotations
 

@@ -12,19 +12,31 @@ def test_analyze_produces_valid_evidence():
     assert set(ev.signals) == set(ELEMENTS)  # 9 экстракторов
 
 
-def test_m0_honest_rejection():
-    # До вехи M5 (фузия) система корректно возвращает rejection=True
+def test_fusion_produces_two_axes():
+    # Fusion v1: две оси заполняются из сигналов, уверенность — эвристическая (не калибрована)
     ev = analyze(FIXTURE)
-    assert ev.fusion["rejection"] is True
-    assert ev.fusion["ai_provenance"]["label"] == "unknown"
-    assert ev.fusion["intent"]["label"] == "unknown"
+    assert ev.fusion["heuristic"] is True
+    assert ev.fusion["rejection"] is False
+    for axis in ("ai_provenance", "intent"):
+        blob = ev.fusion[axis]
+        assert blob["calibrated"] is False, axis
+        assert blob["label"] in (
+            "human",
+            "ai_generated",
+            "ai_polished",
+            "template",
+            "unknown",
+            "phishing",
+            "spam",
+            "legitimate",
+        ), axis
+    assert isinstance(ev.explanations["counter_evidence"], list)
 
 
 def test_remaining_stub_signals_are_unknown():
-    # Проверка того, что ещё не реализованные экстракторы остаются честными заглушками
+    # Ещё не реализованные экстракторы остаются честными заглушками
     ev = analyze(FIXTURE)
-    stubs = {"headers", "html", "images", "links", "qr", "template"}
-    for name in stubs:
+    for name in ("images", "qr", "template"):
         blob = ev.signals[name]
         assert blob["ai_provenance"]["label"] == "unknown", name
         assert blob["intent"]["label"] == "unknown", name
