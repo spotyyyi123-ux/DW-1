@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """M0-ингест: разбор .eml в MessageParts (stdlib email).
 
 Развитие (SPEC §6 W1): .msg, нормализация кодировок, HTML→текст через bs4,
@@ -61,12 +60,14 @@ def parse_eml(path: str | Path) -> dict:
         elif ctype == "text/html" and "attachment" not in disp:
             html_parts.append(part.get_content())
         elif disp.startswith("attachment"):
-            payload = part.get_payload(decode=True) or b""
+            raw_payload = part.get_payload(decode=True)
+            payload = raw_payload if isinstance(raw_payload, bytes) else b""
             attachments.append(
                 {"name": part.get_filename() or "", "mime": ctype, "sha256": _sha256(payload)}
             )
         elif ctype.startswith("image/"):
-            payload = part.get_payload(decode=True) or b""
+            raw_payload = part.get_payload(decode=True)
+            payload = raw_payload if isinstance(raw_payload, bytes) else b""
             images.append(
                 {"mime": ctype, "sha256": _sha256(payload), "cid": part.get("Content-ID", "")}
             )
@@ -81,18 +82,24 @@ def parse_eml(path: str | Path) -> dict:
     parts = {
         "headers": {
             "from": flat.get("from", ""),
+            "to": flat.get("to", ""),
             "reply_to": flat.get("reply-to", ""),
             "return_path": flat.get("return-path", ""),
             "date_tz": flat.get("date", ""),
             "x_mailer": flat.get("x-mailer", ""),
             "message_id_domain": _domain(flat.get("message-id", "")),
+            "list_unsubscribe": flat.get("list-unsubscribe", ""),
+            "precedence": flat.get("precedence", ""),
+            "in_reply_to": flat.get("in-reply-to", ""),
+            "references": flat.get("references", ""),
             **_auth_results(msg),
         },
         "subject": {"text": msg.get("Subject", "")},
         "body_text": {"text": body_text},
         "body_html": {
+            "text": body_html,
             "raw_len": len(body_html),
-            "dom_fingerprint": "",  # M3
+            "dom_fingerprint": "",
             "links_count": len(links),
         },
         "cta": [],  # M2-M3

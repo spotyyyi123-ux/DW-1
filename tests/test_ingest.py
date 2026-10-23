@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from pathlib import Path
 
 from dw1.ingest.mime import parse_eml
@@ -16,7 +15,7 @@ def test_parses_headers_and_auth():
 
 def test_extracts_links_from_html():
     links = parse_eml(FIXTURE)["parts"]["links"]
-    assert any("mail-confirm.example.net" in l["url"] for l in links)
+    assert any("mail-confirm.example.net" in link["url"] for link in links)
     assert links[0]["domain"] == "mail-confirm.example.net"
 
 

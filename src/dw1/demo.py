@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """CLI M0: python -m dw1 <file.eml> [--out out.json] -> Evidence JSON v1."""
 from __future__ import annotations
 

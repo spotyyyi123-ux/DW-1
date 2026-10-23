@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Evidence JSON v1 — единственный контракт обмена между экстракторами, фузией и API.
 
 Полная схема: docs/SPEC.md §4.1. Версионирование:
@@ -74,7 +73,7 @@ class Evidence:
         return json.dumps(self.to_dict(), ensure_ascii=False, indent=indent)
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Evidence":
+    def from_dict(cls, d: dict) -> Evidence:
         if not isinstance(d, dict):
             raise EvidenceError("Evidence должен быть dict")
         known = {f.name for f in fields(cls)}

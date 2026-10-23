@@ -68,4 +68,4 @@ python -m dw1.models.baseline --text-file example.txt
 ```
 
 Автотесты проверяют разбор писем, расчёт метрик и разделение данных.
-Общие Ruff/mypy репозитория имеют замечания в прежнем коде; полный CI не зелёный.
+Проверки: `ruff check src tests`, `mypy src`, `pytest -q`.

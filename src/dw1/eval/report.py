@@ -113,7 +113,7 @@ def main(argv=None):
         "```",
         "",
         "Автотесты проверяют разбор писем, расчёт метрик и разделение данных.",
-        "Общие Ruff/mypy репозитория имеют замечания в прежнем коде; полный CI не зелёный.",
+        "Проверки: `ruff check src tests`, `mypy src`, `pytest -q`.",
     ]
     path = Path(args.out) if args.out else Path("reports") / f"{args.run}.md"
     path.parent.mkdir(parents=True, exist_ok=True)
