@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """QR-коды / quishing (SPEC §6 W3).
 
 Будет реализовано: декодирование (Node jsqr/@zxing или cv2), URL -> ветка ссылок,

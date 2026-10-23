@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
-"""Извлечение признаков URL и ссылок в письмах."""
-
 from __future__ import annotations
 
 import math
 import re
 from collections import Counter
-from urllib.parse import urlsplit
 
 from dw1.extractors import BaseExtractor, register
 

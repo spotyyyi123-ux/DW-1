@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Eval-харнесс (SPEC §4.3, §8). M0: заглушка — артефакты появятся с M2."""
 from __future__ import annotations
 

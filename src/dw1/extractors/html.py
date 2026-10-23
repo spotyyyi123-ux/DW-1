@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-"""Извлечение структурных признаков HTML-писем."""
-
 from __future__ import annotations
 
 import re
 from html import unescape
+
 
 from dw1.extractors import BaseExtractor, register
 

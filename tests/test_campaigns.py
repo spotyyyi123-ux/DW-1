@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from dw1.campaigns.cluster import cluster, cluster_emails, normalize_text, shingles
 
 
@@ -28,7 +27,10 @@ def test_cluster_groups_near_duplicates():
     docs = [
         ("a", base),
         ("b", base + " спасибо за понимание"),
-        ("c", "приглашаем на вебинар по машинному обучению во вторник в 18 00 регистрация по ссылке"),
+        (
+            "c",
+            "приглашаем на вебинар по машинному обучению во вторник в 18 00 регистрация по ссылке",
+        ),
         ("d", base + " с уважением служба безопасности"),
     ]
     clusters = cluster_emails(docs)
