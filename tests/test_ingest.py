@@ -19,6 +19,12 @@ def test_extracts_links_from_html():
     assert links[0]["domain"] == "mail-confirm.example.net"
 
 
+def test_extracts_anchor_text():
+    # anchor_text нужен для признака anchor↔href mismatch
+    links = parse_eml(FIXTURE)["parts"]["links"]
+    assert links[0]["anchor_text"] == "Подтвердить доступ"
+
+
 def test_subject_and_body():
     parts = parse_eml(FIXTURE)["parts"]
     assert "подтвердите" in parts["subject"]["text"].lower()

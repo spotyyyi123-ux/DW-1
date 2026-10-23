@@ -9,15 +9,46 @@ import hashlib
 import re
 from email import policy
 from email.parser import BytesParser
+from html import unescape
 from pathlib import Path
 from urllib.parse import urlparse
 
 AUTH_RE = re.compile(r"(spf|dkim|dmarc)=(\S+)", re.IGNORECASE)
 LINK_RE = re.compile(r"""href=["']([^"']+)["']""", re.IGNORECASE)
+ANCHOR_RE = re.compile(
+    r"""<a\b[^>]*?href=["']([^"']+)["'][^>]*?>(.*?)</a>""",
+    re.IGNORECASE | re.DOTALL,
+)
+TAG_RE = re.compile(r"<[^>]+>")
 
 
 def _sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def _extract_links(html_text: str) -> list[dict]:
+    """Ссылки из HTML вместе с текстом якоря (anchor_text).
+
+    anchor_text критичен для признака anchor↔href mismatch (один из сильнейших
+    intent-сигналов). Если анкор не найден — оставляем пустым.
+    """
+    links: list[dict] = []
+    seen: set[str] = set()
+    for match in ANCHOR_RE.finditer(html_text):
+        url = match.group(1).strip()
+        if url in seen:
+            continue
+        seen.add(url)
+        anchor = TAG_RE.sub(" ", match.group(2))
+        anchor = " ".join(unescape(anchor).split())
+        links.append({"url": url, "anchor_text": anchor, "domain": _domain(url)})
+    if not links:
+        for url in LINK_RE.findall(html_text):
+            if url in seen:
+                continue
+            seen.add(url)
+            links.append({"url": url, "anchor_text": "", "domain": _domain(url)})
+    return links
 
 
 def _domain(s: str) -> str:
@@ -74,10 +105,7 @@ def parse_eml(path: str | Path) -> dict:
 
     body_text = "\n\n".join(t for t in text_parts if t)
     body_html = "\n\n".join(h for h in html_parts if h)
-    links = [
-        {"url": u, "anchor_text": "", "domain": _domain(u)}
-        for u in LINK_RE.findall(body_html)
-    ]
+    links = _extract_links(body_html)
 
     parts = {
         "headers": {

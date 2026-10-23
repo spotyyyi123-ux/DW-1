@@ -94,14 +94,45 @@ def render_scale(title: str, label: str, confidence: float) -> str:
     """
 
 
+def fusion_axes(data: dict):
+    """Берёт готовые оси из fusion v1 (в приоритете над голосованием по сигналам)."""
+    fusion = data.get("fusion") or {}
+    result = []
+    for axis in (fusion.get("ai_provenance") or {}, fusion.get("intent") or {}):
+        label = axis.get("label", "unknown")
+        if isinstance(label, str) and label != "unknown":
+            result.append((label, float(axis.get("confidence", 0) or 0)))
+        else:
+            result.append(None)
+    return result[0], result[1]
+
+
 def render(data: dict) -> str:
     provenance_items = collect_signals(data, "ai_provenance")
     intent_items = collect_signals(data, "intent")
 
-    provenance, provenance_conf = summarize(
-        provenance_items, PROVENANCE_LABELS
+    fused_prov, fused_intent = fusion_axes(data)
+    provenance, provenance_conf = (
+        fused_prov if fused_prov else summarize(provenance_items, PROVENANCE_LABELS)
     )
-    intent, intent_conf = summarize(intent_items, INTENT_LABELS)
+    intent, intent_conf = (
+        fused_intent if fused_intent else summarize(intent_items, INTENT_LABELS)
+    )
+
+    fusion = data.get("fusion") or {}
+    heuristic_note = (
+        "fusion v1 — эвристика, не калибровано"
+        if fusion.get("heuristic")
+        else "по сигналам экстракторов"
+    )
+    counter_items = (data.get("explanations") or {}).get("counter_evidence") or []
+    counter_html = ""
+    if counter_items:
+        counter_html = (
+            '<section class="meta"><h2>Контр-свидетельства</h2><ul>'
+            + "".join(f"<li>{esc(item)}</li>" for item in counter_items)
+            + "</ul></section>"
+        )
 
     evidence_rows = collect_evidence(data)
     parts = data.get("parts", {})
@@ -173,12 +204,15 @@ td {{ overflow-wrap: anywhere; }}
     <p><b>Отправитель:</b> {esc(sender or "Не указан")}</p>
     <p><b>Тема:</b> {esc(subject or "Не указана")}</p>
     <p><b>Версия схемы:</b> {esc(data.get("schema_version", "не указана"))}</p>
+    <p><b>Источник оценок:</b> {esc(heuristic_note)}</p>
   </section>
 
   <div class="scales">
     {render_scale("Происхождение письма", PROVENANCE_LABELS[provenance], provenance_conf)}
     {render_scale("Злонамеренность", INTENT_LABELS[intent], intent_conf)}
   </div>
+
+  {counter_html}
 
   <section class="table-wrap">
     <h2>Что известно про каждый элемент</h2>
