@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import re
 from collections import Counter
 from urllib.parse import urlsplit
 
@@ -41,17 +42,23 @@ class LinksExtractor(BaseExtractor):
             3,
         )
 
+    DOMAIN_LIKE_RE = re.compile(
+        r"^(?:https?://)?(?:[\w-]+\.)+[a-zA-Z]{2,}(?:/\S*)?$",
+        re.IGNORECASE,
+    )
+
     @staticmethod
     def _anchor_mismatch(anchor: str, host: str) -> bool:
-        anchor = (anchor or "").strip().lower()
+        anchor = (anchor or "").strip()
         if not anchor or not host:
             return False
-
-        # Сравниваем только текст, похожий на URL или домен.
+        # Анкор, не похожий на URL/домен (обычный текст кнопки), не может
+        # «не совпадать» с адресом — это не признак подмены.
+        if not LinksExtractor.DOMAIN_LIKE_RE.match(anchor):
+            return False
         visible_host = LinksExtractor._host(anchor)
         if visible_host:
             return visible_host != host
-
         return False
 
     def extract(self, parts: dict) -> dict:
