@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Сквозной пайплайн: ingest -> экстракторы -> фузия -> кампании -> объяснения."""
 from __future__ import annotations
 

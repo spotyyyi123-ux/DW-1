@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """API DW-1 (SPEC §3). Запуск: uvicorn dw1.api.app:app (extras: pip install -e '.[api]')."""
 from __future__ import annotations
 

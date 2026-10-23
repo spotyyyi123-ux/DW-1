@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Генератор отчётов из артефактов data/runs (SPEC §4.3: никаких чисел руками). M0: заглушка."""
 from __future__ import annotations
 

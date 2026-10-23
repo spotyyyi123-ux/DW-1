@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """M0-ингест: разбор .eml в MessageParts (stdlib email).
 
 Развитие (SPEC §6 W1): .msg, нормализация кодировок, HTML→текст через bs4,
@@ -61,12 +60,14 @@ def parse_eml(path: str | Path) -> dict:
         elif ctype == "text/html" and "attachment" not in disp:
             html_parts.append(part.get_content())
         elif disp.startswith("attachment"):
-            payload = part.get_payload(decode=True) or b""
+            raw_payload = part.get_payload(decode=True)
+            payload = raw_payload if isinstance(raw_payload, bytes) else b""
             attachments.append(
                 {"name": part.get_filename() or "", "mime": ctype, "sha256": _sha256(payload)}
             )
         elif ctype.startswith("image/"):
-            payload = part.get_payload(decode=True) or b""
+            raw_payload = part.get_payload(decode=True)
+            payload = raw_payload if isinstance(raw_payload, bytes) else b""
             images.append(
                 {"mime": ctype, "sha256": _sha256(payload), "cid": part.get("Content-ID", "")}
             )

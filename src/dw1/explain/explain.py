@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Объяснения (SPEC §6 W5): атрибуция, подсветка, контр-свидетельства, faithfulness.
 
 M0: заглушка. Реализация в M6; faithfulness (comprehensiveness/sufficiency) обязателен

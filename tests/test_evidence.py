@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pytest
 
 from dw1.evidence import SCHEMA_VERSION, Evidence, EvidenceError
