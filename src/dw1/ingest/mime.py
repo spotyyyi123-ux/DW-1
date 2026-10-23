@@ -82,11 +82,16 @@ def parse_eml(path: str | Path) -> dict:
     parts = {
         "headers": {
             "from": flat.get("from", ""),
+            "to": flat.get("to", ""),
             "reply_to": flat.get("reply-to", ""),
             "return_path": flat.get("return-path", ""),
             "date_tz": flat.get("date", ""),
             "x_mailer": flat.get("x-mailer", ""),
             "message_id_domain": _domain(flat.get("message-id", "")),
+            "list_unsubscribe": flat.get("list-unsubscribe", ""),
+            "precedence": flat.get("precedence", ""),
+            "in_reply_to": flat.get("in-reply-to", ""),
+            "references": flat.get("references", ""),
             **_auth_results(msg),
         },
         "subject": {"text": msg.get("Subject", "")},

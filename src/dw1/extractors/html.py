@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import re
-from html import unescape
-
+from typing import Any
 
 from dw1.extractors import BaseExtractor, register
 
@@ -50,7 +49,7 @@ class HtmlExtractor(BaseExtractor):
         lowered = html_text.lower()
 
         # A. Признаки генерации HTML
-        generator = {
+        generator: dict[str, Any] = {
             "has_flex": bool(re.search(r"display\s*:\s*flex", lowered)),
             "has_grid": bool(re.search(r"display\s*:\s*grid", lowered)),
             "semantic_tags": len(self.SEMANTIC_RE.findall(html_text)),
@@ -59,7 +58,7 @@ class HtmlExtractor(BaseExtractor):
         }
 
         # B. Признаки обфускации и вредоносной структуры
-        obfuscation = {
+        obfuscation: dict[str, Any] = {
             "zero_width_count": len(self.ZERO_WIDTH_RE.findall(html_text)),
             "hidden_blocks": len(self.HIDDEN_RE.findall(html_text)),
             "entity_count": len(re.findall(r"&(?:#\d+|#x[\da-f]+|\w+);", html_text, re.I)),
@@ -75,27 +74,26 @@ class HtmlExtractor(BaseExtractor):
 
         # C. Признаки легитимных массовых рассылок
         esp_markers = sorted(set(self.ESP_RE.findall(html_text)))
-        mailing = {
+        mailing: dict[str, Any] = {
             "esp_markers": esp_markers,
             "list_unsubscribe": bool(
-                parts.get("headers", {}).get("list-unsubscribe")
+                str(parts.get("headers", {}).get("list_unsubscribe", "")).strip()
             ),
             "precedence_bulk": (
-                parts.get("headers", {}).get("precedence", "").lower()
-                == "bulk"
+                str(parts.get("headers", {}).get("precedence", "")).lower() == "bulk"
             ),
         }
 
         evidence = []
 
-        for name, value in generator.items():
-            evidence.append(self._signal(f"html_generator_{name}", value))
+        for name, val in generator.items():
+            evidence.append(self._signal(f"html_generator_{name}", val))
 
-        for name, value in obfuscation.items():
-            evidence.append(self._signal(f"html_obfuscation_{name}", value))
+        for name, val in obfuscation.items():
+            evidence.append(self._signal(f"html_obfuscation_{name}", val))
 
-        for name, value in mailing.items():
-            evidence.append(self._signal(f"html_mailing_{name}", value))
+        for name, val in mailing.items():
+            evidence.append(self._signal(f"html_mailing_{name}", val))
 
         provenance = {
             "label": "unknown",

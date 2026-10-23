@@ -106,7 +106,7 @@ def render(data: dict) -> str:
     evidence_rows = collect_evidence(data)
     parts = data.get("parts", {})
     headers = parts.get("headers", {})
-    subject = headers.get("subject", "")
+    subject = str(parts.get("subject", {}).get("text", ""))
     sender = headers.get("from", "")
 
     table_rows = ""

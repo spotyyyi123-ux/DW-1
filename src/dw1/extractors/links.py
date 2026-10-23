@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import math
-import re
 from collections import Counter
+from urllib.parse import urlsplit
 
 from dw1.extractors import BaseExtractor, register
 

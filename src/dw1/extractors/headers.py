@@ -3,7 +3,6 @@ from __future__ import annotations
 import re
 from urllib.parse import unquote
 
-
 from dw1.extractors import BaseExtractor, register
 
 
