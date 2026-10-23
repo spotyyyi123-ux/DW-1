@@ -20,6 +20,7 @@ ANCHOR_RE = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 TAG_RE = re.compile(r"<[^>]+>")
+TEXT_URL_RE = re.compile(r"https?://[^\s<>\"')\]]+", re.IGNORECASE)
 
 
 def _sha256(data: bytes) -> str:
@@ -106,6 +107,11 @@ def parse_eml(path: str | Path) -> dict:
     body_text = "\n\n".join(t for t in text_parts if t)
     body_html = "\n\n".join(h for h in html_parts if h)
     links = _extract_links(body_html)
+    known_urls = {link["url"] for link in links}
+    for url in TEXT_URL_RE.findall(body_text):
+        if url not in known_urls:
+            known_urls.add(url)
+            links.append({"url": url, "anchor_text": "", "domain": _domain(url)})
 
     parts = {
         "headers": {
