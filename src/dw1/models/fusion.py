@@ -26,6 +26,7 @@ import numpy as np
 
 FUSION_VERSION = "fusion-heuristic-v2"
 CALIBRATION_VERSION = "isotonic-sprint2"
+REJECTION_THRESHOLD = 0.6
 
 CALIBRATION_PATH = (
     Path(__file__).resolve().parents[3]
@@ -254,6 +255,21 @@ def fuse(signals: dict) -> dict:
         votes_int, ("phishing", "spam"), ("legitimate",), "malicious", "benign"
     )
 
+    # Если экстрактор body_text дал вероятность от обученной модели — она
+    # точнее эвристического голосования, используем её как компоненту оси.
+    model_p_ai = flags.get("model_p_ai")
+    if isinstance(model_p_ai, (int, float)) and 0.0 <= float(model_p_ai) <= 1.0:
+        prov_axis["components"]["ai"] = round(float(model_p_ai), 4)
+        prov_axis["components"]["model"] = "tfidf-svd-histgb"
+
+    model_p_malicious = flags.get("model_p_malicious")
+    if (
+        isinstance(model_p_malicious, (int, float))
+        and 0.0 <= float(model_p_malicious) <= 1.0
+    ):
+        intent_axis["components"]["malicious"] = round(float(model_p_malicious), 4)
+        intent_axis["components"]["model"] = "tfidf-svd-histgb-intent"
+
     calibration = _calibration()
     if calibration:
         _apply_calibration(
@@ -263,10 +279,19 @@ def fuse(signals: dict) -> dict:
             intent_axis, intent_axis["components"]["malicious"], calibration, "intent"
         )
 
+    rejected_axes = []
+    for name, axis in (("ai_provenance", prov_axis), ("intent", intent_axis)):
+        confidence = axis.get("calibrated_confidence")
+        if confidence is not None and confidence < REJECTION_THRESHOLD:
+            axis["label"] = "unknown"
+            axis["rejected"] = True
+            rejected_axes.append(name)
+
     return {
         "ai_provenance": prov_axis,
         "intent": intent_axis,
-        "rejection": not votes_prov and not votes_int,
+        "rejection": (not votes_prov and not votes_int) or len(rejected_axes) == 2,
+        "rejected_axes": rejected_axes,
         "heuristic": True,
         "calibrated": bool(calibration),
         "threat_signals": threats,

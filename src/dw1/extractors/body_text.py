@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import logging
+import os
 import re
+from pathlib import Path
 from typing import Any
 
 from dw1.extractors import BaseExtractor, register
@@ -19,6 +21,65 @@ from dw1.models.llm_detectors import cached_llm_signal
 log = logging.getLogger("dw1.extractors.body_text")
 
 VERSION = "body_text-0.2"
+
+MODEL_VERSION = "tfidf-svd64-histgb-w1-v1"
+MODEL_PATH = (
+    Path(__file__).resolve().parents[3]
+    / "data"
+    / "runs"
+    / "sprint2"
+    / "prov_model.joblib"
+)
+INTENT_MODEL_PATH = (
+    Path(__file__).resolve().parents[3]
+    / "data"
+    / "runs"
+    / "sprint2"
+    / "intent_model.joblib"
+)
+
+_MODEL = None
+_MODEL_TRIED = False
+_INTENT_MODEL = None
+_INTENT_MODEL_TRIED = False
+
+
+def _get_model():
+    """Ленивая загрузка обученной модели происхождения (если она есть на диске)."""
+    global _MODEL, _MODEL_TRIED
+    if _MODEL_TRIED:
+        return _MODEL
+    _MODEL_TRIED = True
+    path = Path(os.environ.get("DW1_PROV_MODEL", str(MODEL_PATH)))
+    if not path.exists():
+        return _MODEL
+    try:
+        import joblib
+
+        _MODEL = joblib.load(path)
+        log.info("модель происхождения загружена: %s", path)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("не удалось загрузить модель происхождения: %s", exc)
+    return _MODEL
+
+
+def _get_intent_model():
+    """Ленивая загрузка обученной модели намерения (если она есть на диске)."""
+    global _INTENT_MODEL, _INTENT_MODEL_TRIED
+    if _INTENT_MODEL_TRIED:
+        return _INTENT_MODEL
+    _INTENT_MODEL_TRIED = True
+    path = Path(os.environ.get("DW1_INTENT_MODEL", str(INTENT_MODEL_PATH)))
+    if not path.exists():
+        return _INTENT_MODEL
+    try:
+        import joblib
+
+        _INTENT_MODEL = joblib.load(path)
+        log.info("модель намерения загружена: %s", path)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("не удалось загрузить модель намерения: %s", exc)
+    return _INTENT_MODEL
 
 # Ключевые слова фишингового намерения в теле письма
 PHISHING_KEYWORDS_RU = [
@@ -174,6 +235,22 @@ class BodyTextExtractor(BaseExtractor):
                 },
             ]
 
+            # 5b. Обученная модель происхождения (если есть) — приоритетнее эвристики
+            model = _get_model()
+            if model is not None:
+                try:
+                    p_ai = float(model.predict_proba([text])[0][1])
+                    prov_evidence.insert(
+                        0, {"signal": "model_p_ai", "value": round(p_ai, 4), "weight": 1.0}
+                    )
+                    prov_evidence.insert(
+                        1, {"signal": "model_version", "value": MODEL_VERSION, "weight": 0.0}
+                    )
+                    prov_label = "ai_generated" if p_ai >= 0.5 else "human"
+                    prov_conf = round(max(p_ai, 1.0 - p_ai), 3)
+                except Exception as exc:  # noqa: BLE001
+                    log.warning("Ошибка модели происхождения: %s", exc)
+
             # 6. Оценка намерения (intent)
             phishing_matches: list[str] = []
             for pat in PHISHING_KEYWORDS_RU + PHISHING_KEYWORDS_EN:
@@ -196,6 +273,20 @@ class BodyTextExtractor(BaseExtractor):
                     "weight": 0.5 if phishing_matches else 0.0,
                 }
             ]
+
+            # 6b. Обученная модель намерения (если есть) — приоритетнее эвристики
+            intent_model = _get_intent_model()
+            if intent_model is not None:
+                try:
+                    p_mal = float(intent_model.predict_proba([text])[0][1])
+                    intent_evidence.insert(
+                        0,
+                        {"signal": "model_p_malicious", "value": round(p_mal, 4), "weight": 1.0},
+                    )
+                    intent_label = "phishing" if p_mal >= 0.5 else "legitimate"
+                    intent_conf = round(max(p_mal, 1.0 - p_mal), 3)
+                except Exception as exc:  # noqa: BLE001
+                    log.warning("Ошибка модели намерения: %s", exc)
 
             result = {
                 "ai_provenance": {
