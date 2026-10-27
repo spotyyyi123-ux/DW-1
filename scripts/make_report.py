@@ -76,6 +76,12 @@ def demo_row(stem: str, ev: dict) -> str:
     card = f"{stem}.html"
     prov_label = PROV_LABELS.get(prov.get("label"), prov.get("label"))
     intent_label = INTENT_LABELS.get(intent.get("label"), intent.get("label"))
+    prov_calib = prov.get("calibrated_confidence")
+    intent_calib = intent.get("calibrated_confidence")
+    if prov_calib is not None:
+        prov_label = f"{prov_label} · calib {float(prov_calib):.2f}"
+    if intent_calib is not None:
+        intent_label = f"{intent_label} · calib {float(intent_calib):.2f}"
     return f"""
     <tr>
       <td><b>{esc(stem)}</b><br><span class="muted">{esc(subject[:70])}</span></td>
@@ -86,6 +92,13 @@ def demo_row(stem: str, ev: dict) -> str:
       <td><a href="demo/{esc(card)}">открыть карточку</a></td>
     </tr>
     """
+
+
+def _read_json(path, default):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
 
 
 def cluster_row(c: dict, index: int) -> str:
@@ -110,6 +123,37 @@ def build() -> str:
     if not cluster_rows:
         cluster_rows = '<tr><td colspan="4">Кластеры не найдены: запустите кластеризацию</td></tr>'
     total_in_clusters = sum(c.get("size", 0) for c in clusters)
+
+    sprint2 = RUN.parent / "sprint2"
+    cal = _read_json(sprint2 / "calibration_metrics.json", {})
+    fp = _read_json(sprint2 / "legit_fp.json", {})
+    op = _read_json(sprint2 / "operating_points.json", {})
+
+    calibration_rows = ""
+    for axis, label in (
+        ("ai_provenance", "Происхождение (AI)"),
+        ("intent", "Намерение (malicious)"),
+    ):
+        m = (cal.get("axes") or {}).get(axis) or {}
+        if m:
+            calibration_rows += (
+                f"<tr><td>{label}</td><td>{m.get('ece_before')}</td>"
+                f"<td>{m.get('ece_after')}</td><td>{m.get('auc_before')}</td>"
+                f"<td>{m.get('auc_after')}</td></tr>"
+            )
+    fp_row = ""
+    if fp:
+        fp_row = (
+            f"<tr><td>{fp.get('n_legit')}</td><td>{fp.get('fp_style')}</td>"
+            f"<td>{fp.get('fp_intent')}</td><td>{fp.get('fpr_any')}</td></tr>"
+        )
+    op_rows = ""
+    for r in ((op.get("intent") or {}).get("sweep") or []):
+        if r.get("threshold") in (0.5, 0.6, 0.7, 0.8, 0.85, 0.9):
+            op_rows += (
+                f"<tr><td>{r['threshold']}</td><td>{r['tpr']}</td>"
+                f"<td>{r['fpr']}</td><td>{r['f1']}</td></tr>"
+            )
 
     return f"""<!DOCTYPE html>
 <html lang="ru">
@@ -188,6 +232,29 @@ code {{ background: #eef3fa; border-radius: 6px; padding: 1px 6px; font-size: 13
       <tbody>{rows}</tbody>
     </table>
   </div>
+
+  <h2>Sprint 2 — калибровка и рабочая точка</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Ось</th><th>ECE до</th><th>ECE после</th><th>AUC до</th><th>AUC после</th></tr></thead>
+      <tbody>{calibration_rows}</tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Легит-почта (писем)</th><th>FP-стиль</th><th>FP-интент</th><th>FPR (любой)</th></tr></thead>
+      <tbody>{fp_row}</tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Порог intent</th><th>TPR</th><th>FPR</th><th>F1</th></tr></thead>
+      <tbody>{op_rows}</tbody>
+    </table>
+  </div>
+  <p class="muted">Калибровка обучена на публичном бенчмарке (600 писем). Честное ограничение:
+  TF-IDF-модели детектируют стиль конкретного генератора — на невиданном (HC3/ChatGPT)
+  TPR≈0; нужен вероятностный детектор (Fast-DetectGPT, задача 1 Sprint 2).</p>
 
   <h2>Кампании (топ-10 из 427)</h2>
   <div class="table-wrap">
