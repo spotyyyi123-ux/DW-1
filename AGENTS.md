@@ -69,7 +69,7 @@ D:\dw1\
 - `docs/lit.md` — выписка по трём опорным работам (Columbia IMC'25, SpearBot, Phish-Master)
   и позиционирование. Новые источники — добавлять туда же через dsh-cite.
 - `docs/datasets.md` — аудит датасетов с лицензиями и красными флагами.
-- `phishing-project-plan.md` — исторический план (архив, см. SPEC).
+- `docs/SPEC.md` — ТЗ и контракты; `docs/SPRINT-1.md` (закрыт, тег `m1`) и `docs/SPRINT-2.md` (в работе).
 
 ## Рабочий протокол агента
 
