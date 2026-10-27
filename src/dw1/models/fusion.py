@@ -1,7 +1,9 @@
-"""Фузия v1 (задача 4): две независимые оси из позлементных сигналов.
+"""Фузия (задача 4): две независимые оси из позлементных сигналов.
 
-Взвешенное голосование по элементам письма. Это ЭВРИСТИКА — уверенность
-не калибрована (``calibrated: false``); isotonic-калибровка на бенчмарке — M5.
+Взвешенное голосование по элементам письма. База — эвристика (``heuristic: true``);
+после Sprint 2 к ней добавляется isotonic-калибровка уверенностей на бенчмарке
+письменных данных (`data/runs/sprint2/calibration_metrics.json`). Если калибровка
+загружена, ``calibrated: true`` и ``confidence`` становится калиброванной вероятностью.
 
 - ``ai_provenance``: тело 0.50 · тема 0.20 · CTA 0.15 · HTML 0.15
 - ``intent``:       заголовки 0.35 · ссылки 0.25 · CTA 0.20 · тема 0.10 · тело 0.10
@@ -16,7 +18,25 @@
 """
 from __future__ import annotations
 
-FUSION_VERSION = "fusion-heuristic-v1"
+import json
+import os
+from pathlib import Path
+
+import numpy as np
+
+FUSION_VERSION = "fusion-heuristic-v2"
+CALIBRATION_VERSION = "isotonic-sprint2"
+
+CALIBRATION_PATH = (
+    Path(__file__).resolve().parents[3]
+    / "data"
+    / "runs"
+    / "sprint2"
+    / "calibration_metrics.json"
+)
+
+_CALIBRATION: dict | None = None
+_CALIBRATION_MTIME: float = 0.0
 
 PROV_WEIGHTS = {"body_text": 0.50, "subject": 0.20, "cta": 0.15, "html": 0.15}
 INTENT_WEIGHTS = {"headers": 0.35, "links": 0.25, "cta": 0.20, "subject": 0.10, "body_text": 0.10}
@@ -127,6 +147,73 @@ def _axis(votes: dict, threats: list[str], suppressors: list[str]) -> dict:
     }
 
 
+def _components(
+    votes: dict,
+    positive: tuple[str, ...],
+    negative: tuple[str, ...],
+    pos_key: str,
+    neg_key: str,
+) -> dict:
+    """Сырые компоненты оси: доля веса в «положительной» и «отрицательной» группах.
+
+    Нужны для калибровки (isotonic): score = share(positive), P(y=positive | score).
+    """
+    total = sum(slot["score"] for slot in votes.values())
+    if total <= 0:
+        return {pos_key: 0.0, neg_key: 0.0}
+    positive_score = sum(slot["score"] for label, slot in votes.items() if label in positive)
+    negative_score = sum(slot["score"] for label, slot in votes.items() if label in negative)
+    return {
+        pos_key: round(positive_score / total, 4),
+        neg_key: round(negative_score / total, 4),
+    }
+
+
+def _calibration() -> dict | None:
+    """Загружает isotonic-калибровку, собранную на бенчмарке писем (если есть)."""
+    global _CALIBRATION, _CALIBRATION_MTIME
+    path = Path(os.environ.get("DW1_FUSION_CALIBRATION", str(CALIBRATION_PATH)))
+    if not path.exists():
+        return None
+    mtime = path.stat().st_mtime
+    if _CALIBRATION is None or mtime != _CALIBRATION_MTIME:
+        _CALIBRATION = json.loads(path.read_text(encoding="utf-8"))
+        _CALIBRATION_MTIME = mtime
+    return _CALIBRATION
+
+
+def _apply_isotonic(value: float, axis: dict) -> float:
+    """Кусочно-линейное применение сохранённых порогов isotonic-регрессии."""
+    xs = [float(v) for v in (axis.get("calibrator_x") or [])]
+    ys = [float(v) for v in (axis.get("calibrator_y") or [])]
+    if len(xs) < 2 or len(ys) != len(xs):
+        return value
+    return float(np.interp(value, xs, ys))
+
+
+def _apply_calibration(axis: dict, raw_positive: float, calibration: dict, key: str) -> None:
+    """Считает калиброванную вероятность и кладёт её отдельным полем.
+
+    Важно: ``confidence`` (эвристическая) НЕ перезаписывается — калибровка
+    измерена на публичном бенчмарке и на других доменах (карточки демо) может
+    «сплющиваться»; поэтому храним её как ``calibrated_confidence``,
+    а решение о подмене — за потребителем (API/карточка/Sprint 3).
+    """
+    cfg = (calibration.get("axes") or {}).get(key) or {}
+    if not cfg:
+        return
+    p_positive = float(np.clip(_apply_isotonic(raw_positive, cfg), 0.0, 1.0))
+    label = axis.get("label")
+    if label in ("ai_generated", "ai_polished", "phishing", "spam"):
+        axis["calibrated_confidence"] = round(p_positive, 3)
+    elif label in ("human", "legitimate"):
+        axis["calibrated_confidence"] = round(1.0 - p_positive, 3)
+    else:
+        return
+    axis["calibrated"] = True
+    axis["calibration_version"] = CALIBRATION_VERSION
+
+
 def fuse(signals: dict) -> dict:
     """Собирает две оси из позлементных сигналов (SPEC §3).
 
@@ -158,11 +245,30 @@ def fuse(signals: dict) -> dict:
     suppressors = _find_suppressors(flags)
 
     counter = [f"гаситель: {name}" for name in suppressors]
+    prov_axis = _axis(votes_prov, threats, suppressors)
+    prov_axis["components"] = _components(
+        votes_prov, ("ai_generated", "ai_polished"), ("human",), "ai", "human"
+    )
+    intent_axis = _axis(votes_int, threats, suppressors)
+    intent_axis["components"] = _components(
+        votes_int, ("phishing", "spam"), ("legitimate",), "malicious", "benign"
+    )
+
+    calibration = _calibration()
+    if calibration:
+        _apply_calibration(
+            prov_axis, prov_axis["components"]["ai"], calibration, "ai_provenance"
+        )
+        _apply_calibration(
+            intent_axis, intent_axis["components"]["malicious"], calibration, "intent"
+        )
+
     return {
-        "ai_provenance": _axis(votes_prov, threats, suppressors),
-        "intent": _axis(votes_int, threats, suppressors),
+        "ai_provenance": prov_axis,
+        "intent": intent_axis,
         "rejection": not votes_prov and not votes_int,
         "heuristic": True,
+        "calibrated": bool(calibration),
         "threat_signals": threats,
         "counter_evidence": counter,
     }

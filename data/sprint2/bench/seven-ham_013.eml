@@ -1,0 +1,11 @@
+From: Hal DeVore <haldevore@acm.org>
+To: user@example.org
+Subject: Re: defaulting to showing plaintext versions of e-mails
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-13@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+>>>>> On Sat, 24 Aug 2002, "Harlan" == Harlan Feinstein wrote: Harlan> What's the trick again to have it default to showing Harlan> text/plain instead of html? In ~/.exmh/exmh-defaults add: *mime_alternative_prefs: text/plain text/enriched text/richtext text/html Order possible alternatives from _your_ most preferred to least preferred. --Hal _______________________________________________ Exmh-users mailing list Exmh-users@redhat.com https://listman.redhat.com/mailman/listinfo/exmh-users

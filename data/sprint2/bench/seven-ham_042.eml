@@ -1,0 +1,11 @@
+From: Andrew Bartlett <abartlet@samba.org>
+To: user@example.org
+Subject: Re: svn commit: samba r23047 - in	branches/SAMBA_4_0/source/scripting/ejs: .
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-42@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+On Mon, 2007-05-21 at 19:53 +0000, mimir@samba.org wrote: > Author: mimir > Date: 2007-05-21 19:53:57 +0000 (Mon, 21 May 2007) > New Revision: 23047 > > WebSVN: http://websvn.samba.org/cgi-bin/viewcvs.cgi?view=rev&root=samba&rev=23047 > > Log: > Allow local inclusion of js files as well as from predefined > path(s). > + /* First, try to include file from current working directory. > + This allows local includes which is handy sometimes. */ > + path = talloc_asprintf(mprMemCtx(), "%s", script); > + if (path == NULL) { > + return -1; > + } Does that mean that the script behaviour will vary depending on the current working directory, or is this relative to the location of the script? Andrew Bartlett -- Andrew Bartlett http://samba.org/~abartlet/ Authentication Developer, Samba Team http://samba.org Samba Developer, Red Hat Inc. http://redhat.com

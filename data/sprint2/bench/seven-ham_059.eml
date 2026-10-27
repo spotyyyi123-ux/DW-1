@@ -1,0 +1,11 @@
+From: Lennart Regebro <hyiffbi@gmail.com>
+To: user@example.org
+Subject: Re: [Python-Dev] Proposal: from __future__ import	unicode_string_literals
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-59@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+On Mon, Mar 24, 2008 at 12:14 AM, "Martin v. Löwis" wrote: > > You are still only seeing this as a case of libraries with a small > > number of people developing them and making regular well defined > > releases. That is not how the world I am talking about looks. > > Can you give me examples of such software? I'll repeat the link where I explained my point on this: http://regebro.wordpress.com/2008/03/22/why-python-26-and-30-compatibility-would-be-a-very-good-thing/ -- Lennart Regebro: Zope and Plone consulting. http://www.colliberty.com/ +33 661 58 14 64 _______________________________________________ Python-Dev mailing list zvllln-eum@python.org http://mail.python.org/mailman/listinfo/python-dev Unsubscribe: http://mail.python.org/mailman/options/python-dev/python-dev%40tangomu.com

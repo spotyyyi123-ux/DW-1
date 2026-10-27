@@ -1,0 +1,11 @@
+From: Talbot Katz <topkatz@msn.com>
+To: user@example.org
+Subject: [R] Restoring .Random.seed
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-45@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Hi. Suppose I have a function which does some random number generation within. The random number generation inside the function changes the value of .Random.seed in the calling environment. If I want to restore the pre-function call .Random.seed, I can do: save.seed<-.Random.seed result<-myfunction() .Random.seed<-save.seed Is there a way to do the restoration inside the function? I tried putting the "save.seed<-.Random.seed" and ".Random.seed<-save.seed" statements inside the function, but that didn't work. Perhaps there's some clever way to use environment() functions? (I confess I still haven't grasped those very well.) Also, the help section on .Random.seed mentions that some of the random number generators save their state differently. Does each random generation method have a way to restore its state? Thanks! -- TMK -- 212-460-5430 home 917-656-5351 cell ______________________________________________ R-help@stat.math.ethz.ch mailing list https://stat.ethz.ch/mailman/listinfo/r-help PLEASE do read the posting guide http://www.R-project.org/posting-guide.html and provide commented, minimal, self-contained, reproducible code.

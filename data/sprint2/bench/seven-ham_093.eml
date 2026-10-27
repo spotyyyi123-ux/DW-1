@@ -1,0 +1,11 @@
+From: metze@samba.org
+To: user@example.org
+Subject: svn commit: samba r22315 - in branches/SAMBA_3_0/source: . include	lib/tdb/common lib/tdb/include lib/tdb/tools
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-93@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Author: metze Date: 2007-04-17 16:53:06 +0000 (Tue, 17 Apr 2007) New Revision: 22315 WebSVN: http://websvn.samba.org/cgi-bin/viewcvs.cgi?view=rev&root=samba&rev=22315 Log: move tdbback.c content into tdbbackup.c and make the functions static. also use libreplace headers in tdbbackup.c metze Removed: branches/SAMBA_3_0/source/lib/tdb/common/tdbback.c branches/SAMBA_3_0/source/lib/tdb/include/tdbback.h Modified: branches/SAMBA_3_0/source/Makefile.in branches/SAMBA_3_0/source/include/includes.h branches/SAMBA_3_0/source/lib/tdb/tools/tdbbackup.c Changeset: Sorry, the patch is too large (510 lines) to include; please use WebSVN to see it! WebSVN: http://websvn.samba.org/cgi-bin/viewcvs.cgi?view=rev&root=samba&rev=22315

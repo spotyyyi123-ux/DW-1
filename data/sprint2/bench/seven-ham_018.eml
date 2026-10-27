@@ -1,0 +1,11 @@
+From: Chantal Rosmuller <hvqzadw@antenna.nl>
+To: user@example.org
+Subject: Re: refuse mail for nonexisting addresses: relay_recipient_maps or reject_unlisted_recipient or something else?
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-18@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+On Tuesday 26 February 2008 15:48:07 Brian Evans wrote: > Chantal Rosmuller wrote: > > > > > > Thank you > > > >> if the domain is a relay domain, then the recommended choice is to use > >> relay_recipient_maps. > > > > yes it is a relay domain (s) > > > > But if I use relay_recipient_maps, I need to make a mapping file, for > > example: > > > > relay_recipient_maps = mysql:$config_directory/mysql_recipient_maps.cf > > > > My question is, what do I put in that file, because I have to query 2 > > tables (users and aliases), is that possible? > > It is very possible. It all depends on your table structures and if you > allow the same source address in both as to the best method. > > For querying two tables, you can either do a join, subquery or a UNION. > Again, which method depends on your setup. > Something like this? user = user password = secret dbname = postfix hosts = maildb query = (SELECT username FROM mailbox )UNION (SELECT address FROM alias) where username = '%s'; unfortunately it is not working, can I turn on some debugging to see what exactly is happening? I can't find anything useful in the logfiles

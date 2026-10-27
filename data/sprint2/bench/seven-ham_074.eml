@@ -1,0 +1,11 @@
+From: Vijay Gill <vijay@gl.umbc.edu>
+To: user@example.org
+Subject: Updates, a note about VSTa
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-74@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+After asking around, we are probably going to order a local clone with ET4000 based VESA localbus cards, big hard drives (ide) and lotsa RAM. The war stories are here (experiences with installing plan 9 on intel hardware, if there is sufficient interest, I will post to the mailing list.) If you have plan 9 running on a PC and are not Bernd, Forsyth or Capell, please email me with a short story about your experience. I am collecting all this stuff and will probably put it up for anon ftp, along with nofileserver.ps etc. BTW: is there an archive of this mailing list somewhere? Here is an operating system that is trying to incorporate ideas from both QNX (a very nice microkernel OS) and Plan 9. The name is VSTa and more information is available under ftp.cisco.com:/vandys/vsta/vsta_intro.ps The leading / before vandys is very important. Cisco have a very weird, supposedly secure ftp set up and unless you know the paths, you'll probably not make it. Vijay Gill vijay@umbc.edu

@@ -118,11 +118,12 @@ def render(data: dict) -> str:
     )
 
     fusion = data.get("fusion") or {}
-    heuristic_note = (
-        "fusion v1 — эвристика, не калибровано"
-        if fusion.get("heuristic")
-        else "по сигналам экстракторов"
-    )
+    if fusion.get("calibrated"):
+        heuristic_note = "fusion v2 — калиброванная вероятность (isotonic, Sprint 2)"
+    elif fusion.get("heuristic"):
+        heuristic_note = "fusion v1 — эвристика, не калибровано"
+    else:
+        heuristic_note = "по сигналам экстракторов"
     counter_items = (data.get("explanations") or {}).get("counter_evidence") or []
     counter_html = ""
     if counter_items:

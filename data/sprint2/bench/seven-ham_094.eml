@@ -1,0 +1,11 @@
+From: Steve Peters <gsdsz@fisharerojo.org>
+To: user@example.org
+Subject: Re: [PATCH] ex-PVBM and mro interact badly
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-94@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+I haven't bothered either. If the test passes, then the Perl core has been fixed. If it core dumps, the tests will fail. I don't know that the extra work is necessary. Steve Peters gsdsz@fisharerojo.org On 10/16/07, Dave Mitchell wrote: > On Tue, Oct 16, 2007 at 04:55:12PM +0200, demerphq wrote: > > On 10/16/07, Ben Morrow wrote: > > > > > > Quoth oryiufjn@gmail.com (demerphq): > > > > On 10/15/07, Ben Morrow wrote: > > > > > > > > > > This patch appears to fix the problem, though I'm not sure what to do > > > > > about the fact that the test will never fail: perl will die instead. The > > > > > eval doesn't seem to catch it. > > > > > > > > There is a class of error that perl cant catch, such as seg faults and > > > > serious errors like that. In the case of the regex engine we have a > > > > section at the end of the test file t/op/pat.t that says something > > > > like: > > > > > > > > # Tests that can segfault perl go after here so that we test as much > > > > as we can before crash > > > > > > Would it be worth the effort of running tests like this in a subprocess, > > > and testing $? ? > > > > I guess if you can do it portably then maybe so. But, er, well, > > considering these tend to be "this really shouldnt ever happen" type > > bugs then its probably not worth the effort. > > Traditionally this has been done using the runperl() function and > similar from t/test.pl, although I tend not to bother these days. > > -- > This is a great day for France! > -- Nixon at Charles De Gaulle's funeral >
