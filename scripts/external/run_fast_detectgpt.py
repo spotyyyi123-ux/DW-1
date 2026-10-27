@@ -49,7 +49,7 @@ def main(argv=None):
         raise ValueError("Разрешены только публичные HC3/CoAT")
     if frame.text_sha256.tolist() != frame.text.map(text_hash).tolist():
         raise ValueError("Тексты изменились после подготовки выборки")
-    tokenizer = AutoTokenizer.from_pretrained(args.model, revision=args.revision)
+    tokenizer = AutoTokenizer.from_pretrained(args.model, revision=args.revision, token=False)
     model = (
         AutoModelForCausalLM.from_pretrained(
             args.model,
@@ -57,6 +57,7 @@ def main(argv=None):
             torch_dtype=torch.float16,
             use_safetensors=True,
             trust_remote_code=False,
+            token=False,
         )
         .to("cuda")
         .eval()
