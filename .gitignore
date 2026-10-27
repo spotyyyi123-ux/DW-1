@@ -27,3 +27,5 @@ Thumbs.db
 # Node (UI появится в M7)
 node_modules/
 dist/
+
+data/sprint2/
