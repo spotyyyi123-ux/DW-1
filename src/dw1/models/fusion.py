@@ -262,6 +262,14 @@ def fuse(signals: dict) -> dict:
         prov_axis["components"]["ai"] = round(float(model_p_ai), 4)
         prov_axis["components"]["model"] = "tfidf-svd-histgb"
 
+    model_p_malicious = flags.get("model_p_malicious")
+    if (
+        isinstance(model_p_malicious, (int, float))
+        and 0.0 <= float(model_p_malicious) <= 1.0
+    ):
+        intent_axis["components"]["malicious"] = round(float(model_p_malicious), 4)
+        intent_axis["components"]["model"] = "tfidf-svd-histgb-intent"
+
     calibration = _calibration()
     if calibration:
         _apply_calibration(
