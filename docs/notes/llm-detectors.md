@@ -66,4 +66,30 @@ intent остаётся результатом прежнего анализат
 - `llm_calibrated_predictions.parquet` — сохранённые прогнозы на test.
 - `llm_calibration_metrics.json` и `llm_calibration_report.md` — реальные ECE EN/RU до/после.
 
-Статус GPU-прогона и численная таблица будут добавлены после его завершения в Colab.
+## Выполненный прогон
+
+Fast-DetectGPT выполнен в Colab на Tesla T4 (torch 2.11.0+cu130).
+Подготовлено 600 текстов: CoAT — русский, HC3 — английский.
+Получено 576 скоров; 24 коротких текста HC3 исключены по заранее заданному минимуму.
+Train/validation/test: EN — 92/94/90, RU — 100/100/100.
+Это обучение шкал калибровки; веса GPT-Neo не дообучались.
+
+[Сгенерированный отчёт с ECE, F1, ROC-AUC и интервалами](../../reports/sprint2-llm/llm_calibration_report.md).
+[Метрики JSON](../../reports/sprint2-llm/llm_calibration_metrics.json).
+Числа в отчёте получены командой `make llm-eval PY=.venv/bin/python`
+из настоящих GPU-скоров; повторный расчёт на Mac подтвердил таблицу Colab.
+На RU ROC-AUC ниже 0.5: уменьшение ECE не устраняет слабое различение классов.
+Текущий детектор нельзя считать готовым решением для русской почты.
+
+Проверено и подключение настоящего test-текста через `dw1.pipeline.analyze`:
+[результат без исходного текста](../../reports/sprint2-llm/llm_integration_check.json).
+Незнакомые письма по-прежнему обрабатываются прежними анализаторами.
+
+Артефакты для ревью сохранены в `reports/sprint2-llm/`, исходных текстов там нет.
+Чтобы подключить их в новой копии репозитория:
+
+```bash
+mkdir -p data/runs/sprint2
+cp reports/sprint2-llm/llm_* data/runs/sprint2/
+make llm-eval PY=.venv/bin/python
+```

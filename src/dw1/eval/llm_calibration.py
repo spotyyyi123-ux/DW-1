@@ -127,7 +127,8 @@ def main(argv=None):
     source = Path(args.scores)
     if not source.is_file():
         parser.error("Нет настоящих LLM-скоров. Сначала выполните внешний GPU-ноутбук.")
-    config, metrics, predictions = calibrate(pd.read_parquet(source))
+    scores = pd.read_parquet(source)
+    config, metrics, predictions = calibrate(scores)
     config["score_sha256"] = hashlib.sha256(source.read_bytes()).hexdigest()
     output = Path(args.out)
     output.mkdir(parents=True, exist_ok=True)
@@ -143,6 +144,8 @@ def main(argv=None):
         "",
         "Исходный criterion не вероятность. До: Platt на train; после: isotonic на validation.",
         "Все показатели ниже рассчитаны на test, который не использовался при подгонке.",
+        f"Скоров: {len(scores)}. Усечённых текстов: {int(scores.truncated.sum())}.",
+        f"SHA-256 файла скоров: `{config['score_sha256']}`.",
         "",
         "| Язык | n test | ECE до | ECE после |",
         "|---|---:|---:|---:|",
@@ -154,6 +157,36 @@ def main(argv=None):
             f"{row['after']['ece']:.4f} |"
         )
     rows += [
+        "",
+        "ECE измеряет согласованность вероятностей с частотами, а не точность классификации.",
+        "",
+        "| Язык | Brier до/после | F1 до/после | ROC-AUC до/после |",
+        "|---|---:|---:|---:|",
+    ]
+    for language in ["en", "ru"]:
+        before, after = metrics[language]["before"], metrics[language]["after"]
+        rows.append(
+            f"| {language} | {before['brier']:.4f}/{after['brier']:.4f} | "
+            f"{before['f1']:.4f}/{after['f1']:.4f} | "
+            f"{before['roc_auc']:.4f}/{after['roc_auc']:.4f} |"
+        )
+    rows += ["", "## Доверительные интервалы ECE (групповой bootstrap, 95%)", ""]
+    for language in ["en", "ru"]:
+        ci = metrics[language]["ece_ci95"]
+        rows.append(
+            f"- {language}: до [{ci['before'][0]:.4f}, {ci['before'][1]:.4f}], "
+            f"после [{ci['after'][0]:.4f}, {ci['after'][1]:.4f}]."
+        )
+        if metrics[language]["after"]["roc_auc"] < 0.5:
+            rows.append(
+                f"- {language}: ROC-AUC после ниже 0.5; уменьшение ECE не означает "
+                "улучшение различения человека и ИИ. Для применения нужен другой детектор."
+            )
+    gap = metrics["language_gap"]
+    rows += [
+        "",
+        f"Разрыв ECE RU−EN: до {gap['before_ru_minus_en']:.4f}, "
+        f"после {gap['after_ru_minus_en']:.4f}.",
         "",
         "Маленькая публичная выборка не доказывает перенос на почту заказчика.",
         "У CoAT нет исходных групп вариантов; исключение всех утечек не гарантируется.",
