@@ -43,8 +43,9 @@ CTA_IMPERATIVES_RU = [
 ]
 
 CTA_IMPERATIVES_EN = [
-    # Confirmation / Verification
-    (r"\bconfirm\s+(?:your\s+)?(?:account|identity|email|access|details)?\b", "confirm"),
+    # Confirmation / Verification — объект обязателен: голое «please confirm»
+    # в деловой переписке не является высокорисковым действием (FP на легит-почте).
+    (r"\bconfirm\s+(?:your\s+)?(?:account|identity|email|access|details)\b", "confirm"),
     (r"\bverify\s+(?:your\s+)?(?:account|identity|email|credentials|password)\b", "confirm"),
     (r"\bvalidate\s+(?:your\s+)?account\b", "confirm"),
     # Navigation / Clicks
