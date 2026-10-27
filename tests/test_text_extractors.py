@@ -227,6 +227,19 @@ def test_cta_extractor_ru_extracts_deadlines_and_imperatives():
     ev.validate()
 
 
+def test_cta_bare_confirm_is_not_phishing():
+    # «Please confirm» в деловой переписке — не high-risk действие (FP на легит-почте)
+    ext = CtaExtractor()
+    parts = {
+        "body_text": {"text": "Please confirm the January spot tickets with the counterparty."},
+        "subject": {"text": "january spot tickets"},
+        "links": [],
+        "cta": [],
+    }
+    res = ext.extract(parts)
+    assert res["intent"]["label"] != "phishing"
+
+
 def test_cta_extractor_en():
     ext = CtaExtractor()
     parts = {
