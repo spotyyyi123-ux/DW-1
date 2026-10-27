@@ -1,0 +1,11 @@
+From: Christopher Nilsson <daukq@slort.org>
+To: user@example.org
+Subject: Re: [python-win32] excelRTDServer demo not working
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-61@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+On 14/03/2008, Kevin O'Connor wrote: > On Fri, Mar 14, 2008 at 01:46:16PM +1100, Christopher Nilsson wrote: > > It's been ages since I looked at this, but you need to make sure the > > constants at the top of the module match your version of excel. The > > ones that are currently there are for Excel XP (which is the one > > before the version you're using, I believe): > > > > EXCEL_TLB_GUID = '{00020813-0000-0000-C000-000000000046}' > > EXCEL_TLB_LCID = 0 > > EXCEL_TLB_MAJOR = 1 > > EXCEL_TLB_MINOR = 4 > > > Hi Chris, > > The Python COM browser shows the same GUID for the excel type > libraries. It does report 'Microsoft Excel 11.0 Object Library' > instead of 'version 10' which is referenced in the code. However, if > I change the MAJOR to 2, I can't register the class at all (it reports > a library not registered error). I can change the minor (eg, to 5 but > it still doesn't work). > > Any ideas where I could get the actual numbers from? > > Thanks again, > > -Kevin > Hey Kevin, There are a few ways, on how to grab these numbers, written up over at: http://www.py2exe.org/index.cgi/IncludingTypelibs As suggested there, you can try running makepy. eg: "%PYTHON_HOME%\Lib\site-packages\win32com\client\makepy.py -i" Then just pick the correct typelib from the list (ie. the "Microsoft Excel 11.0 Object Library" you found). If I had it installed, I could tell you now. :) Let me know how you go. Cheers, Chris. _______________________________________________ python-win32 mailing list kpitck-aew45@python.org http://mail.python.org/mailman/listinfo/python-win32

@@ -1,0 +1,11 @@
+From: security@bankofamerica.com
+To: user@example.org
+Subject: Security Alert: Account Compromised
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <llmgen-0@bench.example>
+X-Demo-Source: llmgen
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Dear Valued Customer, We have detected unusual activity on your account. To secure your account, please verify your identity immediately by clicking the link below: https://secure-bankofamerica-login.com/verify?session=1 If you do not verify within 24 hours, your account will be temporarily suspended. Best regards, Bank of America Security Team

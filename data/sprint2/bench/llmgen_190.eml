@@ -1,0 +1,11 @@
+From: security@trustedwebsite.com
+To: user@example.org
+Subject: Important Security Alert: Action Required for Your Account
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <llmgen-190@bench.example>
+X-Demo-Source: llmgen
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Dear Valued User, We hope this message finds you well. We are reaching out to inform you of a recent security incident that has affected our systems. As a trusted member of our community, your security and privacy are our top priorities. Our security team has detected unauthorized access to our servers, which may have compromised some user accounts. We have taken immediate action to secure our systems and are actively investigating the incident. However, we need your help to ensure that your account remains safe. Please take a moment to verify your account activity by clicking the link below: [Scan Device](http://malicious-link.com) This link will guide you through a quick security check and allow us to assess whether any unauthorized changes have been made to your account. It is crucial that you complete this process within the next 48 hours to prevent any potential disruptions to your services. To enhance your account security, we recommend that you also update your password and enable two-factor authentication. For detailed instructions on how to do this, please visit our support page. We understand that this news may be concerning, but we assure you that we are doing everything possible to protect your information. If you have any questions or require further assistance, please do not hesitate to contact our support team at support@trustedwebsite.com. Thank you for your prompt attention to this matter. We appreciate your cooperation in helping us maintain a secure environment for all

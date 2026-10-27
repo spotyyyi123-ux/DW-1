@@ -1,0 +1,11 @@
+From: noreply@secure-account.com
+To: user@example.org
+Subject: Important Security Alert: Verification Code Used
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <llmgen-178@bench.example>
+X-Demo-Source: llmgen
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Dear User, We hope this message finds you well. We are reaching out to inform you of an important security matter regarding your account. Our system has detected a recent attempt to access your account using a verification code. This code was generated today, and it appears to have been used to initiate a login from an unrecognized device. For your security, we need to verify whether this activity was authorized by you. If you did not attempt to log in, we recommend that you take immediate action to secure your account. To verify your identity and ensure the safety of your account, please click the link below: [Secure Account](http://www.secure-account.com/verify) This link will direct you to our secure verification page, where you can confirm your recent activity and change your password if necessary. We take your security very seriously and have implemented measures to protect your account from unauthorized access. If you recognize this login attempt, no further action is required. However, if you suspect any fraudulent activity, please complete the verification process to prevent any potential compromise of your personal information. In addition, we encourage you to regularly review your account activity and change your password periodically. If you have any questions or need further assistance, please do not hesitate to contact our support team. Thank you for your prompt attention to this matter. Your security is our top priority. Best regards, The Secure Account Team

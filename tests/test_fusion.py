@@ -90,6 +90,47 @@ def test_provenance_votes_and_intent_boost():
     assert "spf_fail" in fused["threat_signals"]
 
 
+def test_calibration_applied_when_file_present(tmp_path, monkeypatch):
+    import json
+
+    import dw1.models.fusion as fusion
+
+    calibration = {
+        "axes": {
+            "ai_provenance": {"calibrator_x": [0.0, 1.0], "calibrator_y": [0.1, 0.9]},
+            "intent": {"calibrator_x": [0.0, 1.0], "calibrator_y": [0.2, 0.8]},
+        }
+    }
+    path = tmp_path / "calibration.json"
+    path.write_text(json.dumps(calibration), encoding="utf-8")
+    monkeypatch.setenv("DW1_FUSION_CALIBRATION", str(path))
+    fusion._CALIBRATION = None
+    fusion._CALIBRATION_MTIME = 0.0
+
+    signals = {
+        "body_text": {
+            "ai_provenance": {
+                "label": "ai_generated",
+                "confidence": 1.0,
+                "evidence": [],
+                "model_version": "t",
+            },
+            "intent": {
+                "label": "phishing",
+                "confidence": 1.0,
+                "evidence": [],
+                "model_version": "t",
+            },
+        }
+    }
+    fused = fusion.fuse(signals)
+    assert fused["calibrated"] is True
+    assert fused["ai_provenance"]["calibrated"] is True
+    # калибровка кладётся отдельным полем, эвристическая уверенность не подменяется
+    assert fused["ai_provenance"]["calibrated_confidence"] == 0.9
+    assert fused["intent"]["calibrated_confidence"] == 0.8
+
+
 def test_suppressors_lower_intent_confidence():
     signals = {
         "body_text": {

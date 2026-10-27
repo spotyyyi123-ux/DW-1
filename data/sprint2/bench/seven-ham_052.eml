@@ -1,0 +1,11 @@
+From: Tamas Sarga <tfpig.eodtb4@gmail.com>
+To: user@example.org
+Subject: [opensuse] OpenSUSE updater applet and online update doesn't give the same results
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-52@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+-----BEGIN PGP SIGNED MESSAGE----- Hash: SHA1 Hi, I'm curious why OpenSUSE updater applet doesn't want to update everything, what Online update in YaST wants. At the moment clamav, java-1_6_0-sun, Mozilla Thunderbird, xine-devel, bundle-lang-gnome, eclipse-archdep-platform, mozilla-xulrunner181 and transfig. I've additional repos, but OpenSUSE updater applet considers it somehow, it wants update something, but not everything. I checked Show available upgrades when backend provides it. TIA. Tamas Sarga -----BEGIN PGP SIGNATURE----- Version: GnuPG v2.0.4-svn0 (GNU/Linux) Comment: Using GnuPG with SUSE - http://enigmail.mozdev.org iD8DBQFHzx2tsuVyj8v2Zy4RAkoaAJ9JLApFntS2Sr1bpVJeGwhaz8965ACdEWy8 3RFZsd+jg1NGXsmpWMDVrxc= =Fnob -----END PGP SIGNATURE-----

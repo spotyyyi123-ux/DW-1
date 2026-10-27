@@ -1,0 +1,11 @@
+From: Ingmar Visser <i.visser@uva.nl>
+To: user@example.org
+Subject: Re: [R] meta-analysis in R
+Date: Tue, 27 Oct 2026 12:00:00 -0000
+Message-ID: <seven-ham-22@bench.example>
+X-Demo-Source: seven-ham
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+http://www.wvbauer.com/downloads.html has the mima function (and a number of useful references for meta- analysis) I'm not aware of any specialized needs/functions for timeseries data. hth, Ingmar On 21 Jun 2007, at 12:09, Irene Mantzouni wrote: > I would like to combine time-series data to test for correlations and > interactions using random and fixed effects meta-analysis. > > So, I am looking for the right packages and documentation. > > I know about meta and rmeta packages of R. > > Are there any more? What are the diffrences in brief? > > Can you please suggest some references that could be used as a > guide for > meta-analysis in R (or S-plus)? > > > > Thank you! > > > > > [[alternative HTML version deleted]] > > ______________________________________________ > R-help@stat.math.ethz.ch mailing list > https://stat.ethz.ch/mailman/listinfo/r-help > PLEASE do read the posting guide http://www.R-project.org/posting- > guide.html > and provide commented, minimal, self-contained, reproducible code. Ingmar Visser Department of Psychology, University of Amsterdam Roetersstraat 15 1018 WB Amsterdam The Netherlands t: +31-20-5256735 [[alternative HTML version deleted]] ______________________________________________ R-help@stat.math.ethz.ch mailing list https://stat.ethz.ch/mailman/listinfo/r-help PLEASE do read the posting guide http://www.R-project.org/posting-guide.html and provide commented, minimal, self-contained, reproducible code.
