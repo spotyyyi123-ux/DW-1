@@ -8,9 +8,9 @@ import json
 from pathlib import Path
 
 import pandas as pd
+from prepare_w1 import clean_exact, load_hc3, remove_near_leaks
 
 from dw1.models.llm_detectors import text_hash
-from prepare_w1 import clean_exact, load_hc3, remove_near_leaks
 
 ROOT = Path(__file__).resolve().parents[1]
 

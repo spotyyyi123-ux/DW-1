@@ -14,6 +14,12 @@ Fast-DetectGPT и строит таблицу ECE. На train обучается
 
 После выполнения скачивается `dw1-sprint2-results.zip`. Содержимое перенести в
 `data/runs/sprint2/` новой локальной копии. В нём нет исходных текстов.
+Архив можно проверить и перенести командой:
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/import_llm_results.py ~/Downloads/dw1-sprint2-results.zip
+```
+
 На Mac повторить калибровку можно так:
 
 ```bash

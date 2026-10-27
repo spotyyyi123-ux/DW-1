@@ -1,5 +1,5 @@
 # Только Colab. Используем уже установленный CUDA torch, без переустановки драйверов.
-transformers==4.44.2
+transformers==4.57.1
 safetensors>=0.4.5,<1
 numpy>=1.26,<3
 pandas>=2,<4
