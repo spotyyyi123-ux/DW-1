@@ -9,6 +9,8 @@
 
 Результат задачи 1: [актуальная модель на 16 000 текстов и запуск](docs/w1-results.md).
 Обновление: [LLMTrace и RoFT, сравнение моделей](docs/w1-new-datasets.md).
+Кампании v2, реальные признаки Images/QR, завершение структуры письма:
+[результаты, демонстрация и инструкция для разметки](docs/task3-campaigns-images.md).
 
 ## Быстрый старт
 
@@ -18,7 +20,7 @@ cd dw1
 python -m venv .venv
 .venv\Scripts\pip install -e ".[dev,api,images]"
 python -m dw1 tests\fixtures\sample.eml   # M0: .eml -> Evidence JSON v1
-python scripts\smoke.py                   # smoke-проверка без установки зависимостей
+python scripts\smoke.py                   # сквозная smoke-проверка
 python -m pytest                          # тесты
 ```
 

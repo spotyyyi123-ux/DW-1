@@ -33,14 +33,21 @@ def test_fusion_produces_two_axes():
     assert isinstance(ev.explanations["counter_evidence"], list)
 
 
-def test_remaining_stub_signals_are_unknown():
-    # Ещё не реализованные экстракторы остаются честными заглушками
+def test_template_measurements_are_unknown():
     ev = analyze(FIXTURE)
-    for name in ("images", "qr", "template"):
+    for name in ("template",):
         blob = ev.signals[name]
         assert blob["ai_provenance"]["label"] == "unknown", name
         assert blob["intent"]["label"] == "unknown", name
-        assert blob["ai_provenance"]["model_version"].startswith("stub-"), name
+        assert blob["ai_provenance"]["model_version"] == "campaign-template-1.0", name
+
+
+def test_media_measurements_do_not_claim_authorship():
+    ev = analyze(FIXTURE)
+    for name in ("images", "qr"):
+        for axis in ("ai_provenance", "intent"):
+            assert ev.signals[name][axis]["label"] == "unknown"
+            assert not ev.signals[name][axis]["model_version"].startswith("stub-")
 
 
 def test_text_extractors_produce_evidence():

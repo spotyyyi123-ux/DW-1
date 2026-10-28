@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import re
 from pathlib import Path
 
 PROVENANCE_LABELS = {
@@ -98,7 +99,7 @@ def fusion_axes(data: dict):
     result = []
     for axis in (fusion.get("ai_provenance") or {}, fusion.get("intent") or {}):
         label = axis.get("label", "unknown")
-        if isinstance(label, str) and label != "unknown":
+        if isinstance(label, str) and axis:
             result.append((label, float(axis.get("confidence", 0) or 0)))
         else:
             result.append(None)
@@ -138,6 +139,24 @@ def render(data: dict) -> str:
     headers = parts.get("headers", {})
     subject = str(parts.get("subject", {}).get("text", ""))
     sender = headers.get("from", "")
+    campaign = data.get("campaign") or {}
+    template = campaign.get("template_skeleton") or {}
+    if isinstance(template, str):
+        template = {"text": template}
+    campaign_html = ('<section class="meta"><h2>Кампания и скелет шаблона</h2>'
+                     f'<p>Кластер: {esc(campaign.get("cluster_id") or "Не найден")}</p>'
+                     f'<p>{esc(template.get("text") or "Шаблон не выделен")}</p>'
+                     f'<p>Слоты: {esc(template.get("slots", {}))}</p></section>')
+    media_html = '<section class="meta"><h2>Изображения и QR</h2>'
+    for image in parts.get("images", []):
+        preview = str(image.get("preview_path", ""))
+        if re.fullmatch(r"images/[0-9a-f]{64}\.png", preview):
+            media_html += f'<img src="{esc(preview)}" alt="Артефакт изображения/QR" width="220">'
+        media_html += (f'<p>Изображение: {esc(image.get("sha256", ""))}</p>'
+                       f'<p>Признаки: {esc({k: v for k, v in image.items() if k != "qr"})}</p>'
+                       f'<p>QR: {esc(image.get("qr", {}))}</p>')
+    media_html += '<p>Отсутствие EXIF, pHash и FFT сами по себе не доказывают генерацию ИИ.</p>'
+    media_html += '</section>'
 
     table_rows = ""
     for row in evidence_rows:
@@ -158,6 +177,7 @@ def render(data: dict) -> str:
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DW-1 — карточка письма</title>
 <style>
@@ -212,6 +232,8 @@ td {{ overflow-wrap: anywhere; }}
   </div>
 
   {counter_html}
+  {campaign_html}
+  {media_html}
 
   <section class="table-wrap">
     <h2>Что известно про каждый элемент</h2>

@@ -1,0 +1,1191 @@
+{
+  "schema_version": "1.0",
+  "message_id": "c7564f9aefef6eff",
+  "ingest": {
+    "source": "synthetic.eml",
+    "received_at": "",
+    "raw_sha256": "c7564f9aefef6effba0987127903085cd9af3bcfd5723fb8fabf5c271070b6ad"
+  },
+  "parts": {
+    "headers": {
+      "from": "Demo <demo@example.invalid>",
+      "to": "analyst@example.invalid",
+      "reply_to": "",
+      "return_path": "",
+      "date_tz": "Wed, 28 Oct 2026 10:00:00 +0700",
+      "received": [
+        "from demo.example.invalid; Wed, 28 Oct 2026 10:01:00 +0700"
+      ],
+      "x_mailer": "",
+      "message_id_domain": "",
+      "list_unsubscribe": "",
+      "precedence": "",
+      "in_reply_to": "",
+      "references": "",
+      "spf": "none",
+      "dkim": "none",
+      "dmarc": "none"
+    },
+    "subject": {
+      "text": ""
+    },
+    "body_text": {
+      "text": "Здравствуйте, Иван! Оплатите 100 RUB для бренда Alpha https://example.invalid/pay\n"
+    },
+    "body_html": {
+      "text": "",
+      "raw_len": 0,
+      "dom_fingerprint": "",
+      "links_count": 2
+    },
+    "cta": [],
+    "links": [
+      {
+        "url": "https://example.invalid/pay",
+        "anchor_text": "",
+        "domain": "example.invalid"
+      },
+      {
+        "url": "https://example.invalid/qr-payment",
+        "anchor_text": "",
+        "domain": "example.invalid",
+        "source": "qr"
+      }
+    ],
+    "images": [
+      {
+        "mime": "image/png",
+        "cid": "",
+        "sha256": "0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e",
+        "width": 370,
+        "height": 370,
+        "format": "PNG",
+        "exif": {},
+        "phash": "afc6d36e94c1c131",
+        "fft_peaks": [
+          {
+            "fx": 0.0,
+            "fy": 0.01171875,
+            "power_fraction": 0.013812046130428985
+          },
+          {
+            "fx": 0.0,
+            "fy": -0.01171875,
+            "power_fraction": 0.01381204613042898
+          },
+          {
+            "fx": 0.01171875,
+            "fy": 0.0,
+            "power_fraction": 0.01028765309693461
+          },
+          {
+            "fx": -0.01171875,
+            "fy": 0.0,
+            "power_fraction": 0.01028765309693461
+          },
+          {
+            "fx": 0.046875,
+            "fy": 0.0,
+            "power_fraction": 0.00637742624349864
+          }
+        ],
+        "status": "ok",
+        "qr": {
+          "status": "decoded",
+          "codes": [
+            {
+              "text": "https://example.invalid/qr-payment",
+              "points": [
+                [
+                  40.0,
+                  40.0
+                ],
+                [
+                  329.0,
+                  40.0
+                ],
+                [
+                  329.0,
+                  329.0
+                ],
+                [
+                  40.0,
+                  329.0
+                ]
+              ],
+              "decoded": true
+            }
+          ],
+          "coordinate_size": [
+            370,
+            370
+          ]
+        },
+        "preview_path": "images/0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e.png"
+      }
+    ],
+    "qr": [
+      {
+        "image_sha256": "0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e",
+        "text": "https://example.invalid/qr-payment",
+        "points": [
+          [
+            40.0,
+            40.0
+          ],
+          [
+            329.0,
+            40.0
+          ],
+          [
+            329.0,
+            329.0
+          ],
+          [
+            40.0,
+            329.0
+          ]
+        ],
+        "decoded": true
+      }
+    ],
+    "attachments": [
+      {
+        "name": "qr.png",
+        "mime": "image/png",
+        "sha256": "0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e"
+      }
+    ]
+  },
+  "signals": {
+    "body_text": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.5,
+        "evidence": [
+          {
+            "signal": "burstiness",
+            "value": -0.029,
+            "interpretation": "high_bursty",
+            "weight": 0.25
+          },
+          {
+            "signal": "sentence_length_cv",
+            "value": 0.943,
+            "weight": 0.2
+          },
+          {
+            "signal": "mtld",
+            "value": 11.0,
+            "weight": 0.2
+          },
+          {
+            "signal": "ttr",
+            "value": 1.0,
+            "weight": 0.15
+          },
+          {
+            "signal": "typo_rate",
+            "value": 0.0833,
+            "typo_count": 1,
+            "anomalies": [
+              "https"
+            ],
+            "weight": 0.2
+          },
+          {
+            "signal": "punctuation_profile",
+            "value": {
+              "caps_words": 1,
+              "multiple_punct": 0,
+              "expressive_ratio": 0.333
+            },
+            "weight": 0.15
+          }
+        ],
+        "model_version": "body_text-0.2"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "phishing_keywords",
+            "value": [],
+            "count": 0,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "body_text-0.2"
+      }
+    },
+    "cta": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "cta_count",
+            "value": 0,
+            "weight": 0.25
+          },
+          {
+            "signal": "imperatives",
+            "value": [],
+            "count": 0,
+            "weight": 0.35
+          },
+          {
+            "signal": "deadlines",
+            "value": [],
+            "count": 0,
+            "weight": 0.3
+          },
+          {
+            "signal": "high_risk_actions",
+            "value": [],
+            "weight": 0.4
+          }
+        ],
+        "model_version": "cta-0.2"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "cta_count",
+            "value": 0,
+            "weight": 0.25
+          },
+          {
+            "signal": "imperatives",
+            "value": [],
+            "count": 0,
+            "weight": 0.35
+          },
+          {
+            "signal": "deadlines",
+            "value": [],
+            "count": 0,
+            "weight": 0.3
+          },
+          {
+            "signal": "high_risk_actions",
+            "value": [],
+            "weight": 0.4
+          }
+        ],
+        "model_version": "cta-0.2"
+      }
+    },
+    "headers": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "spf_none",
+            "value": "none",
+            "weight": 0.0
+          },
+          {
+            "signal": "dkim_none",
+            "value": "none",
+            "weight": 0.0
+          },
+          {
+            "signal": "dmarc_none",
+            "value": "none",
+            "weight": 0.0
+          },
+          {
+            "signal": "received_count",
+            "value": 1,
+            "weight": 0.0
+          },
+          {
+            "signal": "received_malformed",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "received_chronology_anomaly",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "date_valid_with_timezone",
+            "value": true,
+            "weight": 0.0
+          },
+          {
+            "signal": "date_timezone_minutes",
+            "value": 420,
+            "weight": 0.0
+          },
+          {
+            "signal": "from_return_path_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "from_message_id_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "authentication_source",
+            "value": "unverified message headers; not cryptographic verification",
+            "weight": 0.0
+          },
+          {
+            "signal": "from_reply_to_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "x_mailer_present",
+            "value": false,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "headers-1.1"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "spf_none",
+            "value": "none",
+            "weight": 0.0
+          },
+          {
+            "signal": "dkim_none",
+            "value": "none",
+            "weight": 0.0
+          },
+          {
+            "signal": "dmarc_none",
+            "value": "none",
+            "weight": 0.0
+          },
+          {
+            "signal": "received_count",
+            "value": 1,
+            "weight": 0.0
+          },
+          {
+            "signal": "received_malformed",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "received_chronology_anomaly",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "date_valid_with_timezone",
+            "value": true,
+            "weight": 0.0
+          },
+          {
+            "signal": "date_timezone_minutes",
+            "value": 420,
+            "weight": 0.0
+          },
+          {
+            "signal": "from_return_path_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "from_message_id_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "authentication_source",
+            "value": "unverified message headers; not cryptographic verification",
+            "weight": 0.0
+          },
+          {
+            "signal": "from_reply_to_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "x_mailer_present",
+            "value": false,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "headers-1.1"
+      }
+    },
+    "html": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "html_generator_has_flex",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_generator_has_grid",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_generator_semantic_tags",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_generator_has_css_variables",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_generator_has_mso_hacks",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_zero_width_count",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_hidden_blocks",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_entity_count",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_comment_count",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_external_post_forms",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_mailing_esp_markers",
+            "value": [],
+            "weight": 0.0
+          },
+          {
+            "signal": "html_mailing_list_unsubscribe",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_mailing_precedence_bulk",
+            "value": false,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "html-1.1"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "html_generator_has_flex",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_generator_has_grid",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_generator_semantic_tags",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_generator_has_css_variables",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_generator_has_mso_hacks",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_zero_width_count",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_hidden_blocks",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_entity_count",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_comment_count",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_obfuscation_external_post_forms",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_mailing_esp_markers",
+            "value": [],
+            "weight": 0.0
+          },
+          {
+            "signal": "html_mailing_list_unsubscribe",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "html_mailing_precedence_bulk",
+            "value": false,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "html-1.1"
+      }
+    },
+    "images": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "images_count",
+            "value": 1,
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_status",
+            "value": "ok",
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_width",
+            "value": 370,
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_height",
+            "value": 370,
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_format",
+            "value": "PNG",
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_phash",
+            "value": "afc6d36e94c1c131",
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_fft_peaks",
+            "value": [
+              {
+                "fx": 0.0,
+                "fy": 0.01171875,
+                "power_fraction": 0.013812046130428985
+              },
+              {
+                "fx": 0.0,
+                "fy": -0.01171875,
+                "power_fraction": 0.01381204613042898
+              },
+              {
+                "fx": 0.01171875,
+                "fy": 0.0,
+                "power_fraction": 0.01028765309693461
+              },
+              {
+                "fx": -0.01171875,
+                "fy": 0.0,
+                "power_fraction": 0.01028765309693461
+              },
+              {
+                "fx": 0.046875,
+                "fy": 0.0,
+                "power_fraction": 0.00637742624349864
+              }
+            ],
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_exif",
+            "value": {},
+            "weight": 0.0
+          }
+        ],
+        "model_version": "image-forensics-1.0"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "images_count",
+            "value": 1,
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_status",
+            "value": "ok",
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_width",
+            "value": 370,
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_height",
+            "value": 370,
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_format",
+            "value": "PNG",
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_phash",
+            "value": "afc6d36e94c1c131",
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_fft_peaks",
+            "value": [
+              {
+                "fx": 0.0,
+                "fy": 0.01171875,
+                "power_fraction": 0.013812046130428985
+              },
+              {
+                "fx": 0.0,
+                "fy": -0.01171875,
+                "power_fraction": 0.01381204613042898
+              },
+              {
+                "fx": 0.01171875,
+                "fy": 0.0,
+                "power_fraction": 0.01028765309693461
+              },
+              {
+                "fx": -0.01171875,
+                "fy": 0.0,
+                "power_fraction": 0.01028765309693461
+              },
+              {
+                "fx": 0.046875,
+                "fy": 0.0,
+                "power_fraction": 0.00637742624349864
+              }
+            ],
+            "weight": 0.0
+          },
+          {
+            "signal": "image_0_exif",
+            "value": {},
+            "weight": 0.0
+          }
+        ],
+        "model_version": "image-forensics-1.0"
+      }
+    },
+    "links": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "link_0_url_length",
+            "value": 27,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_url_entropy",
+            "value": 3.93,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_domain",
+            "value": "example.invalid",
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_subdomain_depth",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_punycode",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_unicode_domain",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_tld",
+            "value": "invalid",
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_anchor_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_tracker_like",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_url_length",
+            "value": 34,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_url_entropy",
+            "value": 4.153,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_domain",
+            "value": "example.invalid",
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_subdomain_depth",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_punycode",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_unicode_domain",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_tld",
+            "value": "invalid",
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_anchor_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_tracker_like",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "links_count",
+            "value": 2,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "links-1.1"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "link_0_url_length",
+            "value": 27,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_url_entropy",
+            "value": 3.93,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_domain",
+            "value": "example.invalid",
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_subdomain_depth",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_punycode",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_unicode_domain",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_tld",
+            "value": "invalid",
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_anchor_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_0_tracker_like",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_url_length",
+            "value": 34,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_url_entropy",
+            "value": 4.153,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_domain",
+            "value": "example.invalid",
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_subdomain_depth",
+            "value": 0,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_punycode",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_unicode_domain",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_tld",
+            "value": "invalid",
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_anchor_mismatch",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "link_1_tracker_like",
+            "value": false,
+            "weight": 0.0
+          },
+          {
+            "signal": "links_count",
+            "value": 2,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "links-1.1"
+      }
+    },
+    "qr": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "qr_codes",
+            "value": [
+              {
+                "image_sha256": "0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e",
+                "text": "https://example.invalid/qr-payment",
+                "points": [
+                  [
+                    40.0,
+                    40.0
+                  ],
+                  [
+                    329.0,
+                    40.0
+                  ],
+                  [
+                    329.0,
+                    329.0
+                  ],
+                  [
+                    40.0,
+                    329.0
+                  ]
+                ],
+                "decoded": true
+              }
+            ],
+            "weight": 0.0
+          },
+          {
+            "signal": "qr_decoder_status",
+            "value": [
+              "decoded"
+            ],
+            "weight": 0.0
+          }
+        ],
+        "model_version": "opencv-qr-1.0"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "qr_codes",
+            "value": [
+              {
+                "image_sha256": "0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e",
+                "text": "https://example.invalid/qr-payment",
+                "points": [
+                  [
+                    40.0,
+                    40.0
+                  ],
+                  [
+                    329.0,
+                    40.0
+                  ],
+                  [
+                    329.0,
+                    329.0
+                  ],
+                  [
+                    40.0,
+                    329.0
+                  ]
+                ],
+                "decoded": true
+              }
+            ],
+            "weight": 0.0
+          },
+          {
+            "signal": "qr_decoder_status",
+            "value": [
+              "decoded"
+            ],
+            "weight": 0.0
+          }
+        ],
+        "model_version": "opencv-qr-1.0"
+      }
+    },
+    "subject": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "empty_subject",
+            "value": true,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "subject-0.2"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "empty_subject",
+            "value": true,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "subject-0.2"
+      }
+    },
+    "template": {
+      "ai_provenance": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "campaign_template_skeleton",
+            "value": {
+              "text": "Здравствуйте, {NAME}! Оплатите {AMOUNT} для бренда {BRAND} {LINK}",
+              "slots": {
+                "LINK": [
+                  "https://example.invalid/other",
+                  "https://example.invalid/pay"
+                ],
+                "AMOUNT": [
+                  "100 RUB",
+                  "200 RUB"
+                ],
+                "NAME": [
+                  "Анна",
+                  "Иван"
+                ],
+                "BRAND": [
+                  "Alpha",
+                  "Beta"
+                ]
+              },
+              "method": "typed-alignment-1",
+              "member_count": 2
+            },
+            "weight": 0.0
+          },
+          {
+            "signal": "campaign_member_count",
+            "value": 2,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "campaign-template-1.0"
+      },
+      "intent": {
+        "label": "unknown",
+        "confidence": 0.0,
+        "evidence": [
+          {
+            "signal": "campaign_template_skeleton",
+            "value": {
+              "text": "Здравствуйте, {NAME}! Оплатите {AMOUNT} для бренда {BRAND} {LINK}",
+              "slots": {
+                "LINK": [
+                  "https://example.invalid/other",
+                  "https://example.invalid/pay"
+                ],
+                "AMOUNT": [
+                  "100 RUB",
+                  "200 RUB"
+                ],
+                "NAME": [
+                  "Анна",
+                  "Иван"
+                ],
+                "BRAND": [
+                  "Alpha",
+                  "Beta"
+                ]
+              },
+              "method": "typed-alignment-1",
+              "member_count": 2
+            },
+            "weight": 0.0
+          },
+          {
+            "signal": "campaign_member_count",
+            "value": 2,
+            "weight": 0.0
+          }
+        ],
+        "model_version": "campaign-template-1.0"
+      }
+    }
+  },
+  "fusion": {
+    "ai_provenance": {
+      "label": "unknown",
+      "confidence": 0.0,
+      "calibrated": false,
+      "ci95": [],
+      "model_version": "fusion-heuristic-v2",
+      "components": {
+        "ai": 0.0,
+        "human": 0.0
+      }
+    },
+    "intent": {
+      "label": "unknown",
+      "confidence": 0.0,
+      "calibrated": false,
+      "ci95": [],
+      "model_version": "fusion-heuristic-v2",
+      "components": {
+        "malicious": 0.0,
+        "benign": 0.0
+      }
+    },
+    "rejection": true,
+    "rejected_axes": [],
+    "heuristic": true,
+    "calibrated": false,
+    "threat_signals": [],
+    "counter_evidence": []
+  },
+  "campaign": {
+    "cluster_id": "synthetic-demo",
+    "template_skeleton": {
+      "text": "Здравствуйте, {NAME}! Оплатите {AMOUNT} для бренда {BRAND} {LINK}",
+      "slots": {
+        "LINK": [
+          "https://example.invalid/other",
+          "https://example.invalid/pay"
+        ],
+        "AMOUNT": [
+          "100 RUB",
+          "200 RUB"
+        ],
+        "NAME": [
+          "Анна",
+          "Иван"
+        ],
+        "BRAND": [
+          "Alpha",
+          "Beta"
+        ]
+      },
+      "method": "typed-alignment-1",
+      "member_count": 2
+    },
+    "member_count": 2,
+    "jaccard": 1.0,
+    "model_version": "synthetic-template-demo"
+  },
+  "explanations": {
+    "top_factors": [],
+    "highlights": [],
+    "counter_evidence": [],
+    "faithfulness": {
+      "comprehensiveness": null,
+      "sufficiency": null
+    }
+  }
+}

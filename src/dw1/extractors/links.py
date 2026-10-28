@@ -11,7 +11,7 @@ from dw1.extractors import BaseExtractor, register
 @register
 class LinksExtractor(BaseExtractor):
     name = "links"
-    version = "stub-1.0"
+    version = "links-1.1"
 
     ESP_DOMAINS = (
         "sendgrid.net",
@@ -27,8 +27,8 @@ class LinksExtractor(BaseExtractor):
     def _host(url: str) -> str:
         try:
             host = urlsplit(url if "://" in url else "//" + url).hostname or ""
-            return host.lower().rstrip(".")
-        except ValueError:
+            return host.lower().rstrip(".").encode("idna").decode("ascii")
+        except (ValueError, UnicodeError):
             return ""
 
     @staticmethod
@@ -73,7 +73,11 @@ class LinksExtractor(BaseExtractor):
 
             labels = host.split(".") if host else []
             punycode = any(label.startswith("xn--") for label in labels)
-            unicode_domain = any(not label.isascii() for label in labels)
+            try:
+                original_host = urlsplit(url if "://" in url else "//" + url).hostname or ""
+            except ValueError:
+                original_host = ""
+            unicode_domain = not original_host.isascii()
 
             mismatch = self._anchor_mismatch(anchor, host)
             tracker = any(

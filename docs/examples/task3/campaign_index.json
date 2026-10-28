@@ -1,0 +1,31 @@
+[
+  {
+    "cluster_id": "synthetic-demo",
+    "size": 2,
+    "representative_text": "Здравствуйте, Иван! Оплатите 100 RUB для бренда Alpha https://example.invalid/pay",
+    "template_skeleton": {
+      "text": "Здравствуйте, {NAME}! Оплатите {AMOUNT} для бренда {BRAND} {LINK}",
+      "slots": {
+        "LINK": [
+          "https://example.invalid/other",
+          "https://example.invalid/pay"
+        ],
+        "AMOUNT": [
+          "100 RUB",
+          "200 RUB"
+        ],
+        "NAME": [
+          "Анна",
+          "Иван"
+        ],
+        "BRAND": [
+          "Alpha",
+          "Beta"
+        ]
+      },
+      "method": "typed-alignment-1",
+      "member_count": 2
+    },
+    "model_version": "synthetic-template-demo"
+  }
+]

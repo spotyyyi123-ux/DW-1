@@ -1,4 +1,4 @@
-"""Smoke-проверка M0 (только stdlib): сквозной прогон пайплайна на фикстуре."""
+"""Сквозная smoke-проверка пайплайна на фикстуре."""
 from __future__ import annotations
 
 import json
@@ -17,7 +17,9 @@ def main() -> int:
     assert d["schema_version"] == "1.0"
     assert len(d["signals"]) == 9, f"ожидалось 9 экстракторов, получено {len(d['signals'])}"
     assert d["parts"]["links"], "ссылка из HTML должна быть извлечена"
-    assert d["fusion"]["rejection"] is True, "M0: фузия должна отказываться от ответа"
+    assert "ai_provenance" in d["fusion"] and "intent" in d["fusion"]
+    assert all(not d["signals"][name]["intent"]["model_version"].startswith("stub-")
+               for name in ("images", "qr", "template"))
 
     print("SMOKE OK: 9 экстракторов, Evidence v1 валиден, ссылки извлечены")
     print(json.dumps({k: d[k] for k in ("message_id", "fusion", "campaign")}, ensure_ascii=False, indent=2))
