@@ -1,10 +1,16 @@
 from __future__ import annotations
 
 import random
+import sys
+from pathlib import Path
 
 import numpy as np
 
-from scripts.attacks import (
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.attacks import (  # noqa: E402
     ATTACK_NAMES,
     ATTACK_REGISTRY,
     apply_attack_to_eml_text,
