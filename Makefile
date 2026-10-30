@@ -33,3 +33,10 @@ report:
 
 data:
 	PYTHONPATH=src $(PY) scripts/fetch_datasets.py --plan
+
+# Внешние LLM-скоры не вычисляются на локальном Mac: здесь только подготовка и калибровка.
+llm-data:
+	PYTHONPATH=src $(PY) scripts/prepare_llm_benchmark.py
+
+llm-eval:
+	PYTHONPATH=src $(PY) -m dw1.eval.llm_calibration

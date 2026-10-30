@@ -1,0 +1,45 @@
+{
+  "matched": true,
+  "ai_provenance": {
+    "label": "human",
+    "confidence": 1.0,
+    "model_version": "fast-detectgpt-analytic-v1:EleutherAI/gpt-neo-2.7B@e24fa291132763e59f4a5422741b424fb5d59056:max512:runner61db14ecafe9:isotonic-by-language-v1",
+    "evidence": [
+      {
+        "signal": "fast_detectgpt",
+        "weight": 1.0,
+        "value": {
+          "criterion": -1.322401762008667,
+          "p_ai": 0.0,
+          "language": "en",
+          "calibrated": true,
+          "n_tokens": 46,
+          "truncated": false,
+          "matched_by": "full_text_sha256",
+          "evaluation_scope": "public_benchmark_only"
+        }
+      },
+      {
+        "signal": "style_heuristic_context",
+        "value": {
+          "label": "unknown",
+          "confidence": 0.5
+        },
+        "weight": 0.0
+      }
+    ]
+  },
+  "intent": {
+    "label": "unknown",
+    "confidence": 0.0,
+    "evidence": [
+      {
+        "signal": "phishing_keywords",
+        "value": [],
+        "count": 0,
+        "weight": 0.0
+      }
+    ],
+    "model_version": "body_text-0.2"
+  }
+}

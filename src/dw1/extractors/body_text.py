@@ -16,6 +16,7 @@ from dw1.extractors.text_utils import (
     split_sentences,
     tokenize_words,
 )
+from dw1.models.llm_detectors import cached_llm_signal
 
 log = logging.getLogger("dw1.extractors.body_text")
 
@@ -287,7 +288,7 @@ class BodyTextExtractor(BaseExtractor):
                 except Exception as exc:  # noqa: BLE001
                     log.warning("Ошибка модели намерения: %s", exc)
 
-            return {
+            result = {
                 "ai_provenance": {
                     "label": prov_label,
                     "confidence": prov_conf,
@@ -301,6 +302,18 @@ class BodyTextExtractor(BaseExtractor):
                     "model_version": self.version,
                 },
             }
+            llm_signal = cached_llm_signal(text)
+            if llm_signal is not None:
+                # Эвристики сохраняются как контекст, но не подменяют LLM-скор.
+                llm_signal["evidence"].append(
+                    {
+                        "signal": "style_heuristic_context",
+                        "value": {"label": prov_label, "confidence": prov_conf},
+                        "weight": 0.0,
+                    }
+                )
+                result["ai_provenance"] = llm_signal
+            return result
         except Exception as exc:
             log.warning("Ошибка в BodyTextExtractor: %s", exc)
             return {

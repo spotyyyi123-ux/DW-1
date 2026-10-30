@@ -1,0 +1,116 @@
+{
+  "status": "completed",
+  "detector": "fast-detectgpt-analytic-v1:EleutherAI/gpt-neo-2.7B@e24fa291132763e59f4a5422741b424fb5d59056:max512:runner61db14ecafe9",
+  "scoring_model": "EleutherAI/gpt-neo-2.7B",
+  "sampling_model": "EleutherAI/gpt-neo-2.7B",
+  "model_revision": "e24fa291132763e59f4a5422741b424fb5d59056",
+  "max_tokens": 512,
+  "n_scored": 576,
+  "n_input": 600,
+  "benchmark_sha256": "1311a80e8ab1c38073f4160118090cfaaaace3248f7f82512a0ef8a16964004c",
+  "skipped": [
+    {
+      "message_id": "hc3-3-0-1",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-10016-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-16166-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-10269-0-1",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-17825-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-9540-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-13732-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-1854-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-6095-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-3171-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-3978-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-4053-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-1846-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-17605-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-1370-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-15126-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-16047-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-9227-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-16451-0-0",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-15918-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-11138-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-10410-0-2",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-11224-0-1",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "hc3-1549-0-0",
+      "reason": "less_than_32_target_tokens"
+    }
+  ],
+  "gpu": "Tesla T4",
+  "torch_version": "2.11.0+cu130",
+  "limitations": [
+    "Англоязычная surrogate-модель; перенос на RU измеряется отдельно.",
+    "Оцениваются первые max_tokens токенов текста.",
+    "Критерий Fast-DetectGPT не является вероятностью."
+  ]
+}
