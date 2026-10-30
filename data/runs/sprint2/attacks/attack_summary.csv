@@ -1,0 +1,8 @@
+attack,baseline_tpr_prov,attacked_tpr_prov_mid,attacked_tpr_prov_max,degradation_prov_pct,baseline_ai_conf,attacked_ai_conf_max,baseline_tpr_intent,attacked_tpr_intent_max,degradation_intent_pct,baseline_intent_conf,attacked_intent_conf_max
+paraphrase,1.0,1.0,1.0,0.0,0.9833,0.9833,0.9333,0.9333,0.0,0.9848,0.9848
+back_translation,1.0,1.0,1.0,0.0,0.9833,0.9833,0.9333,0.9333,0.0,0.9848,0.9848
+synonym_replacement,1.0,1.0,1.0,0.0,0.9833,0.9833,0.9333,0.9222,1.2,0.9848,0.9832
+sentence_reordering,1.0,1.0,1.0,0.0,0.9833,0.9833,0.9333,0.9333,0.0,0.9848,0.9848
+typo_injection,1.0,0.9833,0.9833,1.7,0.9833,0.9833,0.9333,0.9333,0.0,0.9848,0.9848
+homoglyphs_zerowidth,1.0,0.9833,0.9833,1.7,0.9833,0.9508,0.9333,0.9444,-1.2,0.9848,0.9863
+burstiness_split_merge,1.0,1.0,1.0,0.0,0.9833,0.9833,0.9333,0.9333,0.0,0.9848,0.9848

@@ -1,0 +1,261 @@
+{
+  "paraphrase": [
+    {
+      "strength": 0.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.25,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.5,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.75,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 1.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    }
+  ],
+  "back_translation": [
+    {
+      "strength": 0.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.25,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.5,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.75,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 1.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    }
+  ],
+  "synonym_replacement": [
+    {
+      "strength": 0.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.25,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.5,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.75,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 1.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9222,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9832
+    }
+  ],
+  "sentence_reordering": [
+    {
+      "strength": 0.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.25,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.5,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.75,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 1.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    }
+  ],
+  "typo_injection": [
+    {
+      "strength": 0.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.25,
+      "tpr_prov_1pct": 0.9833,
+      "tpr_intent_1pct": 0.9444,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9863
+    },
+    {
+      "strength": 0.5,
+      "tpr_prov_1pct": 0.9833,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.75,
+      "tpr_prov_1pct": 0.9833,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 1.0,
+      "tpr_prov_1pct": 0.9833,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    }
+  ],
+  "homoglyphs_zerowidth": [
+    {
+      "strength": 0.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.25,
+      "tpr_prov_1pct": 0.9833,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.5,
+      "tpr_prov_1pct": 0.9833,
+      "tpr_intent_1pct": 0.9444,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9863
+    },
+    {
+      "strength": 0.75,
+      "tpr_prov_1pct": 0.9833,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 1.0,
+      "tpr_prov_1pct": 0.9833,
+      "tpr_intent_1pct": 0.9444,
+      "mean_ai_confidence": 0.9508,
+      "mean_intent_confidence": 0.9863
+    }
+  ],
+  "burstiness_split_merge": [
+    {
+      "strength": 0.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.25,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.5,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 0.75,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    },
+    {
+      "strength": 1.0,
+      "tpr_prov_1pct": 1.0,
+      "tpr_intent_1pct": 0.9333,
+      "mean_ai_confidence": 0.9833,
+      "mean_intent_confidence": 0.9848
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "baseline": {
+    "tpr_prov_1pct": 1.0,
+    "tpr_intent_1pct": 0.9333,
+    "mean_ai_confidence": 0.9833,
+    "mean_intent_confidence": 0.9848
+  },
+  "summary": [
+    {
+      "attack": "paraphrase",
+      "baseline_tpr_prov": 1.0,
+      "attacked_tpr_prov_mid": 1.0,
+      "attacked_tpr_prov_max": 1.0,
+      "degradation_prov_pct": 0.0,
+      "baseline_ai_conf": 0.9833,
+      "attacked_ai_conf_max": 0.9833,
+      "baseline_tpr_intent": 0.9333,
+      "attacked_tpr_intent_max": 0.9333,
+      "degradation_intent_pct": 0.0,
+      "baseline_intent_conf": 0.9848,
+      "attacked_intent_conf_max": 0.9848
+    },
+    {
+      "attack": "back_translation",
+      "baseline_tpr_prov": 1.0,
+      "attacked_tpr_prov_mid": 1.0,
+      "attacked_tpr_prov_max": 1.0,
+      "degradation_prov_pct": 0.0,
+      "baseline_ai_conf": 0.9833,
+      "attacked_ai_conf_max": 0.9833,
+      "baseline_tpr_intent": 0.9333,
+      "attacked_tpr_intent_max": 0.9333,
+      "degradation_intent_pct": 0.0,
+      "baseline_intent_conf": 0.9848,
+      "attacked_intent_conf_max": 0.9848
+    },
+    {
+      "attack": "synonym_replacement",
+      "baseline_tpr_prov": 1.0,
+      "attacked_tpr_prov_mid": 1.0,
+      "attacked_tpr_prov_max": 1.0,
+      "degradation_prov_pct": 0.0,
+      "baseline_ai_conf": 0.9833,
+      "attacked_ai_conf_max": 0.9833,
+      "baseline_tpr_intent": 0.9333,
+      "attacked_tpr_intent_max": 0.9222,
+      "degradation_intent_pct": 1.2,
+      "baseline_intent_conf": 0.9848,
+      "attacked_intent_conf_max": 0.9832
+    },
+    {
+      "attack": "sentence_reordering",
+      "baseline_tpr_prov": 1.0,
+      "attacked_tpr_prov_mid": 1.0,
+      "attacked_tpr_prov_max": 1.0,
+      "degradation_prov_pct": 0.0,
+      "baseline_ai_conf": 0.9833,
+      "attacked_ai_conf_max": 0.9833,
+      "baseline_tpr_intent": 0.9333,
+      "attacked_tpr_intent_max": 0.9333,
+      "degradation_intent_pct": 0.0,
+      "baseline_intent_conf": 0.9848,
+      "attacked_intent_conf_max": 0.9848
+    },
+    {
+      "attack": "typo_injection",
+      "baseline_tpr_prov": 1.0,
+      "attacked_tpr_prov_mid": 0.9833,
+      "attacked_tpr_prov_max": 0.9833,
+      "degradation_prov_pct": 1.7,
+      "baseline_ai_conf": 0.9833,
+      "attacked_ai_conf_max": 0.9833,
+      "baseline_tpr_intent": 0.9333,
+      "attacked_tpr_intent_max": 0.9333,
+      "degradation_intent_pct": 0.0,
+      "baseline_intent_conf": 0.9848,
+      "attacked_intent_conf_max": 0.9848
+    },
+    {
+      "attack": "homoglyphs_zerowidth",
+      "baseline_tpr_prov": 1.0,
+      "attacked_tpr_prov_mid": 0.9833,
+      "attacked_tpr_prov_max": 0.9833,
+      "degradation_prov_pct": 1.7,
+      "baseline_ai_conf": 0.9833,
+      "attacked_ai_conf_max": 0.9508,
+      "baseline_tpr_intent": 0.9333,
+      "attacked_tpr_intent_max": 0.9444,
+      "degradation_intent_pct": -1.2,
+      "baseline_intent_conf": 0.9848,
+      "attacked_intent_conf_max": 0.9863
+    },
+    {
+      "attack": "burstiness_split_merge",
+      "baseline_tpr_prov": 1.0,
+      "attacked_tpr_prov_mid": 1.0,
+      "attacked_tpr_prov_max": 1.0,
+      "degradation_prov_pct": 0.0,
+      "baseline_ai_conf": 0.9833,
+      "attacked_ai_conf_max": 0.9833,
+      "baseline_tpr_intent": 0.9333,
+      "attacked_tpr_intent_max": 0.9333,
+      "degradation_intent_pct": 0.0,
+      "baseline_intent_conf": 0.9848,
+      "attacked_intent_conf_max": 0.9848
+    }
+  ],
+  "strengths_tested": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ]
+}
