@@ -257,8 +257,21 @@ def fuse(signals: dict) -> dict:
 
     # Если экстрактор body_text дал вероятность от обученной модели — она
     # точнее эвристического голосования, используем её как компоненту оси.
+    # Приоритет: калиброванный Fast-DetectGPT > TF-IDF-модель.
+    llm_signal = flags.get("fast_detectgpt")
+    if isinstance(llm_signal, dict):
+        llm_p = llm_signal.get("p_ai")
+        if isinstance(llm_p, (int, float)) and 0.0 <= float(llm_p) <= 1.0:
+            prov_axis["components"]["ai"] = round(float(llm_p), 4)
+            prov_axis["components"]["model"] = "fast-detectgpt"
+            prov_axis["components"]["llm_language"] = llm_signal.get("language")
+
     model_p_ai = flags.get("model_p_ai")
-    if isinstance(model_p_ai, (int, float)) and 0.0 <= float(model_p_ai) <= 1.0:
+    if (
+        prov_axis["components"].get("model") != "fast-detectgpt"
+        and isinstance(model_p_ai, (int, float))
+        and 0.0 <= float(model_p_ai) <= 1.0
+    ):
         prov_axis["components"]["ai"] = round(float(model_p_ai), 4)
         prov_axis["components"]["model"] = "tfidf-svd-histgb"
 

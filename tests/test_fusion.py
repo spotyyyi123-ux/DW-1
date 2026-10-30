@@ -3,6 +3,36 @@ from dw1.models.fusion import fuse
 UNKNOWN = {"label": "unknown", "confidence": 0.0, "evidence": [], "model_version": "test"}
 
 
+def test_llm_signal_used_as_provenance_component():
+    # Калиброванная вероятность Fast-DetectGPT имеет приоритет над TF-IDF-моделью
+    llm_evidence = [
+        {
+            "signal": "fast_detectgpt",
+            "weight": 1.0,
+            "value": {
+                "criterion": 1.0,
+                "p_ai": 0.82,
+                "language": "en",
+                "calibrated": True,
+            },
+        }
+    ]
+    signals = {
+        "body_text": {
+            "ai_provenance": {
+                "label": "ai_generated",
+                "confidence": 0.82,
+                "evidence": llm_evidence,
+                "model_version": "test-fixture",
+            },
+            "intent": dict(UNKNOWN),
+        }
+    }
+    fused = fuse(signals)
+    assert fused["ai_provenance"]["components"]["ai"] == 0.82
+    assert fused["ai_provenance"]["components"]["model"] == "fast-detectgpt"
+
+
 def signal(label: str, conf: float, evidence=None) -> dict:
     return {
         "ai_provenance": {
