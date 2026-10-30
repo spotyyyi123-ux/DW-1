@@ -26,7 +26,7 @@ lint:
 	PYTHONPATH=src $(PY) -m mypy src
 
 eval:
-	PYTHONPATH=src $(PY) -m dw1.eval.harness --run $(RUN)
+	$(if $(CAMPAIGNS),$(PY) -m dw1.eval.campaigns --campaigns $(CAMPAIGNS) --annotations $(ANNOTATIONS) --out data/runs/$(RUN),$(PY) -m dw1.eval.harness --run $(RUN))
 
 report:
 	PYTHONPATH=src $(PY) -m dw1.eval.report --run $(RUN)

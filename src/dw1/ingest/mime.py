@@ -13,6 +13,8 @@ from html import unescape
 from pathlib import Path
 from urllib.parse import urlparse
 
+from dw1.extractors.image_features import inspect_image
+
 AUTH_RE = re.compile(r"(spf|dkim|dmarc)=(\S+)", re.IGNORECASE)
 LINK_RE = re.compile(r"""href=["']([^"']+)["']""", re.IGNORECASE)
 ANCHOR_RE = re.compile(
@@ -97,11 +99,11 @@ def parse_eml(path: str | Path) -> dict:
             attachments.append(
                 {"name": part.get_filename() or "", "mime": ctype, "sha256": _sha256(payload)}
             )
-        elif ctype.startswith("image/"):
+        if ctype.startswith("image/"):
             raw_payload = part.get_payload(decode=True)
             payload = raw_payload if isinstance(raw_payload, bytes) else b""
             images.append(
-                {"mime": ctype, "sha256": _sha256(payload), "cid": part.get("Content-ID", "")}
+                {"mime": ctype, "cid": part.get("Content-ID", ""), **inspect_image(payload)}
             )
 
     body_text = "\n\n".join(t for t in text_parts if t)
@@ -113,6 +115,14 @@ def parse_eml(path: str | Path) -> dict:
             known_urls.add(url)
             links.append({"url": url, "anchor_text": "", "domain": _domain(url)})
 
+    qr = [{"image_sha256": image["sha256"], **code}
+          for image in images for code in image.get("qr", {}).get("codes", [])]
+    for code in qr:
+        url = code["text"]
+        if url.startswith(("https://", "http://")) and url not in known_urls:
+            known_urls.add(url)
+            links.append({"url": url, "anchor_text": "", "domain": _domain(url), "source": "qr"})
+
     parts = {
         "headers": {
             "from": flat.get("from", ""),
@@ -120,6 +130,7 @@ def parse_eml(path: str | Path) -> dict:
             "reply_to": flat.get("reply-to", ""),
             "return_path": flat.get("return-path", ""),
             "date_tz": flat.get("date", ""),
+            "received": [str(v) for v in msg.get_all("Received", [])],
             "x_mailer": flat.get("x-mailer", ""),
             "message_id_domain": _domain(flat.get("message-id", "")),
             "list_unsubscribe": flat.get("list-unsubscribe", ""),
@@ -139,7 +150,7 @@ def parse_eml(path: str | Path) -> dict:
         "cta": [],  # M2-M3
         "links": links,
         "images": images,
-        "qr": [],  # M3
+        "qr": qr,
         "attachments": attachments,
     }
     return {"raw_sha256": _sha256(raw), "parts": parts}

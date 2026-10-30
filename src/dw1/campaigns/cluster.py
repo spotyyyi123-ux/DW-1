@@ -101,6 +101,8 @@ def match_campaign(text: str, threshold: float = 0.8) -> dict | None:
                 "cluster_id": entry.get("cluster_id"),
                 "member_count": int(entry.get("size", 1)),
                 "jaccard": round(jaccard, 3),
+                "template_skeleton": entry.get("template_skeleton"),
+                "model_version": entry.get("model_version", MODEL_VERSION),
             }
     return best
 
@@ -120,10 +122,10 @@ def cluster(parts: dict) -> dict:
     if match:
         return {
             "cluster_id": match["cluster_id"],
-            "template_skeleton": None,
+            "template_skeleton": match.get("template_skeleton"),
             "member_count": match["member_count"],
             "jaccard": match["jaccard"],
-            "model_version": MODEL_VERSION,
+            "model_version": match.get("model_version", MODEL_VERSION),
         }
     return {
         "cluster_id": None,

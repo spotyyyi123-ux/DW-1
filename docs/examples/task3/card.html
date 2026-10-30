@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DW-1 — карточка письма</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 32px;
+  background: #f3f5f8; color: #202938;
+  font-family: Arial, sans-serif;
+}
+main { max-width: 1100px; margin: auto; }
+h1 { margin-top: 0; }
+.meta, .scale-card, .table-wrap {
+  background: white; border: 1px solid #dce2ea;
+  border-radius: 10px; padding: 20px; margin-bottom: 18px;
+}
+.meta p { margin: 8px 0; overflow-wrap: anywhere; }
+.scales {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.scale-card h2 { font-size: 18px; margin-top: 0; }
+.scale-value { font-size: 22px; font-weight: bold; margin: 16px 0; }
+.bar { height: 12px; background: #e8edf3; border-radius: 8px; overflow: hidden; }
+.bar-fill { height: 100%; background: #3977c3; }
+.scale-percent { color: #687386; margin-top: 9px; font-size: 13px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 11px; border-bottom: 1px solid #e5e9ef; }
+th { background: #f5f7fa; }
+td { overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+  body { padding: 14px; }
+  .scales { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>DW-1 — карточка письма</h1>
+
+  <section class="meta">
+    <h2>Письмо</h2>
+    <p><b>Отправитель:</b> Demo &lt;demo@example.invalid&gt;</p>
+    <p><b>Тема:</b> Не указана</p>
+    <p><b>Версия схемы:</b> 1.0</p>
+    <p><b>Источник оценок:</b> fusion v1 — эвристика, не калибровано</p>
+  </section>
+
+  <div class="scales">
+    
+    <section class="scale-card">
+      <h2>Происхождение письма</h2>
+      <div class="scale-value">Не определено</div>
+      <div class="bar"><div class="bar-fill" style="width:0%"></div></div>
+      <div class="scale-percent">Уверенность: 0%</div>
+    </section>
+    
+    
+    <section class="scale-card">
+      <h2>Злонамеренность</h2>
+      <div class="scale-value">Не определено</div>
+      <div class="bar"><div class="bar-fill" style="width:0%"></div></div>
+      <div class="scale-percent">Уверенность: 0%</div>
+    </section>
+    
+  </div>
+
+  
+  <section class="meta"><h2>Кампания и скелет шаблона</h2><p>Кластер: synthetic-demo</p><p>Здравствуйте, {NAME}! Оплатите {AMOUNT} для бренда {BRAND} {LINK}</p><p>Слоты: {&quot;LINK&quot;: [&quot;https://example.invalid/other&quot;, &quot;https://example.invalid/pay&quot;], &quot;AMOUNT&quot;: [&quot;100 RUB&quot;, &quot;200 RUB&quot;], &quot;NAME&quot;: [&quot;Анна&quot;, &quot;Иван&quot;], &quot;BRAND&quot;: [&quot;Alpha&quot;, &quot;Beta&quot;]}</p></section>
+  <section class="meta"><h2>Изображения и QR</h2><img src="images/0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e.png" alt="Артефакт изображения/QR" width="220"><p>Изображение: 0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e</p><p>Признаки: {&quot;mime&quot;: &quot;image/png&quot;, &quot;cid&quot;: &quot;&quot;, &quot;sha256&quot;: &quot;0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e&quot;, &quot;width&quot;: 370, &quot;height&quot;: 370, &quot;format&quot;: &quot;PNG&quot;, &quot;exif&quot;: {}, &quot;phash&quot;: &quot;afc6d36e94c1c131&quot;, &quot;fft_peaks&quot;: [{&quot;fx&quot;: 0.0, &quot;fy&quot;: 0.01171875, &quot;power_fraction&quot;: 0.013812046130428985}, {&quot;fx&quot;: 0.0, &quot;fy&quot;: -0.01171875, &quot;power_fraction&quot;: 0.01381204613042898}, {&quot;fx&quot;: 0.01171875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.01028765309693461}, {&quot;fx&quot;: -0.01171875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.01028765309693461}, {&quot;fx&quot;: 0.046875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.00637742624349864}], &quot;status&quot;: &quot;ok&quot;, &quot;preview_path&quot;: &quot;images/0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e.png&quot;}</p><p>QR: {&quot;status&quot;: &quot;decoded&quot;, &quot;codes&quot;: [{&quot;text&quot;: &quot;https://example.invalid/qr-payment&quot;, &quot;points&quot;: [[40.0, 40.0], [329.0, 40.0], [329.0, 329.0], [40.0, 329.0]], &quot;decoded&quot;: true}], &quot;coordinate_size&quot;: [370, 370]}</p><p>Отсутствие EXIF, pHash и FFT сами по себе не доказывают генерацию ИИ.</p></section>
+
+  <section class="table-wrap">
+    <h2>Что известно про каждый элемент</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Экстрактор</th>
+          <th>Категория</th>
+          <th>Признак</th>
+          <th>Значение</th>
+          <th>Вес</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>body_text</td>
+          <td>ai_provenance</td>
+          <td>burstiness</td>
+          <td>-0.029</td>
+          <td>0.25</td>
+        </tr>
+        
+        <tr>
+          <td>body_text</td>
+          <td>ai_provenance</td>
+          <td>sentence_length_cv</td>
+          <td>0.943</td>
+          <td>0.2</td>
+        </tr>
+        
+        <tr>
+          <td>body_text</td>
+          <td>ai_provenance</td>
+          <td>mtld</td>
+          <td>11.0</td>
+          <td>0.2</td>
+        </tr>
+        
+        <tr>
+          <td>body_text</td>
+          <td>ai_provenance</td>
+          <td>ttr</td>
+          <td>1.0</td>
+          <td>0.15</td>
+        </tr>
+        
+        <tr>
+          <td>body_text</td>
+          <td>ai_provenance</td>
+          <td>typo_rate</td>
+          <td>0.0833</td>
+          <td>0.2</td>
+        </tr>
+        
+        <tr>
+          <td>body_text</td>
+          <td>ai_provenance</td>
+          <td>punctuation_profile</td>
+          <td>{&quot;caps_words&quot;: 1, &quot;multiple_punct&quot;: 0, &quot;expressive_ratio&quot;: 0.333}</td>
+          <td>0.15</td>
+        </tr>
+        
+        <tr>
+          <td>body_text</td>
+          <td>intent</td>
+          <td>phishing_keywords</td>
+          <td>[]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>cta</td>
+          <td>ai_provenance</td>
+          <td>cta_count</td>
+          <td>0</td>
+          <td>0.25</td>
+        </tr>
+        
+        <tr>
+          <td>cta</td>
+          <td>ai_provenance</td>
+          <td>imperatives</td>
+          <td>[]</td>
+          <td>0.35</td>
+        </tr>
+        
+        <tr>
+          <td>cta</td>
+          <td>ai_provenance</td>
+          <td>deadlines</td>
+          <td>[]</td>
+          <td>0.3</td>
+        </tr>
+        
+        <tr>
+          <td>cta</td>
+          <td>ai_provenance</td>
+          <td>high_risk_actions</td>
+          <td>[]</td>
+          <td>0.4</td>
+        </tr>
+        
+        <tr>
+          <td>cta</td>
+          <td>intent</td>
+          <td>cta_count</td>
+          <td>0</td>
+          <td>0.25</td>
+        </tr>
+        
+        <tr>
+          <td>cta</td>
+          <td>intent</td>
+          <td>imperatives</td>
+          <td>[]</td>
+          <td>0.35</td>
+        </tr>
+        
+        <tr>
+          <td>cta</td>
+          <td>intent</td>
+          <td>deadlines</td>
+          <td>[]</td>
+          <td>0.3</td>
+        </tr>
+        
+        <tr>
+          <td>cta</td>
+          <td>intent</td>
+          <td>high_risk_actions</td>
+          <td>[]</td>
+          <td>0.4</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>spf_none</td>
+          <td>none</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>dkim_none</td>
+          <td>none</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>dmarc_none</td>
+          <td>none</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>received_count</td>
+          <td>1</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>received_malformed</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>received_chronology_anomaly</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>date_valid_with_timezone</td>
+          <td>True</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>date_timezone_minutes</td>
+          <td>420</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>from_return_path_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>from_message_id_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>authentication_source</td>
+          <td>unverified message headers; not cryptographic verification</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>from_reply_to_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>ai_provenance</td>
+          <td>x_mailer_present</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>spf_none</td>
+          <td>none</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>dkim_none</td>
+          <td>none</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>dmarc_none</td>
+          <td>none</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>received_count</td>
+          <td>1</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>received_malformed</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>received_chronology_anomaly</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>date_valid_with_timezone</td>
+          <td>True</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>date_timezone_minutes</td>
+          <td>420</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>from_return_path_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>from_message_id_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>authentication_source</td>
+          <td>unverified message headers; not cryptographic verification</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>from_reply_to_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>headers</td>
+          <td>intent</td>
+          <td>x_mailer_present</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_generator_has_flex</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_generator_has_grid</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_generator_semantic_tags</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_generator_has_css_variables</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_generator_has_mso_hacks</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_obfuscation_zero_width_count</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_obfuscation_hidden_blocks</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_obfuscation_entity_count</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_obfuscation_comment_count</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_obfuscation_external_post_forms</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_mailing_esp_markers</td>
+          <td>[]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_mailing_list_unsubscribe</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>ai_provenance</td>
+          <td>html_mailing_precedence_bulk</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_generator_has_flex</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_generator_has_grid</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_generator_semantic_tags</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_generator_has_css_variables</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_generator_has_mso_hacks</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_obfuscation_zero_width_count</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_obfuscation_hidden_blocks</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_obfuscation_entity_count</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_obfuscation_comment_count</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_obfuscation_external_post_forms</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_mailing_esp_markers</td>
+          <td>[]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_mailing_list_unsubscribe</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>html</td>
+          <td>intent</td>
+          <td>html_mailing_precedence_bulk</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>ai_provenance</td>
+          <td>images_count</td>
+          <td>1</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>ai_provenance</td>
+          <td>image_0_status</td>
+          <td>ok</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>ai_provenance</td>
+          <td>image_0_width</td>
+          <td>370</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>ai_provenance</td>
+          <td>image_0_height</td>
+          <td>370</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>ai_provenance</td>
+          <td>image_0_format</td>
+          <td>PNG</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>ai_provenance</td>
+          <td>image_0_phash</td>
+          <td>afc6d36e94c1c131</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>ai_provenance</td>
+          <td>image_0_fft_peaks</td>
+          <td>[{&quot;fx&quot;: 0.0, &quot;fy&quot;: 0.01171875, &quot;power_fraction&quot;: 0.013812046130428985}, {&quot;fx&quot;: 0.0, &quot;fy&quot;: -0.01171875, &quot;power_fraction&quot;: 0.01381204613042898}, {&quot;fx&quot;: 0.01171875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.01028765309693461}, {&quot;fx&quot;: -0.01171875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.01028765309693461}, {&quot;fx&quot;: 0.046875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.00637742624349864}]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>ai_provenance</td>
+          <td>image_0_exif</td>
+          <td>{}</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>intent</td>
+          <td>images_count</td>
+          <td>1</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>intent</td>
+          <td>image_0_status</td>
+          <td>ok</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>intent</td>
+          <td>image_0_width</td>
+          <td>370</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>intent</td>
+          <td>image_0_height</td>
+          <td>370</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>intent</td>
+          <td>image_0_format</td>
+          <td>PNG</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>intent</td>
+          <td>image_0_phash</td>
+          <td>afc6d36e94c1c131</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>intent</td>
+          <td>image_0_fft_peaks</td>
+          <td>[{&quot;fx&quot;: 0.0, &quot;fy&quot;: 0.01171875, &quot;power_fraction&quot;: 0.013812046130428985}, {&quot;fx&quot;: 0.0, &quot;fy&quot;: -0.01171875, &quot;power_fraction&quot;: 0.01381204613042898}, {&quot;fx&quot;: 0.01171875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.01028765309693461}, {&quot;fx&quot;: -0.01171875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.01028765309693461}, {&quot;fx&quot;: 0.046875, &quot;fy&quot;: 0.0, &quot;power_fraction&quot;: 0.00637742624349864}]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>images</td>
+          <td>intent</td>
+          <td>image_0_exif</td>
+          <td>{}</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_url_length</td>
+          <td>27</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_url_entropy</td>
+          <td>3.93</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_domain</td>
+          <td>example.invalid</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_subdomain_depth</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_punycode</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_unicode_domain</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_tld</td>
+          <td>invalid</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_anchor_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_0_tracker_like</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_url_length</td>
+          <td>34</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_url_entropy</td>
+          <td>4.153</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_domain</td>
+          <td>example.invalid</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_subdomain_depth</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_punycode</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_unicode_domain</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_tld</td>
+          <td>invalid</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_anchor_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>link_1_tracker_like</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>ai_provenance</td>
+          <td>links_count</td>
+          <td>2</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_url_length</td>
+          <td>27</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_url_entropy</td>
+          <td>3.93</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_domain</td>
+          <td>example.invalid</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_subdomain_depth</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_punycode</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_unicode_domain</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_tld</td>
+          <td>invalid</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_anchor_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_0_tracker_like</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_url_length</td>
+          <td>34</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_url_entropy</td>
+          <td>4.153</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_domain</td>
+          <td>example.invalid</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_subdomain_depth</td>
+          <td>0</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_punycode</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_unicode_domain</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_tld</td>
+          <td>invalid</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_anchor_mismatch</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>link_1_tracker_like</td>
+          <td>False</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>links</td>
+          <td>intent</td>
+          <td>links_count</td>
+          <td>2</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>qr</td>
+          <td>ai_provenance</td>
+          <td>qr_codes</td>
+          <td>[{&quot;image_sha256&quot;: &quot;0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e&quot;, &quot;text&quot;: &quot;https://example.invalid/qr-payment&quot;, &quot;points&quot;: [[40.0, 40.0], [329.0, 40.0], [329.0, 329.0], [40.0, 329.0]], &quot;decoded&quot;: true}]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>qr</td>
+          <td>ai_provenance</td>
+          <td>qr_decoder_status</td>
+          <td>[&quot;decoded&quot;]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>qr</td>
+          <td>intent</td>
+          <td>qr_codes</td>
+          <td>[{&quot;image_sha256&quot;: &quot;0b458c98ff7c61e5534f571a1178bd7a85fbfdbdc252b07bc6b75f437aff7f1e&quot;, &quot;text&quot;: &quot;https://example.invalid/qr-payment&quot;, &quot;points&quot;: [[40.0, 40.0], [329.0, 40.0], [329.0, 329.0], [40.0, 329.0]], &quot;decoded&quot;: true}]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>qr</td>
+          <td>intent</td>
+          <td>qr_decoder_status</td>
+          <td>[&quot;decoded&quot;]</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>subject</td>
+          <td>ai_provenance</td>
+          <td>empty_subject</td>
+          <td>True</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>subject</td>
+          <td>intent</td>
+          <td>empty_subject</td>
+          <td>True</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>template</td>
+          <td>ai_provenance</td>
+          <td>campaign_template_skeleton</td>
+          <td>{&quot;text&quot;: &quot;Здравствуйте, {NAME}! Оплатите {AMOUNT} для бренда {BRAND} {LINK}&quot;, &quot;slots&quot;: {&quot;LINK&quot;: [&quot;https://example.invalid/other&quot;, &quot;https://example.invalid/pay&quot;], &quot;AMOUNT&quot;: [&quot;100 RUB&quot;, &quot;200 RUB&quot;], &quot;NAME&quot;: [&quot;Анна&quot;, &quot;Иван&quot;], &quot;BRAND&quot;: [&quot;Alpha&quot;, &quot;Beta&quot;]}, &quot;method&quot;: &quot;typed-alignment-1&quot;, &quot;member_count&quot;: 2}</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>template</td>
+          <td>ai_provenance</td>
+          <td>campaign_member_count</td>
+          <td>2</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>template</td>
+          <td>intent</td>
+          <td>campaign_template_skeleton</td>
+          <td>{&quot;text&quot;: &quot;Здравствуйте, {NAME}! Оплатите {AMOUNT} для бренда {BRAND} {LINK}&quot;, &quot;slots&quot;: {&quot;LINK&quot;: [&quot;https://example.invalid/other&quot;, &quot;https://example.invalid/pay&quot;], &quot;AMOUNT&quot;: [&quot;100 RUB&quot;, &quot;200 RUB&quot;], &quot;NAME&quot;: [&quot;Анна&quot;, &quot;Иван&quot;], &quot;BRAND&quot;: [&quot;Alpha&quot;, &quot;Beta&quot;]}, &quot;method&quot;: &quot;typed-alignment-1&quot;, &quot;member_count&quot;: 2}</td>
+          <td>0.0</td>
+        </tr>
+        
+        <tr>
+          <td>template</td>
+          <td>intent</td>
+          <td>campaign_member_count</td>
+          <td>2</td>
+          <td>0.0</td>
+        </tr>
+        </tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>

@@ -3,13 +3,15 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from bs4 import BeautifulSoup
+
 from dw1.extractors import BaseExtractor, register
 
 
 @register
 class HtmlExtractor(BaseExtractor):
     name = "html"
-    version = "stub-1.0"
+    version = "html-1.1"
 
     ZERO_WIDTH_RE = re.compile(
         r"[\u200b-\u200f\u2060\ufeff]"
@@ -18,8 +20,8 @@ class HtmlExtractor(BaseExtractor):
     HIDDEN_RE = re.compile(
         r"display\s*:\s*none|"
         r"visibility\s*:\s*hidden|"
-        r"opacity\s*:\s*0|"
-        r"font-size\s*:\s*0(?:px|pt|em|rem)?",
+        r"opacity\s*:\s*0(?:\.0+)?(?![\d.])|"
+        r"font-size\s*:\s*0(?:px|pt|em|rem)?(?![\d.])",
         re.IGNORECASE,
     )
 
@@ -47,6 +49,7 @@ class HtmlExtractor(BaseExtractor):
         html_data = parts.get("body_html", {})
         html_text = str(html_data.get("text", ""))
         lowered = html_text.lower()
+        dom = BeautifulSoup(html_text, "html.parser")
 
         # A. Признаки генерации HTML
         generator: dict[str, Any] = {
@@ -63,17 +66,15 @@ class HtmlExtractor(BaseExtractor):
             "hidden_blocks": len(self.HIDDEN_RE.findall(html_text)),
             "entity_count": len(re.findall(r"&(?:#\d+|#x[\da-f]+|\w+);", html_text, re.I)),
             "comment_count": len(re.findall(r"<!--.*?-->", html_text, re.S)),
-            "external_post_forms": len(
-                re.findall(
-                    r"<form\b[^>]*action\s*=\s*['\"]https?://",
-                    html_text,
-                    re.I,
-                )
+            "external_post_forms": sum(
+                str(form.get("method", "get")).lower() == "post"
+                and str(form.get("action", "")).lower().startswith(("http://", "https://"))
+                for form in dom.find_all("form")
             ),
         }
 
         # C. Признаки легитимных массовых рассылок
-        esp_markers = sorted(set(self.ESP_RE.findall(html_text)))
+        esp_markers = sorted(set(self.ESP_RE.findall(lowered)))
         mailing: dict[str, Any] = {
             "esp_markers": esp_markers,
             "list_unsubscribe": bool(
