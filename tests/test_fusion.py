@@ -33,6 +33,47 @@ def test_llm_signal_used_as_provenance_component():
     assert fused["ai_provenance"]["components"]["model"] == "fast-detectgpt"
 
 
+def test_fast_detectgpt_not_double_calibrated(tmp_path, monkeypatch):
+    import json
+
+    import dw1.models.fusion as fusion
+
+    calibration = {
+        "axes": {
+            "ai_provenance": {"calibrator_x": [0.0, 1.0], "calibrator_y": [0.1, 0.9]},
+            "intent": {"calibrator_x": [0.0, 1.0], "calibrator_y": [0.2, 0.8]},
+        }
+    }
+    path = tmp_path / "calibration.json"
+    path.write_text(json.dumps(calibration), encoding="utf-8")
+    monkeypatch.setenv("DW1_FUSION_CALIBRATION", str(path))
+    fusion._CALIBRATION = None
+    fusion._CALIBRATION_MTIME = 0.0
+
+    llm_evidence = [
+        {
+            "signal": "fast_detectgpt",
+            "weight": 1.0,
+            "value": {"criterion": 1.0, "p_ai": 0.82, "language": "en", "calibrated": True},
+        }
+    ]
+    signals = {
+        "body_text": {
+            "ai_provenance": {
+                "label": "ai_generated",
+                "confidence": 0.82,
+                "evidence": llm_evidence,
+                "model_version": "test-fixture",
+            },
+            "intent": dict(UNKNOWN),
+        }
+    }
+    fused = fusion.fuse(signals)
+    # вероятность LLM уже калибрована по языку — isotonic фузии не применяется
+    assert "calibrated_confidence" not in fused["ai_provenance"]
+    assert fused["ai_provenance"]["confidence"] == 0.82
+
+
 def signal(label: str, conf: float, evidence=None) -> dict:
     return {
         "ai_provenance": {

@@ -285,9 +285,12 @@ def fuse(signals: dict) -> dict:
 
     calibration = _calibration()
     if calibration:
-        _apply_calibration(
-            prov_axis, prov_axis["components"]["ai"], calibration, "ai_provenance"
-        )
+        # Fast-DetectGPT уже калиброван per-language своим калибратором —
+        # повторно применять isotonic фузии (обученный на TF-IDF) нельзя.
+        if prov_axis["components"].get("model") != "fast-detectgpt":
+            _apply_calibration(
+                prov_axis, prov_axis["components"]["ai"], calibration, "ai_provenance"
+            )
         _apply_calibration(
             intent_axis, intent_axis["components"]["malicious"], calibration, "intent"
         )
