@@ -7,6 +7,7 @@
 """
 from __future__ import annotations
 
+import csv
 import json
 from datetime import datetime
 from pathlib import Path
@@ -101,6 +102,14 @@ def _read_json(path, default):
         return default
 
 
+def _fmt(value) -> str:
+    if value is None:
+        return "—"
+    if isinstance(value, float):
+        return f"{value:.3f}"
+    return str(value)
+
+
 def cluster_row(c: dict, index: int) -> str:
     examples = c.get("examples") or ["", ""]
     return f"""
@@ -154,6 +163,33 @@ def build() -> str:
                 f"<tr><td>{r['threshold']}</td><td>{r['tpr']}</td>"
                 f"<td>{r['fpr']}</td><td>{r['f1']}</td></tr>"
             )
+
+    llm = _read_json(ROOT / "reports" / "sprint2-llm" / "llm_calibration_metrics.json", {})
+    llm_rows = ""
+    for lang, label in (("en", "Английский"), ("ru", "Русский")):
+        m = llm.get(lang) or {}
+        if not m:
+            continue
+        before, after = m.get("before") or {}, m.get("after") or {}
+        llm_rows += (
+            f"<tr><td>{label}</td><td>{m.get('n_test')}</td>"
+            f"<td>{_fmt(before.get('ece'))} → {_fmt(after.get('ece'))}</td>"
+            f"<td>{_fmt(before.get('f1'))} → {_fmt(after.get('f1'))}</td>"
+            f"<td>{_fmt(before.get('roc_auc'))} → {_fmt(after.get('roc_auc'))}</td></tr>"
+        )
+
+    attack_rows = ""
+    attacks_csv = sprint2 / "attacks" / "attack_summary.csv"
+    if attacks_csv.exists():
+        with open(attacks_csv, encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                attack_rows += (
+                    f"<tr><td>{esc(r['attack'])}</td>"
+                    f"<td>{r['baseline_tpr_prov']} → {r['attacked_tpr_prov_max']}</td>"
+                    f"<td>{r['degradation_prov_pct']}%</td>"
+                    f"<td>{r['baseline_tpr_intent']} → {r['attacked_tpr_intent_max']}</td>"
+                    f"<td>{r['degradation_intent_pct']}%</td></tr>"
+                )
 
     return f"""<!DOCTYPE html>
 <html lang="ru">
@@ -255,6 +291,28 @@ code {{ background: #eef3fa; border-radius: 6px; padding: 1px 6px; font-size: 13
   <p class="muted">Калибровка обучена на публичном бенчмарке (600 писем). Честное ограничение:
   TF-IDF-модели детектируют стиль конкретного генератора — на невиданном (HC3/ChatGPT)
   TPR≈0; нужен вероятностный детектор (Fast-DetectGPT, задача 1 Sprint 2).</p>
+
+  <h2>Fast-DetectGPT: калибровка EN/RU (задача 1)</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Язык</th><th>n test</th><th>ECE до → после</th><th>F1 до → после</th>
+      <th>ROC-AUC до → после</th></tr></thead>
+      <tbody>{llm_rows}</tbody>
+    </table>
+  </div>
+  <p class="muted">Публичный бенчмарк (HC3-en + CoAT). RU-часть — честно зафиксированное
+  ограничение (ниже случайного): нужен RU-детектор. Отчёт: reports/sprint2-llm.</p>
+
+  <h2>Устойчивость к 7 атакам маскировки (задача 2)</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Атака</th><th>Provenance TPR (до → после)</th><th>Деградация</th>
+      <th>Intent TPR (до → после)</th><th>Деградация</th></tr></thead>
+      <tbody>{attack_rows}</tbody>
+    </table>
+  </div>
+  <p class="muted">intent-ось устойчива (деградация ≤1.2%), provenance почти не ломается
+  (≤1.7%). Артефакты: data/runs/sprint2/attacks, отчёт: docs/notes/attacks.md.</p>
 
   <h2>Кампании (топ-10 из 427)</h2>
   <div class="table-wrap">
