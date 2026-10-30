@@ -113,11 +113,15 @@ def test_wrong_calibration_file_rejected(tmp_path, scores):
 
 
 def test_body_text_keeps_intent_when_llm_signal_exists(tmp_path, scores, monkeypatch):
+    text = fixture_text("en", "test", 1, 0)
+    baseline = BodyTextExtractor().extract({"body_text": {"text": text}})
+
     path, calibration = artifacts(tmp_path, scores)
     monkeypatch.setenv("DW1_LLM_SCORES", str(path))
     monkeypatch.setenv("DW1_LLM_CALIBRATION", str(calibration))
-    text = fixture_text("en", "test", 1, 0)
     result = BodyTextExtractor().extract({"body_text": {"text": text}})
     assert "test-fixture" in result["ai_provenance"]["model_version"]
-    assert result["intent"]["label"] == "unknown"
+    # LLM-сигнал подменяет только происхождение; намерение остаётся тем же,
+    # что и без LLM-скоров (эвристики/модель намерения не трогаются).
+    assert result["intent"] == baseline["intent"]
     assert result["ai_provenance"]["evidence"][0]["signal"] == "fast_detectgpt"
