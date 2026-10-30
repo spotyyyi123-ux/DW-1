@@ -40,8 +40,7 @@ python -m mypy src
 python scripts/demo_task3.py
 ```
 
-Результаты: [карточка](examples/task3/card.html), [Evidence](examples/task3/evidence.json),
-[статус](examples/task3/status.json), [исходное синтетическое письмо](examples/task3/synthetic.eml).
+Результаты: [карточка](examples/task3/card.html) и [проверки](examples/task3/validation.md).
 PNG содержит настоящий QR, созданный для фикстуры; домен example.invalid намеренно нерабочий.
 Фикстуры созданы в проекте, сторонние данные не добавлены.
 

@@ -60,10 +60,10 @@ intent остаётся результатом прежнего анализат
 
 ## Артефакты
 
-- `llm_scores.parquet` — сырые скоры, метки, язык, split, ID групп и хэши, без текстов.
+- `llm_scores.parquet` — сырые скоры, метки, язык, split, ID групп и хэши, без текстов
+  (артефакт прогона, в git не хранится — воспроизводится ноутбуком).
 - `llm_scores.manifest.json` — модель, ревизия, GPU, усечение, пропуски, хэш выборки.
 - `llm_calibration.json` — безопасный JSON-калибратор для локального пайплайна.
-- `llm_calibrated_predictions.parquet` — сохранённые прогнозы на test.
 - `llm_calibration_metrics.json` и `llm_calibration_report.md` — реальные ECE EN/RU до/после.
 
 ## Выполненный прогон
