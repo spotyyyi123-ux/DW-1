@@ -44,6 +44,8 @@ select = ["E", "F", "I", "UP", "B"]
 [tool.ruff.lint.per-file-ignores]
 # В scripts/ длинные строки — это HTML/URL в генераторах артефактов, не код-стиль.
 "scripts/*" = ["E501"]
+# В ноутбуках импорты живут внутри ячеек (E402 — нормальное поведение Jupyter).
+"*.ipynb" = ["E402"]
 
 [tool.mypy]
 python_version = "3.10"
