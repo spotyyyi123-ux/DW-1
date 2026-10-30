@@ -71,7 +71,9 @@ def test_fast_detectgpt_not_double_calibrated(tmp_path, monkeypatch):
     fused = fusion.fuse(signals)
     # вероятность LLM уже калибрована по языку — isotonic фузии не применяется
     assert "calibrated_confidence" not in fused["ai_provenance"]
-    assert fused["ai_provenance"]["confidence"] == 0.82
+    # в компоненту оси уходит сама калиброванная LLM-вероятность
+    assert fused["ai_provenance"]["components"]["ai"] == 0.82
+    assert fused["ai_provenance"]["components"]["model"] == "fast-detectgpt"
 
 
 def signal(label: str, conf: float, evidence=None) -> dict:
