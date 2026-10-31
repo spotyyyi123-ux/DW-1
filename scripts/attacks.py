@@ -369,7 +369,7 @@ def run_benchmark(
     bench_dir: Path,
     out_dir: Path,
     strengths: list[float] | None = None,
-    limit: int = 150,
+    limit: int | None = None,
 ) -> dict[str, Any]:
     """Прогоняет выборку писем через 7 атак и замеряет деградацию метрик."""
     if strengths is None:
@@ -387,14 +387,23 @@ def run_benchmark(
             items.append(row)
 
     # Балансируем выборку: AI-фишинг + человеческий спам + легитимная почта (ham)
-    n_half = max(15, limit // 2)
-    ai_items = [it for it in items if it.get("provenance") == "ai_generated"][:limit]
-    human_spam = [
-        it for it in items if it.get("provenance") == "human" and it.get("intent") == "spam"
-    ][:n_half]
-    human_ham = [
-        it for it in items if it.get("provenance") == "human" and it.get("intent") == "legitimate"
-    ][:n_half]
+    if limit is not None and limit > 0:
+        n_half = max(15, limit // 2)
+        ai_items = [it for it in items if it.get("provenance") == "ai_generated"][:limit]
+        human_spam = [
+            it for it in items if it.get("provenance") == "human" and it.get("intent") == "spam"
+        ][:n_half]
+        human_ham = [
+            it for it in items if it.get("provenance") == "human" and it.get("intent") == "legitimate"
+        ][:n_half]
+    else:
+        ai_items = [it for it in items if it.get("provenance") == "ai_generated"]
+        human_spam = [
+            it for it in items if it.get("provenance") == "human" and it.get("intent") == "spam"
+        ]
+        human_ham = [
+            it for it in items if it.get("provenance") == "human" and it.get("intent") == "legitimate"
+        ]
     eval_items = ai_items + human_spam + human_ham
 
     log.info(
@@ -423,6 +432,7 @@ def run_benchmark(
     cal_intent = (cal_data.get("axes") or {}).get("intent", {})
 
     tmp_eml = out_dir / "_temp_eval.eml"
+    baseline_cache: dict[str, tuple[float, float]] = {}
 
     def _evaluate_batch(attack_name: str | None, strength: float) -> dict[str, float]:
         prov_scores: list[float] = []
@@ -434,18 +444,27 @@ def run_benchmark(
             is_ai = it["provenance"] == "ai_generated"
             if attack_name and strength > 0.0 and is_ai:
                 attacked_eml = apply_attack_to_eml_text(raw, attack_name, strength=strength, seed=idx)
+                tmp_eml.write_text(attacked_eml, encoding="utf-8")
+                ev = analyze(tmp_eml)
+
+                comp_prov = float((ev.fusion.get("ai_provenance") or {}).get("components", {}).get("ai", 0.0))
+                p_prov = float(np.clip(_apply_isotonic(comp_prov, cal_prov), 0.0, 1.0)) if cal_prov else comp_prov
+
+                comp_intent = float((ev.fusion.get("intent") or {}).get("components", {}).get("malicious", 0.0))
+                p_intent = float(np.clip(_apply_isotonic(comp_intent, cal_intent), 0.0, 1.0)) if cal_intent else comp_intent
             else:
-                attacked_eml = raw
+                if it["file"] in baseline_cache:
+                    p_prov, p_intent = baseline_cache[it["file"]]
+                else:
+                    tmp_eml.write_text(raw, encoding="utf-8")
+                    ev = analyze(tmp_eml)
 
-            tmp_eml.write_text(attacked_eml, encoding="utf-8")
-            ev = analyze(tmp_eml)
+                    comp_prov = float((ev.fusion.get("ai_provenance") or {}).get("components", {}).get("ai", 0.0))
+                    p_prov = float(np.clip(_apply_isotonic(comp_prov, cal_prov), 0.0, 1.0)) if cal_prov else comp_prov
 
-            # Извлекаем калиброванные или сырые вероятности
-            comp_prov = float((ev.fusion.get("ai_provenance") or {}).get("components", {}).get("ai", 0.0))
-            p_prov = float(np.clip(_apply_isotonic(comp_prov, cal_prov), 0.0, 1.0)) if cal_prov else comp_prov
-
-            comp_intent = float((ev.fusion.get("intent") or {}).get("components", {}).get("malicious", 0.0))
-            p_intent = float(np.clip(_apply_isotonic(comp_intent, cal_intent), 0.0, 1.0)) if cal_intent else comp_intent
+                    comp_intent = float((ev.fusion.get("intent") or {}).get("components", {}).get("malicious", 0.0))
+                    p_intent = float(np.clip(_apply_isotonic(comp_intent, cal_intent), 0.0, 1.0)) if cal_intent else comp_intent
+                    baseline_cache[it["file"]] = (p_prov, p_intent)
 
             prov_scores.append(p_prov)
             intent_scores.append(p_intent)
@@ -530,7 +549,12 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Оценка устойчивости детектора к 7 атакам маскировки")
     parser.add_argument("--benchmark", type=Path, default=ROOT / "data" / "sprint2" / "bench", help="Путь к бенчмарку писем")
     parser.add_argument("--out", type=Path, default=ROOT / "data" / "runs" / "sprint2" / "attacks", help="Каталог вывода артефактов")
-    parser.add_argument("--limit", type=int, default=100, help="Количество писем каждого класса для оценки")
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Количество писем каждого класса для оценки (по умолчанию все 600)",
+    )
     args = parser.parse_args(argv)
 
     run_benchmark(bench_dir=args.benchmark, out_dir=args.out, limit=args.limit)
