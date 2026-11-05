@@ -1,0 +1,10 @@
+{
+  "gpu": "Tesla T4",
+  "run_code_commit": "a8547e4",
+  "qwen_revision": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+  "email_zip_sha256": "0209af4b407024a8f3023da3c990c9d3083ed2937f3fa2446aaca5192b097283",
+  "inputs": {
+    "llm_benchmark.jsonl": "1311a80e8ab1c38073f4160118090cfaaaace3248f7f82512a0ef8a16964004c",
+    "llm_benchmark_emails.jsonl": "89fc6387bd28b37f7fff5ff6634155738129e3692460222329009b815a9056a9"
+  }
+}

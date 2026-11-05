@@ -123,7 +123,9 @@ class LLMScoreStore:
                         n_tokens=int(row.n_tokens),
                         truncated=bool(row.truncated),
                         matched_by="full_text_sha256",
-                        evaluation_scope="public_benchmark_only",
+                        evaluation_scope=self.config.get(
+                            "evaluation_scope", "public_benchmark_only"
+                        ),
                     ),
                 }
             ],
