@@ -47,8 +47,8 @@ def validate_scores(frame: pd.DataFrame) -> None:
         raise ValueError("Некорректный язык или метка")
     if not set(frame.split) <= {"train", "validation", "test"}:
         raise ValueError("Неизвестная часть выборки")
-    if not set(frame.dataset) <= {"coat", "hc3-en"}:
-        raise ValueError("Для этого эксперимента допустимы только публичные CoAT и HC3")
+    if not set(frame.dataset) <= {"coat", "hc3-en", "emails"}:
+        raise ValueError("Допустимы только публичные CoAT, HC3 и лицензионные emails")
     if frame.model_version.nunique() != 1 or not str(frame.model_version.iloc[0]):
         raise ValueError("Один файл должен содержать скоры одной версии детектора")
     if not np.isfinite(frame.criterion.to_numpy(dtype=float)).all():

@@ -35,10 +35,10 @@ def main() -> int:
     import numpy as np
     import pandas as pd
     import torch
+    from run_fast_detectgpt import discrepancy
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     from dw1.models.llm_detectors import text_hash, validate_scores
-    from run_fast_detectgpt import discrepancy
 
     frame = pd.read_json(args.benchmark, lines=True)
     if not set(frame.dataset) <= {"coat", "hc3-en", "emails"}:
@@ -55,7 +55,7 @@ def main() -> int:
         AutoModelForCausalLM.from_pretrained(
             args.model,
             revision=args.revision,
-            torch_dtype=torch.float32,
+            torch_dtype=torch.float16 if args.device.startswith("cuda") else torch.float32,
             use_safetensors=True,
             trust_remote_code=False,
             token=False,
@@ -122,7 +122,7 @@ def main() -> int:
         "device": args.device,
         "torch_version": torch.__version__,
         "limitations": [
-            "CPU-прогон на малой модели (0.5B); качество ниже, чем у GPT-Neo-2.7B.",
+            "Малая surrogate-модель; качество измеряется отдельно по языкам и источникам.",
             "Оцениваются первые max_tokens токенов.",
             "Критерий Fast-DetectGPT не является вероятностью.",
         ],

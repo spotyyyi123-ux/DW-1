@@ -85,11 +85,11 @@ Train/validation/test: EN — 92/94/90, RU — 100/100/100.
 [результат без исходного текста](../../reports/sprint2-llm/llm_integration_check.json).
 Незнакомые письма по-прежнему обрабатываются прежними анализаторами.
 
-Артефакты для ревью сохранены в `reports/sprint2-llm/`, исходных текстов там нет.
-Чтобы подключить их в новой копии репозитория:
+Отчёт, метрики и JSON-калибратор для ревью сохранены в `reports/sprint2-llm/`.
+Исходных текстов, весов модели и parquet-скоров в Git нет.
+Для новой копии репозитория нужен архив результатов настоящего Colab-прогона:
 
 ```bash
-mkdir -p data/runs/sprint2
-cp reports/sprint2-llm/llm_* data/runs/sprint2/
+PYTHONPATH=src .venv/bin/python scripts/import_llm_results.py ~/Downloads/dw1-sprint2-results.zip
 make llm-eval PY=.venv/bin/python
 ```

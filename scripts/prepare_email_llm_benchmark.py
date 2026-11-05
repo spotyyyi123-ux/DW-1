@@ -33,8 +33,9 @@ def split_for(group_id: str) -> str:
 
 
 def body_of(eml_path: Path) -> str:
-    raw = eml_path.read_text(encoding="utf-8", errors="ignore")
-    return raw.split("\n\n", 1)[-1].strip() if "\n\n" in raw else raw.strip()
+    from dw1.ingest.mime import parse_eml
+
+    return parse_eml(eml_path)["parts"]["body_text"]["text"].strip()
 
 
 def main() -> int:
