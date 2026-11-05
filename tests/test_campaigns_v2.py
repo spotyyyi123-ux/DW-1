@@ -3,6 +3,8 @@ import json
 import numpy as np
 import pytest
 
+pytest.importorskip("hdbscan")
+
 from dw1.campaigns.template import skeleton
 from dw1.campaigns.v2 import cluster_v2, document_hash, load_embeddings
 from dw1.eval.campaigns import bcubed, evaluate
