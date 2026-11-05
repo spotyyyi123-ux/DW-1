@@ -188,7 +188,11 @@ def test_run_benchmark_and_main(tmp_path):
     assert (out_dir / "attack_summary.csv").exists()
     assert (out_dir / "degradation_curves.json").exists()
 
-    # Проверка main()
+    # Проверка main() c limit=2 и без limit (default None)
     cmd_args = ["--benchmark", str(bench_dir), "--out", str(out_dir / "cli_out"), "--limit", "2"]
     exit_code = main(cmd_args)
     assert exit_code == 0
+
+    cmd_args_full = ["--benchmark", str(bench_dir), "--out", str(out_dir / "cli_out_full")]
+    exit_code_full = main(cmd_args_full)
+    assert exit_code_full == 0

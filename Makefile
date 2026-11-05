@@ -3,7 +3,7 @@ PY ?= python
 PYTHONPATH := src
 
 help: ## список команд
-	@echo "DW-1: make venv | install | demo | test | lint | eval | report | data"
+	@echo "DW-1: make venv | install | demo | test | lint | eval | attacks | report | data"
 
 venv:
 	$(PY) -m venv .venv
@@ -27,6 +27,9 @@ lint:
 
 eval:
 	$(if $(CAMPAIGNS),$(PY) -m dw1.eval.campaigns --campaigns $(CAMPAIGNS) --annotations $(ANNOTATIONS) --out data/runs/$(RUN),$(PY) -m dw1.eval.harness --run $(RUN))
+
+attacks:
+	$(PY) scripts/attacks.py --benchmark data/sprint2/bench --out data/runs/sprint2/attacks
 
 report:
 	PYTHONPATH=src $(PY) -m dw1.eval.report --run $(RUN)
