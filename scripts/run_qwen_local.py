@@ -41,6 +41,10 @@ def main() -> int:
     from dw1.models.llm_detectors import text_hash, validate_scores
 
     frame = pd.read_json(args.benchmark, lines=True)
+    if not 33 <= args.max_tokens <= 512:
+        raise ValueError("max-tokens должен быть от 33 до 512")
+    if args.device.startswith("cuda") and not torch.cuda.is_available():
+        raise ValueError("CUDA GPU недоступен")
     if not set(frame.dataset) <= {"coat", "hc3-en", "emails"}:
         raise ValueError("Разрешены только публичные HC3/CoAT/emails (лицензионный subset)")
     if frame.text_sha256.tolist() != frame.text.map(text_hash).tolist():
@@ -118,6 +122,8 @@ def main() -> int:
         "max_tokens": args.max_tokens,
         "n_scored": len(scores),
         "n_input": len(frame),
+        "benchmark_sha256": hashlib.sha256(Path(args.benchmark).read_bytes()).hexdigest(),
+        "gpu": torch.cuda.get_device_name(0) if args.device.startswith("cuda") else None,
         "skipped": skipped,
         "device": args.device,
         "torch_version": torch.__version__,
