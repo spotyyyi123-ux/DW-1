@@ -50,3 +50,20 @@
 
 Правило: если лицензия «не указана» — сначала уточнить (у оригинального источника),
 потом качать; в datasheet писать реальную лицензию.
+
+## Лицензионный subset для внешнего прогона (Sprint 3, задача 1)
+
+Для Colab/внешнего контура собирается отдельный набор только из данных с подтверждёнными
+лицензиями:
+
+| Набор | Роль | Лицензия |
+|---|---|---|
+| LLMGen-Phishing (GPT, EN) | AI-письма | Apache-2.0 |
+| Nazario phishing (2023–2025) | человеческие фишинговые письма | CC-BY-4.0 |
+
+- Сборка: `python scripts/build_licensed_bench.py` → `data/sprint2/bench_licensed/`
+  (200 писем) и `data/sprint2/bench_licensed.zip` (~187 КБ, только для передачи участнику).
+- **seven-phishing и enron в subset не входят** (лицензии «на проверке» / приватность):
+  они используются только локально.
+- Email-бенчмарк для детектора: `python scripts/prepare_email_llm_benchmark.py`
+  → `data/sprint2/llm_benchmark_emails.jsonl` (текст = body, сид-сплиты 70/15/15).
