@@ -65,5 +65,19 @@
   (200 писем) и `data/sprint2/bench_licensed.zip` (~187 КБ, только для передачи участнику).
 - **seven-phishing и enron в subset не входят** (лицензии «на проверке» / приватность):
   они используются только локально.
+
+## Разрешение на внешний экспорт для BCubed F1 (2026-11-06)
+
+Владелец данных (тимлид Сергей) разрешил внешний экспорт seven-phishing **только** для
+расчёта BCubed F1 и ручной разметки топ-50 кампаний; сырые письма не публикуются,
+эмбеддинги считаются на внешнем контуре.
+
+- Входы: `data/runs/sprint3/campaigns/inputs/` — `campaigns.json` (непересекающееся
+  разбиение, 386 кластеров), `documents.jsonl` (20 304 письма), `provenance.json`
+  (`external_allowed: true`, `approved_by`).
+- Пакет для разметки/Colab: `data/runs/sprint3/campaigns/review/` — 50 кластеров,
+  600 писем, `review.html` для 2–3 разметчиков, `external_bundle.zip` для Colab.
+- Сборка: `python scripts/build_campaign_review_inputs.py` +
+  `python -m dw1.campaigns.review --campaigns ... --documents ... --provenance ...`.
 - Email-бенчмарк для детектора: `python scripts/prepare_email_llm_benchmark.py`
   → `data/sprint2/llm_benchmark_emails.jsonl` (текст = body, сид-сплиты 70/15/15).

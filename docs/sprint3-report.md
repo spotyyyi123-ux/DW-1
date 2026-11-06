@@ -9,7 +9,7 @@
 |---|---|---|---|
 | 1 — RU-детектор (Qwen) + скоры для писем | Алина | ✅ **выполнена и смержена** | `reports/sprint3-llm/`, `docs/notes/sprint3-llm.md` |
 | 2 — атаки на полном бенчмарке | Ева | ✅ **выполнена и смержена** (`4388675`) | `make attacks`, 600 писем, кривые деградации |
-| 3 — эмбеддинги + BCubed F1 | Жека | 🟡 инструменты готовы; нет реальных входов | `docs/notes/sprint3-campaigns-workflow.md`; BCubed F1 не измерен |
+| 3 — эмбеддинги + BCubed F1 | Жека | 🟡 входы и пакет готовы; ждём эмбеддинги + разметку | `data/runs/sprint3/campaigns/review/` (50 кластеров, 600 писем) |
 | 4 — сравнение LLM vs TF-IDF, отчёт, защита | Сергей | 🟡 framework и baseline готовы | `scripts/compare_detectors.py`, `docs/notes/detector-comparison.md` |
 
 ## Результаты задачи 1 (Алина): Qwen vs GPT-Neo
@@ -31,13 +31,17 @@
 ECE 0.218, Brier 0.197, F1 0.569, **ROC-AUC 0.913**. Это смена домена — калибровка
 на почте не гарантируется, intent по письмам здесь не измеряется.
 
-## Что сделано по задаче 3 (Жека)
+## Что сделано по задаче 3 (Сергей: входы и разрешение)
 
-Подготовлен проверяемый workflow оценки кампаний: фиксация топ-50 кластеров, страница
-ручной разметки, Colab-ноутбук для эмбеддингов, независимая разметка 2–3 человек
-и adjudication, расчёт BCubed F1 независимо от имён групп. **BCubed F1 не измерен**:
-нужны реальные входы — полное разбиение кампаний с ID участников, `documents.jsonl`
-с текстами и `provenance.json` с разрешением внешнего экспорта.
+- **Разрешение на внешний экспорт** seven-phishing для BCubed-оценки зафиксировано
+  в `data/runs/sprint3/campaigns/inputs/provenance.json` (`external_allowed: true`,
+  `approved_by: Сергей`); сырые письма не публикуются.
+- Собраны входы: `campaigns.json` (непересекающееся разбиение, 386 кластеров),
+  `documents.jsonl` (20 304 письма), `provenance.json`.
+- Пакет оценки: `data/runs/sprint3/campaigns/review/` — **50 кластеров, 600 писем**,
+  `review.html` (3.4 МБ, ручная разметка), `external_bundle.zip` (220 КБ для Colab),
+  `annotation.jsonl` (600 записей, `gold_group` пуст — разметку ставят люди).
+- Для передачи: `data/runs/sprint3/campaigns/review.zip` (931 КБ).
 
 ## Что сделано по задаче 4 (Сергей)
 
@@ -51,8 +55,9 @@ ECE 0.218, Brier 0.197, F1 0.569, **ROC-AUC 0.913**. Это смена доме�
 
 ## Что нужно для закрытия Sprint 3
 
-1. **Жека:** получить входы (clusters/campaigns с ID, documents.jsonl, provenance.json),
-   прогнать Colab-эмбеддинги, собрать 2–3 разметки → **BCubed F1**.
+1. **Жека:** загрузить `external_bundle.zip` в Colab-ноутбук → `embeddings.npz`;
+   страница `review.html` для 2–3 независимых разметок → `annotation.jsonl`;
+   затем `make eval REVIEW_PACKAGE=... EMBEDDINGS=... ANNOTATIONS=... REVIEWERS=...` → **BCubed F1**.
 2. **Сергей:** по parquet Алины — общая таблица TF-IDF vs Fast-DetectGPT на одних хэшах,
    обновление дашборда, финальный отчёт и шпаргалка защиты, тег `m3`.
 3. **Алина:** при наличии времени — RU-capable детектор (больше модель) или фиксация
