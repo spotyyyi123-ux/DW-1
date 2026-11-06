@@ -12,32 +12,10 @@ import numpy as np
 from datasketch import MinHashLSH
 
 from dw1.campaigns.cluster import build_minhash, normalize_text, shingles
+from dw1.campaigns.documents import document_hash, load_documents
 from dw1.campaigns.template import skeleton
 
 VERSION = "minhash-hdbscan-2.0"
-
-
-def document_hash(text: str) -> str:
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
-
-
-def load_documents(path: Path) -> list[dict]:
-    rows = [
-        json.loads(line)
-        for line in path.read_text(encoding="utf-8-sig").splitlines()
-        if line.strip()
-    ]
-    if not rows or any(
-        not isinstance(r.get("id"), str)
-        or not r["id"]
-        or not isinstance(r.get("text"), str)
-        or not r["text"].strip()
-        for r in rows
-    ):
-        raise ValueError("Expected non-empty JSONL records with string id and text")
-    if len({r["id"] for r in rows}) != len(rows):
-        raise ValueError("Duplicate document IDs")
-    return rows
 
 
 def load_embeddings(path: Path, docs: list[dict]) -> tuple[np.ndarray, dict]:

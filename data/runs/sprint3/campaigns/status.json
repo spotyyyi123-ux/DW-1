@@ -1,0 +1,9 @@
+{
+  "task": "Sprint 3 / task 3",
+  "status": "awaiting_real_inputs",
+  "bcubed_f1": null,
+  "external_embeddings_executed": false,
+  "human_annotation_complete": false,
+  "missing_inputs": ["real full campaign partition", "source document texts with matching IDs", "external processing approval", "2-3 human annotation files"],
+  "ready": ["top-50 package preparation", "Colab notebook", "offline annotation page", "validated paired BCubed evaluation", "report generation"]
+}
