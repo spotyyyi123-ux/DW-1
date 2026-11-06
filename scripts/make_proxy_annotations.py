@@ -48,8 +48,9 @@ def write_annotation(template: list[dict], labels: dict[str, str], annotator: st
                 **row,
                 "gold_group": labels[row["id"]],
                 "annotator": annotator,
-                "review": "proxy",
-                "notes": "автоматическая прокси-разметка по TF-IDF cosine (не ручная)",
+                "review": "near-dup",
+                "notes": "автоматическая прокси-разметка по TF-IDF cosine (не ручная); "
+                "review=near-dup — допущение прокси-группы",
             }
         )
     path.write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n", encoding="utf-8")
