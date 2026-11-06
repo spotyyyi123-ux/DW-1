@@ -26,11 +26,18 @@ lint:
 	PYTHONPATH=src $(PY) -m mypy src
 
 eval:
+ifeq ($(REVIEW_PACKAGE),)
 ifeq ($(LLM),1)
 	PYTHONPATH=src $(PY) scripts/evaluate_sprint3_llm.py
 else
 	$(if $(CAMPAIGNS),$(PY) -m dw1.eval.campaigns --campaigns $(CAMPAIGNS) --annotations $(ANNOTATIONS) --out data/runs/$(RUN),$(PY) -m dw1.eval.harness --run $(RUN))
 endif
+else
+	$(PY) -m dw1.eval.campaign_review --package "$(REVIEW_PACKAGE)" --embeddings "$(EMBEDDINGS)" --annotations "$(ANNOTATIONS)" --reviewers $(REVIEWERS) $(if $(ADJUDICATED_BY),--adjudicated-by "$(ADJUDICATED_BY)") --out "$(EVAL_OUT)" --report "$(CAMPAIGN_REPORT)"
+endif
+
+EVAL_OUT ?= data/runs/sprint3/campaigns/eval
+CAMPAIGN_REPORT ?= docs/notes/sprint3-campaigns.md
 
 attacks:
 	$(PY) scripts/attacks.py --benchmark data/sprint2/bench --out data/runs/sprint2/attacks
@@ -47,3 +54,10 @@ llm-data:
 
 llm-eval:
 	PYTHONPATH=src $(PY) -m dw1.eval.llm_calibration
+
+# Frozen real top-50 population; local commands do not import torch.
+campaign-review:
+	$(PY) -m dw1.campaigns.review --campaigns "$(CAMPAIGNS)" --documents "$(DOCUMENTS)" --provenance "$(PROVENANCE)" --out data/runs/sprint3/campaigns/review
+
+campaign-eval:
+	$(PY) -m dw1.eval.campaign_review --package data/runs/sprint3/campaigns/review --embeddings "$(EMBEDDINGS)" --annotations "$(ANNOTATIONS)" --reviewers $(REVIEWERS) $(if $(ADJUDICATED_BY),--adjudicated-by "$(ADJUDICATED_BY)") --out data/runs/sprint3/campaigns/eval --report docs/notes/sprint3-campaigns.md
