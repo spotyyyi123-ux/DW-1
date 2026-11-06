@@ -3,7 +3,7 @@
 Вход : data/sprint2/bench_licensed (или любой bench с labels.csv)
 Выход: data/sprint2/llm_benchmark_emails.jsonl (текст = body, без заголовков)
 
-Разметка: provenance (ai_generated=1, human=0); split по хэшу файла (70/15/15).
+Разметка: provenance (ai_generated=1, human=0); split по хэшу тела (70/20/10).
 
 Запуск: python scripts/prepare_email_llm_benchmark.py
 """
@@ -33,19 +33,24 @@ def split_for(group_id: str) -> str:
 
 
 def body_of(eml_path: Path) -> str:
-    raw = eml_path.read_text(encoding="utf-8", errors="ignore")
-    return raw.split("\n\n", 1)[-1].strip() if "\n\n" in raw else raw.strip()
+    from dw1.ingest.mime import parse_eml
+
+    return parse_eml(eml_path)["parts"]["body_text"]["text"].strip()
 
 
 def main() -> int:
     rows = []
     with open(BENCH / "labels.csv", encoding="utf-8") as f:
         for row in csv.DictReader(f):
+            if row["provenance"] not in {"ai_generated", "human"}:
+                raise ValueError("Неизвестная разметка происхождения письма")
+            if row["source"] not in {"llmgen", "nazario"}:
+                raise ValueError("Для Colab разрешены только LLMGen и Nazario")
             path = BENCH / row["file"]
             text = body_of(path)
             if len(text) < 40:
                 continue
-            group_id = path.stem
+            group_id = text_hash(text)
             rows.append(
                 {
                     "message_id": path.stem,
@@ -59,6 +64,16 @@ def main() -> int:
                 }
             )
 
+    # Одинаковые тела писем получают один split и один скор для всех копий.
+    unique = {}
+    for item in rows:
+        key = item["text_sha256"]
+        if key in unique and unique[key]["label"] != item["label"]:
+            raise ValueError("Одинаковый текст имеет противоречивую разметку")
+        unique.setdefault(key, item)
+    print(f"Повторных тел исключено: {len(rows) - len(unique)}")
+    rows = list(unique.values())
+    OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(
         "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n", encoding="utf-8"
     )

@@ -26,7 +26,11 @@ lint:
 	PYTHONPATH=src $(PY) -m mypy src
 
 eval:
+ifeq ($(LLM),1)
+	PYTHONPATH=src $(PY) scripts/evaluate_sprint3_llm.py
+else
 	$(if $(CAMPAIGNS),$(PY) -m dw1.eval.campaigns --campaigns $(CAMPAIGNS) --annotations $(ANNOTATIONS) --out data/runs/$(RUN),$(PY) -m dw1.eval.harness --run $(RUN))
+endif
 
 attacks:
 	$(PY) scripts/attacks.py --benchmark data/sprint2/bench --out data/runs/sprint2/attacks

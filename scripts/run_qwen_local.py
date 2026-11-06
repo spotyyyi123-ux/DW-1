@@ -35,12 +35,16 @@ def main() -> int:
     import numpy as np
     import pandas as pd
     import torch
+    from run_fast_detectgpt import discrepancy
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     from dw1.models.llm_detectors import text_hash, validate_scores
-    from run_fast_detectgpt import discrepancy
 
     frame = pd.read_json(args.benchmark, lines=True)
+    if not 33 <= args.max_tokens <= 512:
+        raise ValueError("max-tokens должен быть от 33 до 512")
+    if args.device.startswith("cuda") and not torch.cuda.is_available():
+        raise ValueError("CUDA GPU недоступен")
     if not set(frame.dataset) <= {"coat", "hc3-en", "emails"}:
         raise ValueError("Разрешены только публичные HC3/CoAT/emails (лицензионный subset)")
     if frame.text_sha256.tolist() != frame.text.map(text_hash).tolist():
@@ -55,7 +59,7 @@ def main() -> int:
         AutoModelForCausalLM.from_pretrained(
             args.model,
             revision=args.revision,
-            torch_dtype=torch.float32,
+            torch_dtype=torch.float16 if args.device.startswith("cuda") else torch.float32,
             use_safetensors=True,
             trust_remote_code=False,
             token=False,
@@ -118,11 +122,13 @@ def main() -> int:
         "max_tokens": args.max_tokens,
         "n_scored": len(scores),
         "n_input": len(frame),
+        "benchmark_sha256": hashlib.sha256(Path(args.benchmark).read_bytes()).hexdigest(),
+        "gpu": torch.cuda.get_device_name(0) if args.device.startswith("cuda") else None,
         "skipped": skipped,
         "device": args.device,
         "torch_version": torch.__version__,
         "limitations": [
-            "CPU-прогон на малой модели (0.5B); качество ниже, чем у GPT-Neo-2.7B.",
+            "Малая surrogate-модель; качество измеряется отдельно по языкам и источникам.",
             "Оцениваются первые max_tokens токенов.",
             "Критерий Fast-DetectGPT не является вероятностью.",
         ],

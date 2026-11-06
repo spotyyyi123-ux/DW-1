@@ -1,0 +1,26 @@
+{
+  "n_files": 200,
+  "n_with_llm_signal": 195,
+  "examples": [
+    {
+      "file": "llmgen_000.eml",
+      "body_text_model_version": "fast-detectgpt-analytic-qwen:Qwen/Qwen2.5-0.5B@060db6499f32faf8b98477b0a26969ef7d8b9987:max512:runnera9d7dfb3ef32:isotonic-by-language-v1",
+      "fusion_components": {
+        "ai": 0.9333,
+        "human": 0.0,
+        "model": "fast-detectgpt",
+        "llm_language": "en"
+      }
+    },
+    {
+      "file": "llmgen_001.eml",
+      "body_text_model_version": "fast-detectgpt-analytic-qwen:Qwen/Qwen2.5-0.5B@060db6499f32faf8b98477b0a26969ef7d8b9987:max512:runnera9d7dfb3ef32:isotonic-by-language-v1",
+      "fusion_components": {
+        "ai": 0.3333,
+        "human": 0.7353,
+        "model": "fast-detectgpt",
+        "llm_language": "en"
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "status": "completed",
+  "detector": "fast-detectgpt-analytic-qwen:Qwen/Qwen2.5-0.5B@060db6499f32faf8b98477b0a26969ef7d8b9987:max512:runnera9d7dfb3ef32",
+  "scoring_model": "Qwen/Qwen2.5-0.5B",
+  "model_revision": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+  "max_tokens": 512,
+  "n_scored": 185,
+  "n_input": 190,
+  "skipped": [
+    {
+      "message_id": "nazario_005",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "nazario_017",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "nazario_039",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "nazario_043",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "nazario_094",
+      "reason": "less_than_32_target_tokens"
+    }
+  ],
+  "device": "cuda",
+  "torch_version": "2.11.0+cu130",
+  "limitations": [
+    "Малая surrogate-модель; качество измеряется отдельно по языкам и источникам.",
+    "Оцениваются первые max_tokens токенов.",
+    "Критерий Fast-DetectGPT не является вероятностью."
+  ]
+}
