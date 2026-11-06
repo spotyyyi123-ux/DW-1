@@ -41,7 +41,8 @@ ECE 0.218, Brier 0.197, F1 0.569, **ROC-AUC 0.913**. Это смена доме�
 - Пакет оценки: `data/runs/sprint3/campaigns/review/` — **50 кластеров, 600 писем**,
   `review.html` (3.4 МБ, ручная разметка), `external_bundle.zip` (220 КБ для Colab),
   `annotation.jsonl` (600 записей, `gold_group` пуст — разметку ставят люди).
-- Для передачи: `data/runs/sprint3/campaigns/review.zip` (931 КБ).
+- Для передачи: `data/runs/sprint3/campaigns/review.zip` (931 КБ) — архив передаётся
+  напрямую (мессенджер/облако); GitHub его не содержит (`.gitignore`: `reports/`, `data/runs/`).
 
 ## Что сделано по задаче 4 (Сергей)
 

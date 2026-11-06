@@ -77,6 +77,8 @@
   (`external_allowed: true`, `approved_by`).
 - Пакет для разметки/Colab: `data/runs/sprint3/campaigns/review/` — 50 кластеров,
   600 писем, `review.html` для 2–3 разметчиков, `external_bundle.zip` для Colab.
+  Архив `review.zip` **не коммитится** (`.gitignore`: `reports/`, `data/runs/`) и передаётся
+  участнику напрямую; в публичный GitHub сырые письма не выкладываются.
 - Сборка: `python scripts/build_campaign_review_inputs.py` +
   `python -m dw1.campaigns.review --campaigns ... --documents ... --provenance ...`.
 - Email-бенчмарк для детектора: `python scripts/prepare_email_llm_benchmark.py`
