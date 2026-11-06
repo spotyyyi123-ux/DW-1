@@ -60,6 +60,8 @@ CI (GitHub Actions) гоняет ruff + mypy + pytest на каждый push.
 - **Sprint 1** — закрыт, тег `m1`: сквозной пайплайн, кластеризация кампаний, бейзлайн.
 - **Sprint 2** — закрыт, тег `m2`: Fast-DetectGPT (EN), 7 атак устойчивости,
   кампании v2 + images/QR, калиброванная фузия, **FP 0% на легит-почте**.
+- **Sprint 3** — закрыт, тег `m3`: Qwen vs GPT-Neo (RU — ограничение), скоры Fast-DetectGPT
+  на письмах, атаки на 600, BCubed F1 кампаний (прокси-gold), сравнение детекторов.
 
 Ключевые метрики:
 
@@ -69,7 +71,10 @@ CI (GitHub Actions) гоняет ruff + mypy + pytest на каждый push.
 | Intent TPR @ FPR 1.5% | 0.993 (порог 0.85 → TPR 0.96 при FPR 0.5%) |
 | FP на легит-почте (Enron) | 0% (100 писем) |
 | Fast-DetectGPT EN | ECE 0.243→0.024, F1 0.89→0.99, AUC 0.988 |
-| Атаки (intent) | деградация ≤1.2% |
+| Fast-DetectGPT на письмах | AUC 0.913 (185 писем, перенос шкалы) |
+| TF-IDF vs Fast-DetectGPT (23 теста) | AUC 1.000 / 0.992 |
+| Атаки на 600 (intent) | TPR 0.97, деградация ≤0.8% |
+| BCubed F1 кампаний (прокси-gold) | baseline 0.900, LSH+HDBSCAN 0.689 |
 | Кампании | 20 304 письма → 427 кластеров |
 
 ## Структура репозитория
@@ -80,7 +85,7 @@ CI (GitHub Actions) гоняет ruff + mypy + pytest на каждый push.
 ├── tests/            # 72+ тестов + фикстуры писем
 ├── scripts/          # демо, отчёты, калибровка, обучение моделей, атаки, внешний Colab-ноутбук
 ├── docs/             # SPEC (ТЗ), SPRINT-1/2/3, TEAM, lit, datasets, отчёты задач
-├── reports/          # артефакты: HTML-отчёт Sprint 2, калибровка Fast-DetectGPT
+├── reports/          # артефакты: HTML-отчёты Sprint 2/3, калибровка Fast-DetectGPT
 ├── data/             # данные и артефакты прогонов (в git — только datasheet и splits)
 ├── AGENTS.md         # инструкции для DSH-агентов
 └── README.md
