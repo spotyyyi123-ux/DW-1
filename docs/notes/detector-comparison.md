@@ -1,70 +1,45 @@
 # Сравнение детекторов на письмах (Sprint 3, задача 4)
 
-Цель: сравнить две ветки определения происхождения на **реальных письмах**:
-нашу TF-IDF-модель и Fast-DetectGPT (LLM-детектор).
+Итоговая таблица: TF-IDF-модель против Fast-DetectGPT (Qwen 2.5-0.5B) на **одних и тех же**
+письмах и сплитах.
 
 ## Данные
 
-Лицензионный subset (только данные с подтверждёнными лицензиями):
-
-| Набор | Роль | Метка | Лицензия |
-|---|---|---|---|
-| LLMGen-Phishing (GPT) | AI-письма | `ai_generated` (1) | Apache-2.0 |
-| Nazario phishing 2023–2025 | человеческие письма | `human` (0) | CC-BY-4.0 |
-
-- 200 писем; email-бенчмарк: `data/sprint2/llm_benchmark_emails.jsonl`
-  (текст = тело письма; сплиты по хэшу файла 70/15/15: train 141 / validation 41 / test 18).
-- seven-phishing и enron сознательно **не** включены: лицензии «на проверке» / приватность.
+- Лицензионный subset: **LLMGen (Apache-2.0, AI-письма) + Nazario (CC-BY-4.0, человеческие)**;
+  200 писем, после удаления повторных тел — 185.
+- Скоры Fast-DetectGPT по письмам: `data/runs/sprint3/alina_email_scores.parquet`
+  (Алина; Qwen 2.5-0.5B, перенос шкалы с HC3/CoAT).
+- Сплиты (по телу письма): train 131 / validation 31 / **test 23**; метки: 100 AI / 85 human.
+- TF-IDF-скоры выровнены на те же строки: `data/runs/sprint3/tfidf_email_scores_aligned.parquet`
+  (`scripts/align_tfidf_scores.py`).
 
 ## Метод
 
-1. Для каждого детектора берётся его score: TF-IDF — `p_ai` модели; Fast-DetectGPT — criterion.
-2. **Platt-калибровка** на train (`LogisticRegression` по score → P(AI)).
-3. Метрики на test: ROC-AUC, F1@0.5, ECE (10 бинов). Реализация:
-   `scripts/compare_detectors.py`.
+Для каждого детектора: Platt (логистическая регрессия по score) на train → вероятность на test;
+метрики: ROC-AUC, F1@0.5, ECE (10 бинов). Реализация — `scripts/compare_detectors.py`.
 
-## Текущие результаты (TF-IDF baseline)
+## Результат (test = 23 письма, одни и те же строки)
 
 | Детектор | Язык | n test | ROC-AUC | F1 | ECE |
 |---|---|---|---|---|---|
-| TF-IDF | en | 18 | 1.000 | 1.000 | 0.098 |
+| Fast-DetectGPT (Qwen 2.5-0.5B) | en | 23 | 0.992 | 0.966 | 0.097 |
+| TF-IDF (наша модель) | en | 23 | 1.000 | 1.000 | 0.107 |
 
-Команда:
+**Вывод:** на этом домене обе ветки разделяют классы почти идеально; TF-IDF даже чуть точнее,
+Fast-DetectGPT — с меньшей ECE после калибровки. Это **не** доказательство превосходства:
+классы разделены и по источнику (LLMGen vs Nazario), тест маленький (23 письма, все фишинг),
+а Fast-DetectGPT переносит шкалу с HC3/CoAT. Настоящая проверка — на реальной почте с
+неизвестным распределением (вне Sprint 3).
 
-```powershell
-python scripts/run_tfidf_emails.py
-python scripts/compare_detectors.py --scores "tfidf=data/runs/sprint2/tfidf_email_scores.parquet"
-```
-
-**Честные оговорки:** test всего 18 писем; классы разделены и по домену (LLMGen vs Nazario),
-поэтому AUC 1.0 — оптимистичная верхняя оценка, а не качество в «дикой» почте.
-
-## Ожидаемая строка Fast-DetectGPT
-
-Когда Алина пришлёт скоры по письмам (`llm_scores.parquet`, формат совместим с
-`llm_detectors.validate_scores`), таблица дополняется:
+## Воспроизведение
 
 ```powershell
+python scripts/run_tfidf_emails.py                     # TF-IDF на 200-письменном бенчмарке
+python scripts/align_tfidf_scores.py --reference data/runs/sprint3/alina_email_scores.parquet `
+  --out data/runs/sprint3/tfidf_email_scores_aligned.parquet
 python scripts/compare_detectors.py `
-  --scores "tfidf=data/runs/sprint2/tfidf_email_scores.parquet" `
-  --scores "fastdetectgpt=path/to/llm_scores_emails.parquet"
+  --scores "fastdetectgpt=data/runs/sprint3/alina_email_scores.parquet" `
+  --scores "tfidf=data/runs/sprint3/tfidf_email_scores_aligned.parquet"
 ```
 
-Ожидание: Fast-DetectGPT даёт менее «идеальный» результат из-за доменного сдвига,
-но проверяет ту же ось независимым методом (вероятностная кривизна).
-
-## Следующий шаг
-
-1. Получить скоры Fast-DetectGPT для писем (задача 1, Алина).
-2. Прогнать сравнение, зафиксировать таблицу в `docs/sprint3-report.md`.
-3. Проверить карточку письма: `components.model = "fast-detectgpt"` при наличии скоров.
-
-## Передача из задачи 1
-
-Результаты Qwen и письма готовы: [отчёт Алины](sprint3-llm.md).
-185 уникальных тел имеют LLM-скор, исходный ZIP содержит 200 файлов.
-В подготовке удалены повторные тела, группы и split определяются полным хэшем тела.
-Приведённый выше старый TF-IDF test n=18 относится к прежнему разбиению;
-с новыми LLM-метриками его напрямую сравнивать нельзя. Пересобрать TF-IDF
-на новом JSONL и сравнивать после пересечения полных хэшей, проверив метки и split.
-Метки Nazario human — допущение корпуса, не подтверждённое авторство.
+Сырые письма в Git не хранятся; в репозиторий коммитится только этот отчёт и пакет разметки.
