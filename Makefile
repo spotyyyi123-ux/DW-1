@@ -27,7 +27,9 @@ lint:
 
 eval:
 ifeq ($(REVIEW_PACKAGE),)
-ifeq ($(LLM),1)
+ifeq ($(LLM),4)
+	PYTHONPATH=src $(PY) scripts/evaluate_sprint4_ru.py
+else ifeq ($(LLM),1)
 	PYTHONPATH=src $(PY) scripts/evaluate_sprint3_llm.py
 else
 	$(if $(CAMPAIGNS),$(PY) -m dw1.eval.campaigns --campaigns $(CAMPAIGNS) --annotations $(ANNOTATIONS) --out data/runs/$(RUN),$(PY) -m dw1.eval.harness --run $(RUN))
