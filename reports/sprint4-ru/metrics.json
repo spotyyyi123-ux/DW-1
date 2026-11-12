@@ -1,0 +1,98 @@
+{
+  "common": 224,
+  "split_counts": {
+    "validation": 77,
+    "train": 76,
+    "test": 71
+  },
+  "improved_ru_discrimination": false,
+  "models": {
+    "GPT-Neo 2.7B": {
+      "n_test": 71,
+      "before": {
+        "ece": 0.07243412461860434,
+        "brier": 0.2389265618085235,
+        "f1": 0.5483870967741935,
+        "roc_auc": 0.6555023923444977
+      },
+      "after": {
+        "ece": 0.16898959036203537,
+        "brier": 0.2972335701116319,
+        "f1": 0.38095238095238093,
+        "roc_auc": 0.381578947368421
+      },
+      "ece_ci95": {
+        "before": [
+          0.023829303004008144,
+          0.19182148530130103
+        ],
+        "after": [
+          0.10725256305968166,
+          0.27414453971619956
+        ]
+      },
+      "n_scored_ru": 300,
+      "source_sha256": "ee464a2ac14f5b3b1eff4645ea2f2bbff4f4e69ba31c3b32d3fce2c017e68951",
+      "model_version": "fast-detectgpt-analytic-v1:EleutherAI/gpt-neo-2.7B@e24fa291132763e59f4a5422741b424fb5d59056:max512:runner61db14ecafe9",
+      "platt_coefficient": -0.1307361897999758
+    },
+    "Qwen2.5-0.5B": {
+      "n_test": 71,
+      "before": {
+        "ece": 0.13766335543920383,
+        "brier": 0.2247823917279012,
+        "f1": 0.6333333333333333,
+        "roc_auc": 0.6921850079744816
+      },
+      "after": {
+        "ece": 0.312470092313073,
+        "brier": 0.3152779389041323,
+        "f1": 0.4,
+        "roc_auc": 0.3608452950558214
+      },
+      "ece_ci95": {
+        "before": [
+          0.06696838769560134,
+          0.24837719604303163
+        ],
+        "after": [
+          0.21477745198656226,
+          0.4114640956489568
+        ]
+      },
+      "n_scored_ru": 224,
+      "source_sha256": "23cb07090975161df498b4ddc4ad8405c948238878fb702f8410723e1ad6ca62",
+      "model_version": "fast-detectgpt-analytic-qwen:Qwen/Qwen2.5-0.5B@060db6499f32faf8b98477b0a26969ef7d8b9987:max512:runnera9d7dfb3ef32",
+      "platt_coefficient": -0.4279932379100368
+    },
+    "Qwen2.5-1.5B": {
+      "n_test": 71,
+      "before": {
+        "ece": 0.13321207984808908,
+        "brier": 0.2311129580624174,
+        "f1": 0.6451612903225806,
+        "roc_auc": 0.6762360446570972
+      },
+      "after": {
+        "ece": 0.14158497833458747,
+        "brier": 0.26334637148108314,
+        "f1": 0.5227272727272727,
+        "roc_auc": 0.412280701754386
+      },
+      "ece_ci95": {
+        "before": [
+          0.09061313162869361,
+          0.24766738842096053
+        ],
+        "after": [
+          0.060431207435778664,
+          0.25457192272723245
+        ]
+      },
+      "n_scored_ru": 224,
+      "source_sha256": "420e92a48b0100bf50b8b7aa9e9ecfae043bab80c46538750efa44a5e35894ed",
+      "model_version": "fast-detectgpt-analytic-qwen:Qwen/Qwen2.5-1.5B@8faed761d45a263340a0528343f099c05c9a4323:max512:runner49a932db480a",
+      "platt_coefficient": -0.32874611250589075
+    }
+  }
+}
