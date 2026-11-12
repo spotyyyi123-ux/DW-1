@@ -83,6 +83,7 @@ def main() -> int:
 
     # Fast-DetectGPT: письма (скоры Алины, Platt на train её сплита)
     scores_path = ROOT / "data/runs/sprint3/alina_email_scores.parquet"
+    tfidf_aligned = ROOT / "data/runs/sprint3/tfidf_email_scores_aligned.parquet"
     if scores_path.exists():
         al = pd.read_parquet(scores_path)
         tr = al[al.split == "train"]
@@ -91,6 +92,25 @@ def main() -> int:
         proba = clf.predict_proba(te[["criterion"]])[:, 1]
         m = metrics(te["label"].to_numpy(), proba)
         rows.append({"source": "Fast-DetectGPT (Qwen)", "target": "emails", **m})
+
+        # Ансамбль: среднее калиброванных вероятностей TF-IDF и Fast-DetectGPT
+        if tfidf_aligned.exists():
+            tf = pd.read_parquet(tfidf_aligned)
+            merged = al[["message_id", "label", "split", "criterion"]].merge(
+                tf[["message_id", "criterion"]], on="message_id", suffixes=("_fd", "_tf")
+            )
+            mtr = merged[merged.split == "train"]
+            mte = merged[merged.split == "test"]
+            clf_tf = LogisticRegression().fit(mtr[["criterion_tf"]], mtr["label"])
+            clf_fd = LogisticRegression().fit(mtr[["criterion_fd"]], mtr["label"])
+            p_ens = 0.5 * (
+                clf_tf.predict_proba(mte[["criterion_tf"]])[:, 1]
+                + clf_fd.predict_proba(mte[["criterion_fd"]])[:, 1]
+            )
+            rows.append(
+                {"source": "Ансамбль (TF-IDF+Fast-DetectGPT)", "target": "emails",
+                 **metrics(mte["label"].to_numpy(), p_ens)}
+            )
 
     out = ROOT / "data" / "runs" / "sprint4" / "external_validation.json"
     out.parent.mkdir(parents=True, exist_ok=True)
