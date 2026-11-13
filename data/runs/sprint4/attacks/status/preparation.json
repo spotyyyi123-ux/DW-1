@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task": "sprint4-task2",
+  "status": "prepared_not_measured",
+  "benchmark_present": false,
+  "model_manifest_present": false,
+  "required_population": 600,
+  "measured_messages": 0,
+  "llm_paraphrase_measured": false,
+  "intent_robustness_conclusion": null,
+  "missing": [
+    "600 real labeled benchmark emails",
+    "trusted frozen TF-IDF and intent weights with complete training hashes",
+    "attack-specific public-data export provenance",
+    "external LLM rewrites and Fast-DetectGPT scores",
+    "human semantic approval of rewrites"
+  ],
+  "historical_metrics_reused": false
+}

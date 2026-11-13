@@ -1,0 +1,15 @@
+{
+  "purpose": "sprint4-attacks-v2",
+  "external_allowed": false,
+  "internal_customer_data": false,
+  "approved_by": "",
+  "approved_at": "",
+  "sources": {
+    "REPLACE_WITH_SOURCE_FROM_LABELS_CSV": {
+      "public_dataset": false,
+      "external_allowed": false,
+      "license": "",
+      "evidence": ""
+    }
+  }
+}
