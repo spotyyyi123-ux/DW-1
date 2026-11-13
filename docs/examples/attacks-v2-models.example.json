@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "training_hashes_complete": false,
+  "training_hash_policy": "exact-utf8+body-lower-whitespace-v1",
+  "attested_by": "",
+  "attested_at": "",
+  "models": {
+    "provenance": {
+      "path": "prov_model.joblib",
+      "sha256": "",
+      "version": "",
+      "training_text_sha256": [],
+      "training_body_normalized_sha256": [],
+      "training_provenance": ""
+    },
+    "intent": {
+      "path": "intent_model.joblib",
+      "sha256": "",
+      "version": "",
+      "training_text_sha256": [],
+      "training_body_normalized_sha256": [],
+      "training_provenance": ""
+    }
+  }
+}
