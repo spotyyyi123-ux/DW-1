@@ -1,0 +1,16 @@
+{
+  "task": "Sprint 4 task 3",
+  "status": "awaiting_independent_human_annotations",
+  "package_id": "be029c061a53aaeff24615d5cc3b83055a6166375983bdc5762d3d8a1c0a2377",
+  "n_documents": 600,
+  "n_source_clusters": 50,
+  "human_bcubed_f1": null,
+  "received_human_annotations": 0,
+  "updated": "2026-11-13",
+  "preparation_complete": true,
+  "minimum_independent_reviewers": 2,
+  "prepared_reviewer_pages": 3,
+  "source_archive_sha256": "4009c8928bbf3e7bed21f67b1776862910d1898dccb3b9adcf48d1af17bab471",
+  "raw_email_publication": false,
+  "method": "docs/notes/sprint4-human-bcubed-method.md"
+}
