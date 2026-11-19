@@ -54,7 +54,9 @@ def _summary(y, probability):
     )
 
 
-def calibrate(frame: pd.DataFrame, min_per_class=16, *, languages=("en", "ru")):
+def calibrate(
+    frame: pd.DataFrame, min_per_class=16, *, languages=("en", "ru"), direction_from_train=False
+):
     """Platt обучается на train; isotonic по языкам — на validation; отчёт только test."""
     validate_scores(frame)
     frame = frame[frame.language.isin(languages)]
@@ -70,7 +72,8 @@ def calibrate(frame: pd.DataFrame, min_per_class=16, *, languages=("en", "ru")):
     config: dict[str, Any] = dict(
         schema_version=1,
         model_version=str(frame.model_version.iloc[0]),
-        calibration_version="isotonic-by-language-v1",
+        calibration_version=("isotonic-train-direction-v2" if direction_from_train
+                             else "isotonic-by-language-v1"),
         before_definition=f"Platt(train), языки {', '.join(languages)}; criterion не вероятность",
         platt_coefficient=float(platt.coef_[0, 0]),
         platt_intercept=float(platt.intercept_[0]),
@@ -81,9 +84,18 @@ def calibrate(frame: pd.DataFrame, min_per_class=16, *, languages=("en", "ru")):
     for language in languages:
         val = frame[(frame.language == language) & (frame.split == "validation")]
         test = frame[(frame.language == language) & (frame.split == "test")].copy()
-        iso = IsotonicRegression(out_of_bounds="clip").fit(val.criterion, val.label)
+        direction = 1
+        if direction_from_train:
+            language_train = train[train.language == language]
+            language_platt = LogisticRegression(random_state=42).fit(
+                language_train[["criterion"]], language_train.label
+            )
+            direction = 1 if language_platt.coef_[0, 0] >= 0 else -1
+        iso = IsotonicRegression(out_of_bounds="clip").fit(
+            val.criterion * direction, val.label
+        )
         before = platt.predict_proba(test[["criterion"]])[:, 1]
-        after = iso.predict(test.criterion)
+        after = iso.predict(test.criterion * direction)
         test["p_ai_before"] = before
         test["p_ai_after"] = after
         evaluated.append(test)
@@ -109,6 +121,7 @@ def calibrate(frame: pd.DataFrame, min_per_class=16, *, languages=("en", "ru")):
             before=bounds[:, 0].tolist(), after=bounds[:, 1].tolist()
         )
         config["languages"][language] = dict(
+            score_direction=direction,
             isotonic_x=iso.X_thresholds_.tolist(),
             isotonic_y=iso.y_thresholds_.tolist(),
             n_calibration=len(val),
