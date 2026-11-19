@@ -1,0 +1,324 @@
+{
+  "status": "completed",
+  "detector": "fast-detectgpt-analytic-qwen:Qwen/Qwen2.5-1.5B@8faed761d45a263340a0528343f099c05c9a4323:max512:runner49a932db480a",
+  "scoring_model": "Qwen/Qwen2.5-1.5B",
+  "model_revision": "8faed761d45a263340a0528343f099c05c9a4323",
+  "max_tokens": 512,
+  "n_scored": 224,
+  "n_input": 300,
+  "benchmark_sha256": "04959e3440db1d4c358a8f86750042b4cd90f1246d78c7d441fe77fe6899e013",
+  "gpu": "Tesla T4",
+  "skipped": [
+    {
+      "message_id": "coat-176904",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-142678",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-188472",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-83360",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-135680",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-21020",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-230363",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-157947",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-17008",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-414",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-158862",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-124155",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-147918",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-26129",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-154290",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-150136",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-878",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-145779",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-6132",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-122911",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-137504",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-138105",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-141716",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-1106",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-7042",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-24525",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-18804",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-19187",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-211470",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-158388",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-174867",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-140783",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-192362",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-192652",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-1852",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-142562",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-173786",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-132011",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-14108",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-21891",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-126519",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-123290",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-156661",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-135170",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-140687",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-169833",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-126859",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-18893",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-148912",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-129276",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-123525",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-26368",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-15272",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-90994",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-16825",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-126337",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-136791",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-1757",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-180867",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-141062",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-175360",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-9159",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-134243",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-2015",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-129428",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-139375",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-145474",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-173438",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-6394",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-125781",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-136761",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-176133",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-173518",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-148192",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-133518",
+      "reason": "less_than_32_target_tokens"
+    },
+    {
+      "message_id": "coat-141691",
+      "reason": "less_than_32_target_tokens"
+    }
+  ],
+  "device": "cuda",
+  "torch_version": "2.14.1+cu130",
+  "limitations": [
+    "Малая surrogate-модель; качество измеряется отдельно по языкам и источникам.",
+    "Оцениваются первые max_tokens токенов.",
+    "Критерий Fast-DetectGPT не является вероятностью."
+  ]
+}
