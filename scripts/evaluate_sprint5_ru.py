@@ -8,6 +8,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from sklearn.metrics import roc_auc_score
 
 from dw1.eval.llm_calibration import calibrate
 from dw1.models.llm_detectors import LLMScoreStore, validate_scores
@@ -74,6 +75,20 @@ def main():
         "metrics": metrics,
         "integration": "JSON-калибратор воспроизвёл все тестовые прогнозы",
     }
+    legacy, directed = predictions
+    rng = np.random.default_rng(42)
+    auc_differences = []
+    for _ in range(1000):
+        indices = rng.integers(0, len(directed), len(directed))
+        labels = directed.label.to_numpy()[indices]
+        if len(np.unique(labels)) == 2:
+            auc_differences.append(
+                roc_auc_score(labels, directed.p_ai_after.to_numpy()[indices])
+                - roc_auc_score(labels, legacy.p_ai_after.to_numpy()[indices])
+            )
+    summary["paired_auc_difference_ci95"] = np.quantile(
+        auc_differences, [0.025, 0.975]
+    ).tolist()
     pd.concat(predictions).to_parquet(root / "predictions.parquet", index=False)
     (root / "metrics.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
     rows = [
