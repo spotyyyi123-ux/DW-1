@@ -1,0 +1,24 @@
+[
+  {
+    "source": "public_coat_test",
+    "label": 0,
+    "fusion_components": {
+      "ai": 0.4915,
+      "human": 0.6793,
+      "model": "fast-detectgpt",
+      "llm_language": "ru"
+    },
+    "model_version": "fast-detectgpt-analytic-qwen:Qwen/Qwen2.5-0.5B@060db6499f32faf8b98477b0a26969ef7d8b9987:max512:runner49a932db480a:isotonic-train-direction-v2"
+  },
+  {
+    "source": "public_coat_test",
+    "label": 1,
+    "fusion_components": {
+      "ai": 1.0,
+      "human": 0.0,
+      "model": "fast-detectgpt",
+      "llm_language": "ru"
+    },
+    "model_version": "fast-detectgpt-analytic-qwen:Qwen/Qwen2.5-0.5B@060db6499f32faf8b98477b0a26969ef7d8b9987:max512:runner49a932db480a:isotonic-train-direction-v2"
+  }
+]

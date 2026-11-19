@@ -125,3 +125,35 @@ def test_body_text_keeps_intent_when_llm_signal_exists(tmp_path, scores, monkeyp
     # что и без LLM-скоров (эвристики/модель намерения не трогаются).
     assert result["intent"] == baseline["intent"]
     assert result["ai_provenance"]["evidence"][0]["signal"] == "fast_detectgpt"
+
+
+def test_ru_direction_and_loader(tmp_path, scores):
+    """Убывающие RU-скоры правильно калибруются и читаются из JSON."""
+    ru = scores[scores.language == "ru"].copy()
+    ru["criterion"] *= -1
+    config, metrics, predictions = calibrate(
+        ru, languages=("ru",), direction_from_train=True
+    )
+    assert config["languages"]["ru"]["score_direction"] == -1
+    assert metrics["ru"]["after"]["roc_auc"] > 0.9
+    path = tmp_path / "scores.parquet"
+    ru.to_parquet(path, index=False)
+    config["score_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    calibration = tmp_path / "calibration.json"
+    calibration.write_text(json.dumps(config))
+    store = LLMScoreStore(path, calibration)
+    for row in predictions.itertuples():
+        suffix = int(row.message_id.rsplit("-", 1)[1])
+        text = fixture_text("ru", "test", row.label, suffix)
+        assert np.isclose(
+            store.lookup(text)["evidence"][0]["value"]["p_ai"], row.p_ai_after
+        )
+
+
+def test_direction_ignores_test_labels(scores):
+    ru = scores[scores.language == "ru"].copy()
+    ru["criterion"] *= -1
+    before, _, _ = calibrate(ru, languages=("ru",), direction_from_train=True)
+    ru.loc[ru.split == "test", "label"] = 1 - ru.loc[ru.split == "test", "label"]
+    after, _, _ = calibrate(ru, languages=("ru",), direction_from_train=True)
+    assert before == after

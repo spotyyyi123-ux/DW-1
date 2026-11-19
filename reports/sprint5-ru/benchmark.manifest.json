@@ -1,0 +1,45 @@
+{
+  "seed": 20261119,
+  "n_input": 600,
+  "benchmark_sha256": "f290f457e7be4d2d28050923c7609f82550b65bfc9f6afb811badc87941cdffc",
+  "previous_sha256": "1311a80e8ab1c38073f4160118090cfaaaace3248f7f82512a0ef8a16964004c",
+  "raw_sha256": "6a4df1b6fd9aeebb29157d731ab3bfe697b4a6fe68a9115e93fbd0263f52ab2d",
+  "near_old_removed": 0,
+  "near_split_removed": 0,
+  "counts": [
+    {
+      "split": "test",
+      "label": 0,
+      "n": 100
+    },
+    {
+      "split": "test",
+      "label": 1,
+      "n": 100
+    },
+    {
+      "split": "train",
+      "label": 0,
+      "n": 100
+    },
+    {
+      "split": "train",
+      "label": 1,
+      "n": 100
+    },
+    {
+      "split": "validation",
+      "label": 0,
+      "n": 100
+    },
+    {
+      "split": "validation",
+      "label": 1,
+      "n": 100
+    }
+  ],
+  "limitations": [
+    "CoAT не содержит всех исходных групп вариантов.",
+    "Приближённый поиск близких повторов может пропустить совпадения."
+  ]
+}

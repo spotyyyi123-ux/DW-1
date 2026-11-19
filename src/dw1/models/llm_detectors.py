@@ -81,6 +81,8 @@ class LLMScoreStore:
         if self.config.get("schema_version") != 1:
             raise ValueError("Неизвестная версия формата калибровки")
         for cfg in self.config["languages"].values():
+            if cfg.get("score_direction", 1) not in {-1, 1}:
+                raise ValueError("Некорректное направление калибровки")
             xs = np.asarray(cfg["isotonic_x"], dtype=float)
             ys = np.asarray(cfg["isotonic_y"], dtype=float)
             if (
@@ -105,7 +107,10 @@ class LLMScoreStore:
         cfg = self.config["languages"].get(language)
         if cfg is None:
             return None
-        probability = float(np.interp(float(row.criterion), cfg["isotonic_x"], cfg["isotonic_y"]))
+        probability = float(np.interp(
+            float(row.criterion) * cfg.get("score_direction", 1),
+            cfg["isotonic_x"], cfg["isotonic_y"]
+        ))
         label = "ai_generated" if probability >= 0.5 else "human"
         return {
             "label": label,
