@@ -1,4 +1,2 @@
 # Нормализация переводов строк: команда на Windows, CI на Linux
 * text=auto eol=lf
-# Frozen dataset metadata is hashed as bytes by the training receipt.
-data/runs/sprint5/images/dataset.manifest.json -text

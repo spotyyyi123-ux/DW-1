@@ -8,7 +8,7 @@
     "license": "Apache-2.0",
     "sha256": "3b4d048057854022232aa20bf68262e31718ab7119a17f920b8a2dc1433f824b"
   },
-  "dataset_sha256": "86720cdd785791c36cb09a516cbecb666890f622b6f3666bf031d46fbddc98d6",
+  "dataset_sha256": "0cceede544191aac3df0f32a7bfcff0ec31eb8ee731871af9f9fdf3e6475905c",
   "dataset_revision": "e112a942abaecd02b6b1f6f646c807d56be8fb62",
   "license": "MIT",
   "license_evidence": "https://github.com/jordan-bird/CIFAKE-Real-and-AI-Generated-Synthetic-Images/blob/e112a942abaecd02b6b1f6f646c807d56be8fb62/README.md",

@@ -279,7 +279,7 @@
       }
     ],
     "watermark": "not evaluated; absence is not evidence of real origin",
-    "training_manifest_sha256": "4a6ff8b7a83713c7ebe7d651b5902275d61eb14348700a62fdc55c0547c7813c",
+    "training_manifest_sha256": "913a1aa3f1c7ab4353726fa962d7ec0b38954ebc274d5be6c43888127b85b4de",
     "clean_before_calibration": {
       "auc": 0.87735,
       "f1": 0.8087167070217918,
