@@ -1,0 +1,15 @@
+{
+  "scope": "Sprint 4 task 3 — preparation and human-gold validation",
+  "updated": "2026-11-13",
+  "pytest": {"passed": 147},
+  "ruff": "passed",
+  "mypy": {"status": "passed", "source_files": 45},
+  "browser_checks": ["blank start", "incomplete final disabled", "draft save", "draft restore", "final remains disabled without confirmation"],
+  "make_eval_guard": "blank/unconfirmed actual annotation rejected before metric/report creation",
+  "real_package": {"documents": 600, "source_clusters": 50, "hashes_verified": true},
+  "human_annotations_received": 0,
+  "human_bcubed_f1": null,
+  "synthetic_tests_are_not_human_metrics": true,
+  "local_torch_installed": false,
+  "public_raw_email_files": false
+}

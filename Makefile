@@ -33,11 +33,11 @@ else
 	$(if $(CAMPAIGNS),$(PY) -m dw1.eval.campaigns --campaigns $(CAMPAIGNS) --annotations $(ANNOTATIONS) --out data/runs/$(RUN),$(PY) -m dw1.eval.harness --run $(RUN))
 endif
 else
-	$(PY) -m dw1.eval.campaign_review --package "$(REVIEW_PACKAGE)" --embeddings "$(EMBEDDINGS)" --annotations "$(ANNOTATIONS)" --reviewers $(REVIEWERS) $(if $(ADJUDICATED_BY),--adjudicated-by "$(ADJUDICATED_BY)") --out "$(EVAL_OUT)" --report "$(CAMPAIGN_REPORT)"
+	$(PY) -m dw1.eval.campaign_review --package "$(REVIEW_PACKAGE)" --embeddings "$(EMBEDDINGS)" --annotations "$(ANNOTATIONS)" --reviewers $(REVIEWERS) $(if $(ADJUDICATED_BY),--adjudicated-by "$(ADJUDICATED_BY)") $(if $(filter 1,$(HUMAN_GOLD)),--human-gold) $(if $(ADJUDICATION_RECORD),--adjudication-record "$(ADJUDICATION_RECORD)") --out "$(EVAL_OUT)" --report "$(CAMPAIGN_REPORT)"
 endif
 
-EVAL_OUT ?= data/runs/sprint3/campaigns/eval
-CAMPAIGN_REPORT ?= docs/notes/sprint3-campaigns.md
+EVAL_OUT ?= $(if $(filter 1,$(HUMAN_GOLD)),data/runs/sprint4/campaigns/human-eval,data/runs/sprint3/campaigns/eval)
+CAMPAIGN_REPORT ?= $(if $(filter 1,$(HUMAN_GOLD)),docs/notes/sprint4-human-bcubed.md,docs/notes/sprint3-campaigns.md)
 
 attacks:
 	$(PY) scripts/attacks.py --benchmark data/sprint2/bench --out data/runs/sprint2/attacks
@@ -61,3 +61,9 @@ campaign-review:
 
 campaign-eval:
 	$(PY) -m dw1.eval.campaign_review --package data/runs/sprint3/campaigns/review --embeddings "$(EMBEDDINGS)" --annotations "$(ANNOTATIONS)" --reviewers $(REVIEWERS) $(if $(ADJUDICATED_BY),--adjudicated-by "$(ADJUDICATED_BY)") --out data/runs/sprint3/campaigns/eval --report docs/notes/sprint3-campaigns.md
+
+# Private packet: never add the generated HTML/ZIP with email bodies to public Git.
+HUMAN_PACKET_OUT ?= data/runs/sprint4/human-review
+HUMAN_REVIEWERS ?= 3
+human-review:
+	$(PY) -m dw1.campaigns.human_review --package "$(REVIEW_PACKAGE)" --out "$(HUMAN_PACKET_OUT)" --reviewers $(HUMAN_REVIEWERS)
