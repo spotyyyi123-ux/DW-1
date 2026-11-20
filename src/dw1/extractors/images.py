@@ -1,4 +1,4 @@
-"""Measured image features; no trained provenance classifier."""
+"""Image measurements and an optional, separately identified trained classifier."""
 
 from dw1.extractors import BaseExtractor, register
 
@@ -30,4 +30,23 @@ class ImagesExtractor(BaseExtractor):
                     evidence.append(
                         {"signal": f"image_{i}_{key}", "value": image[key], "weight": 0.0}
                     )
-        return measured_signal(evidence, self.version)
+        result = measured_signal(evidence, self.version)
+        scored = []
+        for i, image in enumerate(parts.get("images", [])):
+            detector = image.get("ai_detector", {"status": "model_unavailable"})
+            evidence.append({"signal": f"image_{i}_ai_detector", "value": detector, "weight": 0.0})
+            if detector.get("status") == "scored":
+                scored.append(detector)
+        # Each image keeps its own model result. The element-level summary uses
+        # the highest p_ai; it is not a calibrated probability for the whole email.
+        if scored:
+            selected = max(scored, key=lambda row: row["p_ai"])
+            if selected["label"] == "human" and len(scored) != len(parts.get("images", [])):
+                return result
+            result["ai_provenance"] = {
+                "label": selected["label"],
+                "confidence": selected["confidence"],
+                "model_version": selected["model_version"],
+                "evidence": evidence,
+            }
+        return result

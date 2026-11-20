@@ -1,0 +1,145 @@
+{
+  "status": "measured_synthetic_baseline",
+  "n_sources": 5,
+  "n_variants": 105,
+  "payload_match_rate": 0.8285714285714286,
+  "n_correct": 87,
+  "statuses": {
+    "decoded": 87,
+    "detected_undecoded": 17,
+    "not_found": 1
+  },
+  "opencv_version": "5.0.0",
+  "decoder": "current production QRCodeDetector; no new QR-v2 preprocessing",
+  "phash_mean": 4.876190476190477,
+  "predictions_sha256": "c29b7ae55fbdd6a90da8d46ec9e79e0f4e8baccaabd259f8fc083fd64c6e5dc2",
+  "per_attack": [
+    {
+      "variant": "blur_1",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "blur_2",
+      "count": 5,
+      "sum": 4,
+      "mean": 0.8
+    },
+    {
+      "variant": "blur_3",
+      "count": 5,
+      "sum": 1,
+      "mean": 0.2
+    },
+    {
+      "variant": "contrast_0.5",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "darken_0.7",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "downup",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "grayscale",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "jpeg_q30",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "jpeg_q50",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "jpeg_q70",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "jpeg_q90",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "noise",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "occlusion",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "original",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "perspective",
+      "count": 5,
+      "sum": 0,
+      "mean": 0.0
+    },
+    {
+      "variant": "resize_15",
+      "count": 5,
+      "sum": 0,
+      "mean": 0.0
+    },
+    {
+      "variant": "resize_25",
+      "count": 5,
+      "sum": 2,
+      "mean": 0.4
+    },
+    {
+      "variant": "resize_50",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "rotate_15",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "rotate_45",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    },
+    {
+      "variant": "rotate_5",
+      "count": 5,
+      "sum": 5,
+      "mean": 1.0
+    }
+  ],
+  "scope": "Five generated single QR payloads; not real mail attachments; exact payload match, not merely any decoded string"
+}
