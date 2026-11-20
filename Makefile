@@ -26,6 +26,9 @@ lint:
 	PYTHONPATH=src $(PY) -m mypy src
 
 eval:
+ifeq ($(QR),1)
+	$(PY) scripts/validate_qr.py
+else
 ifeq ($(REVIEW_PACKAGE),)
 ifeq ($(LLM),1)
 	PYTHONPATH=src $(PY) scripts/evaluate_sprint3_llm.py
@@ -34,6 +37,7 @@ else
 endif
 else
 	$(PY) -m dw1.eval.campaign_review --package "$(REVIEW_PACKAGE)" --embeddings "$(EMBEDDINGS)" --annotations "$(ANNOTATIONS)" --reviewers $(REVIEWERS) $(if $(ADJUDICATED_BY),--adjudicated-by "$(ADJUDICATED_BY)") --out "$(EVAL_OUT)" --report "$(CAMPAIGN_REPORT)"
+endif
 endif
 
 EVAL_OUT ?= data/runs/sprint3/campaigns/eval
