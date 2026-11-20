@@ -5,11 +5,11 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from PIL import Image
+from PIL import Image, ImageOps
 
 from dw1.extractors.headers import HeadersExtractor
 from dw1.extractors.html import HtmlExtractor
-from dw1.extractors.image_features import inspect_image
+from dw1.extractors.image_features import decode_qr, inspect_image
 from dw1.extractors.links import LinksExtractor
 from dw1.pipeline import analyze
 
@@ -95,9 +95,98 @@ def test_qr_attachment_end_to_end(tmp_path, monkeypatch):
     result = analyze(eml)
     assert result.parts["qr"][0]["text"] == url
     assert any(link["source"] == "qr" for link in result.parts["links"])
+    assert flags(LinksExtractor(), result.parts)["link_0_domain"] == "example.invalid"
     assert Path(result.parts["images"][0]["preview_path"]).is_file()
     assert result.parts["attachments"][0]["name"] == "code.png"
     result.validate()
+
+
+def test_qr_inverted_and_multiple_codes_share_base_coordinates():
+    pytest.importorskip("cv2")
+    qrcode = pytest.importorskip("qrcode")
+    first = qrcode.make("https://example.invalid/one", box_size=5).convert("L")
+    second = ImageOps.invert(
+        qrcode.make("https://example.invalid/two", box_size=5).convert("L")
+    )
+    image = Image.new("L", (first.width + second.width + 20, first.height), "white")
+    image.paste(first, (0, 0))
+    image.paste(second, (first.width + 20, 0))
+    result = decode_qr(image)
+    assert result["status"] == "decoded"
+    assert result["coordinate_size"] == list(image.size)
+    decoded = [code for code in result["codes"] if code["decoded"]]
+    assert sorted(code["text"] for code in decoded) == [
+        "https://example.invalid/one",
+        "https://example.invalid/two",
+    ]
+    for code in decoded:
+        if code["text"].endswith("/one"):
+            assert all(0 <= x < first.width for x, _ in code["points"])
+        else:
+            assert all(first.width + 20 <= x < image.width for x, _ in code["points"])
+
+
+def test_qr_decoder_statuses(monkeypatch):
+    import sys
+    from types import SimpleNamespace
+
+    image = Image.new("L", (80, 80), "white")
+    monkeypatch.setitem(sys.modules, "cv2", None)
+    assert decode_qr(image)["status"] == "decoder_unavailable"
+
+    class DecoderError(Exception):
+        pass
+
+    def fail():
+        raise DecoderError
+
+    monkeypatch.setitem(
+        sys.modules, "cv2", SimpleNamespace(QRCodeDetector=fail, error=DecoderError)
+    )
+    assert decode_qr(image)["status"] == "decode_error"
+
+    points = np.array([[[10, 10], [60, 10], [60, 60], [10, 60]]])
+    detector = SimpleNamespace(
+        detectAndDecodeMulti=lambda _: (False, (), points, ()),
+        detectAndDecode=lambda _: ("", None, None),
+    )
+    monkeypatch.setitem(
+        sys.modules, "cv2", SimpleNamespace(QRCodeDetector=lambda: detector, error=DecoderError)
+    )
+    assert decode_qr(image, preprocess=False)["status"] == "detected_undecoded"
+    detector.detectAndDecodeMulti = lambda _: (False, (), None, ())
+    assert decode_qr(image, preprocess=False)["status"] == "not_found"
+
+
+def test_qr_link_ingest_ignores_invalid_urls(tmp_path, monkeypatch):
+    import dw1.ingest.mime as mime
+
+    msg = EmailMessage()
+    msg.set_content("https://example.invalid/already")
+    msg.add_attachment(b"fixture", maintype="image", subtype="png")
+    eml = tmp_path / "qr-urls.eml"
+    eml.write_bytes(msg.as_bytes())
+    urls = [
+        "https://example.invalid/already",
+        "HTTPS://EXAMPLE.INVALID/add",
+        "https://[broken",
+        "https:///missing-host",
+        "https://example.invalid/a\nb",
+        "javascript:alert(1)",
+    ]
+    monkeypatch.setattr(
+        mime,
+        "inspect_image",
+        lambda _: {
+            "sha256": "image",
+            "qr": {"codes": [{"text": url, "decoded": True} for url in urls]},
+        },
+    )
+    parts = mime.parse_eml(eml)["parts"]
+    assert len(parts["qr"]) == len(urls)
+    assert [link["url"] for link in parts["links"]] == urls[:2]
+    assert parts["links"][1]["domain"] == "example.invalid"
+    assert parts["links"][1]["source"] == "qr"
 
 
 def test_card_preserves_rejection_and_escapes():
