@@ -26,6 +26,11 @@ lint:
 	PYTHONPATH=src $(PY) -m mypy src
 
 eval:
+ifeq ($(IMAGES_V2),1)
+	$(PY) scripts/images_v2.py --predictions "$(IMAGE_PREDICTIONS)" --out "$(IMAGE_EVAL_OUT)"
+else ifeq ($(VISUAL_V2),1)
+	$(PY) scripts/validate_sprint5.py --out "$(VISUAL_EVAL_OUT)"
+else
 ifeq ($(REVIEW_PACKAGE),)
 ifeq ($(LLM),1)
 	PYTHONPATH=src $(PY) scripts/evaluate_sprint3_llm.py
@@ -36,7 +41,11 @@ else
 	$(PY) -m dw1.eval.campaign_review --package "$(REVIEW_PACKAGE)" --embeddings "$(EMBEDDINGS)" --annotations "$(ANNOTATIONS)" --reviewers $(REVIEWERS) $(if $(ADJUDICATED_BY),--adjudicated-by "$(ADJUDICATED_BY)") --out "$(EVAL_OUT)" --report "$(CAMPAIGN_REPORT)"
 endif
 
+endif
 EVAL_OUT ?= data/runs/sprint3/campaigns/eval
+IMAGE_PREDICTIONS ?= data/runs/sprint5/images/predictions.parquet
+IMAGE_EVAL_OUT ?= data/runs/sprint5/images
+VISUAL_EVAL_OUT ?= data/runs/sprint5/validation
 CAMPAIGN_REPORT ?= docs/notes/sprint3-campaigns.md
 
 attacks:

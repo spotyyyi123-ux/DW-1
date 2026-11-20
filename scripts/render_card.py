@@ -149,6 +149,13 @@ def render(data: dict) -> str:
                      f'<p>Слоты: {esc(template.get("slots", {}))}</p></section>')
     media_html = '<section class="meta"><h2>Изображения и QR</h2>'
     for image in parts.get("images", []):
+        detector = image.get("ai_detector", {})
+        if detector.get("status") == "scored":
+            media_html += (f'<p><b>Детектор AI-изображения:</b> '
+                           f'{esc(detector.get("label"))}; p(AI)={esc(detector.get("p_ai"))}</p>'
+                           f'<p>Модель: {esc(detector.get("model_version"))}. '
+                           f'Область проверки: {esc(detector.get("evaluation_scope"))}. '
+                           'Намерение изображения: unknown.</p>')
         preview = str(image.get("preview_path", ""))
         if re.fullmatch(r"images/[0-9a-f]{64}\.png", preview):
             media_html += f'<img src="{esc(preview)}" alt="Артефакт изображения/QR" width="220">'

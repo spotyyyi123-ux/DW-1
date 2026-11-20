@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "runtime_matches": [
+    {
+      "image_id": "test/REAL/0072 (6).jpg",
+      "label": 0,
+      "p_ai": 0.013362116889647764,
+      "matches_saved_prediction": true
+    },
+    {
+      "image_id": "test/REAL/0096 (2).jpg",
+      "label": 0,
+      "p_ai": 0.31544774763398487,
+      "matches_saved_prediction": true
+    },
+    {
+      "image_id": "test/REAL/0003 (5).jpg",
+      "label": 0,
+      "p_ai": 0.43462183768862656,
+      "matches_saved_prediction": true
+    },
+    {
+      "image_id": "test/REAL/0036 (8).jpg",
+      "label": 0,
+      "p_ai": 0.04846946275215917,
+      "matches_saved_prediction": true
+    },
+    {
+      "image_id": "test/FAKE/102 (6).jpg",
+      "label": 1,
+      "p_ai": 0.9988997904545501,
+      "matches_saved_prediction": true
+    },
+    {
+      "image_id": "test/FAKE/174 (9).jpg",
+      "label": 1,
+      "p_ai": 0.8775843129775339,
+      "matches_saved_prediction": true
+    },
+    {
+      "image_id": "test/FAKE/151 (6).jpg",
+      "label": 1,
+      "p_ai": 0.6120549141911059,
+      "matches_saved_prediction": true
+    },
+    {
+      "image_id": "test/FAKE/102 (3).jpg",
+      "label": 1,
+      "p_ai": 0.9949694439478401,
+      "matches_saved_prediction": true
+    }
+  ],
+  "intent_label": "unknown"
+}

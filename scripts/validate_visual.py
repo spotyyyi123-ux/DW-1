@@ -56,7 +56,7 @@ def variants(image: Image.Image) -> dict[str, bytes]:
     # перспектива: сдвиг четырёх углов
     w, h = rgb.size
     quad = (0.05 * w, 0.10 * h, 0.95 * w, 0.0, 0.90 * w, h, 0.0, 0.90 * h)
-    out["perspective"] = payload(rgb.transform((w, h), Image.QUAD, quad, fillcolor="white"))
+    out["perspective"] = payload(rgb.transform((w, h), Image.Transform.QUAD, quad, fillcolor="white"))
 
     # шум
     arr = np.asarray(rgb).astype(np.int16) + np.random.default_rng(42).normal(0, 25, (h, w, 3))
@@ -70,7 +70,7 @@ def variants(image: Image.Image) -> dict[str, bytes]:
 
     # даунскейл→апскейл (потеря деталей)
     small = rgb.resize((max(8, int(w * 0.3)), max(8, int(h * 0.3))))
-    out["downup"] = payload(small.resize((w, h), Image.LANCZOS))
+    out["downup"] = payload(small.resize((w, h), Image.Resampling.LANCZOS))
     return out
 
 
@@ -112,7 +112,7 @@ def main() -> int:
     OUT.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
 
     total = len(rows)
-    decoded = sum(r["decoded"] for r in rows)
+    decoded = sum(bool(r["decoded"]) for r in rows)
     print(f"эталон: {sources[0].name} | QR payload: {base_codes[:1]}")
     print(f"{'искажение':14}{'QR статус':20}{'декод':>6}{'pHash dist':>11}")
     print("-" * 55)

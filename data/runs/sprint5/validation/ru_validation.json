@@ -1,0 +1,47 @@
+{
+  "status": "reported_not_recomputed",
+  "source_commit": "593dfda021593839a8327082403593ac564ce48d",
+  "source_path": "reports/sprint5-ru/metrics.json",
+  "score_sha256": "7cb7a1f2019700bc0d65ef7a2090a1e41a481440ae1f787a4cb374bcb44a4d83",
+  "n_input": 600,
+  "n_scored": 467,
+  "limitation": "Owner-reported metrics; raw scores unavailable. Bounds/schema/common baseline checked, predictions/calibration/leakage not independently reproduced. CoAT texts, not Russian emails.",
+  "rows": [
+    {
+      "method": "legacy_increasing",
+      "stage": "before",
+      "n_test": 158,
+      "ece": 0.02513555030309886,
+      "brier": 0.24230432885588485,
+      "f1": 0.6129032258064516,
+      "roc_auc": 0.5900272566939233
+    },
+    {
+      "method": "legacy_increasing",
+      "stage": "after",
+      "n_test": 158,
+      "ece": 0.06587069201769859,
+      "brier": 0.2677067142531101,
+      "f1": 0.17475728155339806,
+      "roc_auc": 0.41694725028058366
+    },
+    {
+      "method": "train_direction",
+      "stage": "before",
+      "n_test": 158,
+      "ece": 0.02513555030309886,
+      "brier": 0.24230432885588485,
+      "f1": 0.6129032258064516,
+      "roc_auc": 0.5900272566939233
+    },
+    {
+      "method": "train_direction",
+      "stage": "after",
+      "n_test": 158,
+      "ece": 0.05807073792188731,
+      "brier": 0.2432266283886902,
+      "f1": 0.5147058823529411,
+      "roc_auc": 0.5968414301747635
+    }
+  ]
+}

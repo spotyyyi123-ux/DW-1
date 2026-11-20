@@ -81,6 +81,9 @@ def inspect_image(payload: bytes) -> dict:
                 for i in peaks
             ]
             result.update(status="ok", qr=decode_qr(rgb))
+            from dw1.models.image_detector import image_signal
+
+            result["ai_detector"] = image_signal(payload)
             if root_name := os.environ.get("DW1_IMAGE_ARTIFACTS"):
                 root = Path(root_name)
                 root.mkdir(parents=True, exist_ok=True)

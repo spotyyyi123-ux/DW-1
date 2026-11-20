@@ -1,0 +1,290 @@
+{
+  "ru_status": "reported_not_recomputed",
+  "qr_status": "measured_synthetic_baseline",
+  "images_status": "measured",
+  "ru": {
+    "status": "reported_not_recomputed",
+    "source_commit": "593dfda021593839a8327082403593ac564ce48d",
+    "source_path": "reports/sprint5-ru/metrics.json",
+    "score_sha256": "7cb7a1f2019700bc0d65ef7a2090a1e41a481440ae1f787a4cb374bcb44a4d83",
+    "n_input": 600,
+    "n_scored": 467,
+    "limitation": "Owner-reported metrics; raw scores unavailable. Bounds/schema/common baseline checked, predictions/calibration/leakage not independently reproduced. CoAT texts, not Russian emails.",
+    "rows": [
+      {
+        "method": "legacy_increasing",
+        "stage": "before",
+        "n_test": 158,
+        "ece": 0.02513555030309886,
+        "brier": 0.24230432885588485,
+        "f1": 0.6129032258064516,
+        "roc_auc": 0.5900272566939233
+      },
+      {
+        "method": "legacy_increasing",
+        "stage": "after",
+        "n_test": 158,
+        "ece": 0.06587069201769859,
+        "brier": 0.2677067142531101,
+        "f1": 0.17475728155339806,
+        "roc_auc": 0.41694725028058366
+      },
+      {
+        "method": "train_direction",
+        "stage": "before",
+        "n_test": 158,
+        "ece": 0.02513555030309886,
+        "brier": 0.24230432885588485,
+        "f1": 0.6129032258064516,
+        "roc_auc": 0.5900272566939233
+      },
+      {
+        "method": "train_direction",
+        "stage": "after",
+        "n_test": 158,
+        "ece": 0.05807073792188731,
+        "brier": 0.2432266283886902,
+        "f1": 0.5147058823529411,
+        "roc_auc": 0.5968414301747635
+      }
+    ]
+  },
+  "qr": {
+    "status": "measured_synthetic_baseline",
+    "n_sources": 5,
+    "n_variants": 105,
+    "payload_match_rate": 0.8285714285714286,
+    "n_correct": 87,
+    "statuses": {
+      "decoded": 87,
+      "detected_undecoded": 17,
+      "not_found": 1
+    },
+    "opencv_version": "5.0.0",
+    "decoder": "current production QRCodeDetector; no new QR-v2 preprocessing",
+    "phash_mean": 4.876190476190477,
+    "predictions_sha256": "c29b7ae55fbdd6a90da8d46ec9e79e0f4e8baccaabd259f8fc083fd64c6e5dc2",
+    "per_attack": [
+      {
+        "variant": "blur_1",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "blur_2",
+        "count": 5,
+        "sum": 4,
+        "mean": 0.8
+      },
+      {
+        "variant": "blur_3",
+        "count": 5,
+        "sum": 1,
+        "mean": 0.2
+      },
+      {
+        "variant": "contrast_0.5",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "darken_0.7",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "downup",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "grayscale",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "jpeg_q30",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "jpeg_q50",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "jpeg_q70",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "jpeg_q90",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "noise",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "occlusion",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "original",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "perspective",
+        "count": 5,
+        "sum": 0,
+        "mean": 0.0
+      },
+      {
+        "variant": "resize_15",
+        "count": 5,
+        "sum": 0,
+        "mean": 0.0
+      },
+      {
+        "variant": "resize_25",
+        "count": 5,
+        "sum": 2,
+        "mean": 0.4
+      },
+      {
+        "variant": "resize_50",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "rotate_15",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "rotate_45",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      },
+      {
+        "variant": "rotate_5",
+        "count": 5,
+        "sum": 5,
+        "mean": 1.0
+      }
+    ],
+    "scope": "Five generated single QR payloads; not real mail attachments; exact payload match, not merely any decoded string"
+  },
+  "images": {
+    "status": "measured",
+    "predictions_sha256": "c5a1bf7fa19bdab5fb55559077200fa7832909f9a70b14ab8cd5b84545fe5a9f",
+    "feature_version": "resnet18-pool-fft16-phash64-v1",
+    "threshold": 0.5,
+    "calibration": "clean validation only; frozen under all attacks",
+    "scope": "CIFAKE official repository API candidate subset; 32x32; one generator, not email images",
+    "n_train": 600,
+    "n_validation": 200,
+    "n_test": 400,
+    "metrics": [
+      {
+        "attack": "clean",
+        "n": 400,
+        "auc": 0.87735,
+        "f1": 0.8098765432098766,
+        "ece": 0.06701046097756752,
+        "auc_delta": 0.0,
+        "f1_delta": 0.0
+      },
+      {
+        "attack": "jpeg90",
+        "n": 400,
+        "auc": 0.8833,
+        "f1": 0.8131313131313131,
+        "ece": 0.05048032611570684,
+        "auc_delta": 0.005950000000000011,
+        "f1_delta": 0.0032547699214365844
+      },
+      {
+        "attack": "jpeg70",
+        "n": 400,
+        "auc": 0.8823749999999999,
+        "f1": 0.8255528255528255,
+        "ece": 0.05444397427433616,
+        "auc_delta": 0.005024999999999946,
+        "f1_delta": 0.015676282342948933
+      },
+      {
+        "attack": "jpeg50",
+        "n": 400,
+        "auc": 0.8550749999999999,
+        "f1": 0.7980997624703088,
+        "ece": 0.08431577193757303,
+        "auc_delta": -0.022275000000000045,
+        "f1_delta": -0.011776780739567783
+      },
+      {
+        "attack": "jpeg30",
+        "n": 400,
+        "auc": 0.850625,
+        "f1": 0.7368421052631579,
+        "ece": 0.0956970918505642,
+        "auc_delta": -0.026725,
+        "f1_delta": -0.07303443794671871
+      },
+      {
+        "attack": "resize50",
+        "n": 400,
+        "auc": 0.8209,
+        "f1": 0.7481296758104738,
+        "ece": 0.04930508810115833,
+        "auc_delta": -0.05645,
+        "f1_delta": -0.061746867399402716
+      },
+      {
+        "attack": "resize25",
+        "n": 400,
+        "auc": 0.7259499999999999,
+        "f1": 0.6666666666666666,
+        "ece": 0.4230388494816249,
+        "auc_delta": -0.1514000000000001,
+        "f1_delta": -0.14320987654320994
+      },
+      {
+        "attack": "crop80",
+        "n": 400,
+        "auc": 0.8131499999999999,
+        "f1": 0.6050955414012739,
+        "ece": 0.1963253009907476,
+        "auc_delta": -0.06420000000000003,
+        "f1_delta": -0.2047810018086027
+      }
+    ],
+    "watermark": "not evaluated; absence is not evidence of real origin",
+    "training_manifest_sha256": "4a6ff8b7a83713c7ebe7d651b5902275d61eb14348700a62fdc55c0547c7813c",
+    "clean_before_calibration": {
+      "auc": 0.87735,
+      "f1": 0.8087167070217918,
+      "ece": 0.14535857095754462
+    }
+  },
+  "final_report_site_defense_tag": "not_requested"
+}
