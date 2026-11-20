@@ -1,0 +1,677 @@
+{
+  "opencv": "5.1.0",
+  "summary": {
+    "raw": {
+      "correct": 28,
+      "total": 36
+    },
+    "v2": {
+      "correct": 33,
+      "total": 36
+    }
+  },
+  "cases": [
+    {
+      "box_size": 3,
+      "distortion": "original",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "jpeg_q90",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "jpeg_q70",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "jpeg_q50",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "resize_50",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "detected_undecoded",
+        "payloads": [],
+        "correct": false
+      },
+      "v2": {
+        "status": "detected_undecoded",
+        "payloads": [],
+        "correct": false
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "resize_25",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "not_found",
+        "payloads": [],
+        "correct": false
+      },
+      "v2": {
+        "status": "not_found",
+        "payloads": [],
+        "correct": false
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "rotate_5",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "rotate_15",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "grayscale",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "blur_1",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "blur_2",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "detected_undecoded",
+        "payloads": [],
+        "correct": false
+      },
+      "v2": {
+        "status": "detected_undecoded",
+        "payloads": [],
+        "correct": false
+      }
+    },
+    {
+      "box_size": 3,
+      "distortion": "inverted",
+      "expected": "https://example.invalid/qr/3",
+      "raw": {
+        "status": "not_found",
+        "payloads": [],
+        "correct": false
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/3"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "original",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "jpeg_q90",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "jpeg_q70",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "jpeg_q50",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "resize_50",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "resize_25",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "detected_undecoded",
+        "payloads": [],
+        "correct": false
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "rotate_5",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "rotate_15",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "grayscale",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "blur_1",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "blur_2",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "detected_undecoded",
+        "payloads": [],
+        "correct": false
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 5,
+      "distortion": "inverted",
+      "expected": "https://example.invalid/qr/5",
+      "raw": {
+        "status": "not_found",
+        "payloads": [],
+        "correct": false
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/5"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "original",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "jpeg_q90",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "jpeg_q70",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "jpeg_q50",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "resize_50",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "resize_25",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "rotate_5",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "rotate_15",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "grayscale",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "blur_1",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "blur_2",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    },
+    {
+      "box_size": 8,
+      "distortion": "inverted",
+      "expected": "https://example.invalid/qr/8",
+      "raw": {
+        "status": "not_found",
+        "payloads": [],
+        "correct": false
+      },
+      "v2": {
+        "status": "decoded",
+        "payloads": [
+          "https://example.invalid/qr/8"
+        ],
+        "correct": true
+      }
+    }
+  ]
+}
