@@ -7,7 +7,7 @@ from dw1.extractors.images import measured_signal
 @register
 class QrExtractor(BaseExtractor):
     name = "qr"
-    version = "opencv-qr-1.0"
+    version = "opencv-qr-2.0"
 
     def extract(self, parts: dict) -> dict:
         evidence = [{"signal": "qr_codes", "value": parts.get("qr", []), "weight": 0.0}]
