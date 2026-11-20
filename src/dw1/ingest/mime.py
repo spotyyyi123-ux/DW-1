@@ -118,10 +118,20 @@ def parse_eml(path: str | Path) -> dict:
     qr = [{"image_sha256": image["sha256"], **code}
           for image in images for code in image.get("qr", {}).get("codes", [])]
     for code in qr:
-        url = code["text"]
-        if url.startswith(("https://", "http://")) and url not in known_urls:
+        url = code["text"].strip()
+        if not code["decoded"] or url in known_urls or not url.lower().startswith(
+            ("https://", "http://")
+        ):
+            continue
+        if any(char.isspace() or ord(char) < 32 or ord(char) == 127 for char in url):
+            continue
+        try:
+            host = urlparse(url).hostname
+        except ValueError:
+            continue
+        if host:
             known_urls.add(url)
-            links.append({"url": url, "anchor_text": "", "domain": _domain(url), "source": "qr"})
+            links.append({"url": url, "anchor_text": "", "domain": host, "source": "qr"})
 
     parts = {
         "headers": {
